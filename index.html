@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kannu Yatri - India's trusted premium travel booking portal. Number 1 service for Bus Booking, Cab Booking, Hotel Booking & Holiday Packages in Pratapgarh, Rajasthan – 312605. Safe travel is our promise.">
+  <meta name="keywords" content="Kannu Yatri, Kannu Yatri Pratapgarh, Bus Booking Pratapgarh, Cab Booking Rajasthan, Hotel Booking, Tour Packages, Luxury Travel Rajasthan">
+  <meta name="author" content="Kannu Yatri">
+  <title>Kannu Yatri - Premium Travel Booking Platform | Safe Travel is Our Promise</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="KannuYatrlogo.jpeg">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Boxicons CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+</head>
+<body>
+
+  <!-- --- SCROLL PROGRESS INDICATOR --- -->
+  <div class="scroll-progress-container">
+    <div class="scroll-progress-bar" id="scroll-progress"></div>
+  </div>
+
+  <!-- --- PREMIUM LOADING SCREEN --- -->
+  <div id="preloader">
+    <img src="KannuYatrlogo.jpeg" alt="Kannu Yatri Logo" class="loader-logo">
+    <div class="loader-bar-container">
+      <div class="loader-bar"></div>
+    </div>
+    <div class="loader-text">KANNU YATRI</div>
+  </div>
+
+  <!-- --- FLOATING CONTACT & ACTIONS --- -->
+  <div class="floating-actions">
+    <a href="https://wa.me/919131964831?text=Hello%20Kannu%20Yatri,%20I%20want%20to%20book%20a%20trip..." target="_blank" class="float-btn float-whatsapp" id="float-whatsapp-btn" aria-label="WhatsApp Us">
+      <i class="bx bxl-whatsapp"></i>
+    </a>
+    <a href="tel:+919131964831" class="float-btn float-phone" id="float-phone-btn" aria-label="Call Us">
+      <i class="bx bx-phone-call"></i>
+    </a>
+    <button class="float-btn float-top" id="back-to-top" aria-label="Back to Top">
+      <i class="bx bx-up-arrow-alt"></i>
+    </button>
+  </div>
+
+  <!-- --- NAVIGATION HEADER --- -->
+  <header id="main-header">
+    <div class="nav-container">
+      <a href="#hero" class="logo-wrapper">
+        <img src="KannuYatrlogo.jpeg" alt="Kannu Yatri Logo" class="logo-img">
+        <div class="logo-text">
+          <span class="logo-brand">KANNU <span>YATRI</span></span>
+          <span class="logo-tagline">Safe Travel is Our Promise</span>
+        </div>
+      </a>
+      
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#hero" class="nav-link active" id="nav-link-home">Home</a></li>
+        <li><a href="#booking-section" class="nav-link" id="nav-link-booking">Booking Services</a></li>
+        <li><a href="#packages" class="nav-link" id="nav-link-packages">Holiday Packages</a></li>
+        <li><a href="#why-choose-us" class="nav-link" id="nav-link-why">Features</a></li>
+        <li><a href="#about" class="nav-link" id="nav-link-about">About Us</a></li>
+        <li><a href="#reviews" class="nav-link" id="nav-link-reviews">Reviews</a></li>
+        <li><a href="#gallery" class="nav-link" id="nav-link-gallery">Gallery</a></li>
+        <li><a href="#contact" class="nav-link" id="nav-link-contact">Contact</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="#booking-section" class="btn-gold" id="nav-cta-btn">
+          <i class="bx bx-calendar-check"></i> Book Now
+        </a>
+      </div>
+
+      <div class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
+        <i class="bx bx-menu"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- --- HERO SECTION --- -->
+  <section class="hero-section" id="hero">
+    <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1920&q=80');"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-subtitle" id="hero-tagline">Safe Travel is Our Promise</span>
+      <h1 class="hero-title" id="hero-heading">India's Most Trusted<br><span class="text-gold">Travel Service</span></h1>
+      <p class="hero-desc" id="hero-description">All-in-one portal for Bus Booking, Cab Booking, Hotel Booking & Holiday Packages. Experience a secure, luxury, and comfortable journey with us.</p>
+      <div class="hero-btns">
+        <a href="#booking-section" class="btn-gold" id="hero-btn-book">
+          <i class="bx bx-compass"></i> Book Now
+        </a>
+        <a href="#about" class="btn-outline" id="hero-btn-app">
+          <i class="bx bx-download"></i> Download App
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- QUICK BOOKING CHOOSE SECTION --- -->
+  <section class="quick-booking-section">
+    <div class="quick-booking-container">
+      <div class="booking-grid">
+        
+        <!-- Bus Card -->
+        <div class="booking-card glass-panel" onclick="setActiveBookingTab('bus')" id="quick-card-bus">
+          <div class="booking-card-bg" style="background-image: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80');"></div>
+          <div class="booking-card-content">
+            <div class="booking-card-icon"><i class="bx bx-bus"></i></div>
+            <div>
+              <h3 class="booking-card-title">🚌 Bus Booking</h3>
+              <p class="booking-card-desc">Premium sleeper and luxury Volvo coaches available</p>
+            </div>
+            <button class="btn-book-now" id="btn-quick-bus">Book Now</button>
+          </div>
+        </div>
+
+        <!-- Cab Card -->
+        <div class="booking-card glass-panel" onclick="setActiveBookingTab('cab')" id="quick-card-cab">
+          <div class="booking-card-bg" style="background-image: url('https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=800&q=80');"></div>
+          <div class="booking-card-content">
+            <div class="booking-card-icon"><i class="bx bx-taxi"></i></div>
+            <div>
+              <h3 class="booking-card-title">🚖 Cab Booking</h3>
+              <p class="booking-card-desc">One Way, Round Trip, and Driver Charge basis cabs</p>
+            </div>
+            <button class="btn-book-now" id="btn-quick-cab">Book Now</button>
+          </div>
+        </div>
+
+        <!-- Hotel Card -->
+        <div class="booking-card glass-panel" onclick="setActiveBookingTab('hotel')" id="quick-card-hotel">
+          <div class="booking-card-bg" style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80');"></div>
+          <div class="booking-card-content">
+            <div class="booking-card-icon"><i class="bx bx-hotel"></i></div>
+            <div>
+              <h3 class="booking-card-title">🏨 Hotel Booking</h3>
+              <p class="booking-card-desc">Reservations in luxury resorts and heritage hotels</p>
+            </div>
+            <button class="btn-book-now" id="btn-quick-hotel">Book Now</button>
+          </div>
+        </div>
+
+        <!-- Holiday Package Card -->
+        <div class="booking-card glass-panel" onclick="scrollToSection('packages')" id="quick-card-packages">
+          <div class="booking-card-bg" style="background-image: url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=800&q=80');"></div>
+          <div class="booking-card-content">
+            <div class="booking-card-icon"><i class="bx bx-package"></i></div>
+            <div>
+              <h3 class="booking-card-title">🌴 Holiday Packages</h3>
+              <p class="booking-card-desc">Customized religious, historical, and family tours</p>
+            </div>
+            <button class="btn-book-now" id="btn-quick-packages">Book Now</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- --- BOOKING ENGINES SECTION --- -->
+  <section class="section section-bg-dark" id="booking-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tagline">Booking Portal</span>
+        <h2 class="section-title">Start Your <span class="text-gold">Journey</span></h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <!-- Booking Engine Tabs -->
+      <div class="booking-tabs" id="booking-tab-bar">
+        <button class="booking-tab-btn active" onclick="switchBookingTab('cab')" id="tab-btn-cab">
+          <i class="bx bx-taxi"></i> Cab Booking
+        </button>
+        <button class="booking-tab-btn" onclick="switchBookingTab('bus')" id="tab-btn-bus">
+          <i class="bx bx-bus"></i> Bus Booking
+        </button>
+        <button class="booking-tab-btn" onclick="switchBookingTab('hotel')" id="tab-btn-hotel">
+          <i class="bx bx-hotel"></i> Hotel Booking
+        </button>
+      </div>
+
+      <!-- Booking Panel Wrap -->
+      <div class="booking-engine-wrapper">
+        
+        <!-- CAB BOOKING PANEL -->
+        <div class="booking-content-panel glass-panel-luxury active" id="panel-cab">
+          <!-- Cab Sub Tabs -->
+          <div class="cab-sub-tabs">
+            <button class="cab-sub-btn active" onclick="switchCabSubTab('oneway')" id="sub-cab-oneway">One Way</button>
+            <button class="cab-sub-btn" onclick="switchCabSubTab('round')" id="sub-cab-round">Round Trip</button>
+            <button class="cab-sub-btn" onclick="switchCabSubTab('driver')" id="sub-cab-driver">Driver Charge Only</button>
+          </div>
+
+          <!-- Cab Form One Way -->
+          <div class="cab-form-panel active" id="form-cab-oneway">
+            <form class="booking-form has-btn" onsubmit="handleSearch('cab', 'oneway', event)" id="cab-oneway-form">
+              <div class="form-group">
+                <label for="cab-ow-pickup"><i class="bx bx-map-pin"></i> Pickup Location</label>
+                <input type="text" class="form-control" id="cab-ow-pickup" placeholder="e.g., Pratapgarh" required>
+              </div>
+              <div class="form-group">
+                <label for="cab-ow-drop"><i class="bx bx-map"></i> Drop Location</label>
+                <input type="text" class="form-control" id="cab-ow-drop" placeholder="e.g., Udaipur" required>
+              </div>
+              <div class="form-group">
+                <label for="cab-ow-date"><i class="bx bx-calendar"></i> Pickup Date</label>
+                <input type="date" class="form-control" id="cab-ow-date" required>
+              </div>
+              <div class="form-group">
+                <label for="cab-ow-vehicle"><i class="bx bx-car"></i> Vehicle Type</label>
+                <select class="form-control" id="cab-ow-vehicle" required>
+                  <option value="Sedan">Sedan (Dzire, Etios) - Standard Luxury</option>
+                  <option value="SUV">SUV (Innova, Ertiga) - Family Luxury</option>
+                  <option value="Premium SUV">Premium SUV (Innova Crysta) - Ultra Luxury</option>
+                </select>
+              </div>
+              <button type="submit" class="btn-gold" id="btn-search-cab-ow">Search Cab</button>
+            </form>
+          </div>
+
+          <!-- Cab Form Round Trip -->
+          <div class="cab-form-panel" id="form-cab-round">
+            <form class="booking-form has-btn" onsubmit="handleSearch('cab', 'round', event)" id="cab-round-form">
+              <div class="form-group">
+                <label for="cab-rt-pickup"><i class="bx bx-map-pin"></i> Pickup Location</label>
+                <input type="text" class="form-control" id="cab-rt-pickup" placeholder="e.g., Pratapgarh" required>
+              </div>
+              <div class="form-group">
+                <label for="cab-rt-drop"><i class="bx bx-map"></i> Destination</label>
+                <input type="text" class="form-control" id="cab-rt-drop" placeholder="e.g., Jaipur" required>
+              </div>
+              <div class="form-group">
+                <label for="cab-rt-from"><i class="bx bx-calendar"></i> From Date</label>
+                <input type="date" class="form-control" id="cab-rt-from" required>
+              </div>
+              <div class="form-group">
+                <label for="cab-rt-return"><i class="bx bx-calendar-event"></i> Return Date</label>
+                <input type="date" class="form-control" id="cab-rt-return" required>
+              </div>
+              <div class="form-group">
+                <label for="cab-rt-vehicle"><i class="bx bx-car"></i> Vehicle</label>
+                <select class="form-control" id="cab-rt-vehicle" required>
+                  <option value="Sedan">Sedan (Dzire, Etios)</option>
+                  <option value="SUV">SUV (Innova, Ertiga)</option>
+                  <option value="Premium SUV">Premium SUV (Innova Crysta)</option>
+                </select>
+              </div>
+              <button type="submit" class="btn-gold" id="btn-search-cab-rt">Search Cab</button>
+            </form>
+          </div>
+
+          <!-- Cab Form Driver Charge Only -->
+          <div class="cab-form-panel" id="form-cab-driver">
+            <form class="booking-form has-btn" onsubmit="handleSearch('cab', 'driver', event)" id="cab-driver-form">
+              <div class="form-group">
+                <label for="cab-dr-pickup"><i class="bx bx-map-pin"></i> Pickup Location</label>
+                <input type="text" class="form-control" id="cab-dr-pickup" placeholder="e.g., Pratapgarh" required>
+              </div>
+              <div class="form-group">
+                <label for="cab-dr-drop"><i class="bx bx-map"></i> Destination</label>
+                <input type="text" class="form-control" id="cab-dr-drop" placeholder="e.g., Indore" required>
+              </div>
+              <div class="form-group">
+                <label for="cab-dr-dist"><i class="bx bx-navigation"></i> Est. Distance (KM)</label>
+                <input type="number" class="form-control" id="cab-dr-dist" placeholder="Enter KM" oninput="calculateDriverCharge(this.value)" min="1" required>
+              </div>
+              <div class="form-group">
+                <label><i class="bx bx-wallet"></i> Price Rate</label>
+                <div class="form-display-calc">
+                  <span>Standard Rate</span>
+                  <strong>₹2 per KM</strong>
+                </div>
+              </div>
+              <div class="form-group" id="driver-charge-calc-box" style="display:none;">
+                <label><i class="bx bx-wallet-alt"></i> Estimated Charge</label>
+                <div class="form-display-calc" style="background: rgba(212, 175, 55, 0.1);">
+                  <span>Total Fee</span>
+                  <strong id="driver-charge-total">₹0</strong>
+                </div>
+              </div>
+              <button type="submit" class="btn-gold" id="btn-book-driver">Book Now</button>
+            </form>
+          </div>
+
+        </div>
+
+        <!-- BUS BOOKING PANEL -->
+        <div class="booking-content-panel glass-panel-luxury" id="panel-bus">
+          <form class="booking-form has-btn" onsubmit="handleSearch('bus', 'default', event)" id="bus-booking-form">
+            <div class="form-group">
+              <label for="bus-from"><i class="bx bx-map-pin"></i> From</label>
+              <input type="text" class="form-control" id="bus-from" placeholder="e.g., Pratapgarh" required>
+            </div>
+            <div class="form-group">
+              <label for="bus-to"><i class="bx bx-map"></i> To</label>
+              <input type="text" class="form-control" id="bus-to" placeholder="e.g., Jaipur" required>
+            </div>
+            <div class="form-group">
+              <label for="bus-date"><i class="bx bx-calendar"></i> Travel Date</label>
+              <input type="date" class="form-control" id="bus-date" required>
+            </div>
+            <div class="form-group">
+              <label for="bus-passengers"><i class="bx bx-group"></i> Passengers</label>
+              <select class="form-control" id="bus-passengers" required>
+                <option value="1">1 Passenger</option>
+                <option value="2">2 Passengers</option>
+                <option value="3">3 Passengers</option>
+                <option value="4">4 Passengers</option>
+                <option value="5+">5+ Passengers</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-gold" id="btn-search-bus">Search Bus</button>
+          </form>
+        </div>
+
+        <!-- HOTEL BOOKING PANEL -->
+        <div class="booking-content-panel glass-panel-luxury" id="panel-hotel">
+          <form class="booking-form has-btn" onsubmit="handleSearch('hotel', 'default', event)" id="hotel-booking-form">
+            <div class="form-group">
+              <label for="hotel-city"><i class="bx bx-buildings"></i> City or Hotel</label>
+              <input type="text" class="form-control" id="hotel-city" placeholder="e.g., Udaipur" required>
+            </div>
+            <div class="form-group">
+              <label for="hotel-in"><i class="bx bx-calendar-check"></i> Check-In Date</label>
+              <input type="date" class="form-control" id="hotel-in" required>
+            </div>
+            <div class="form-group">
+              <label for="hotel-out"><i class="bx bx-calendar-x"></i> Check-Out Date</label>
+              <input type="date" class="form-control" id="hotel-out" required>
+            </div>
+            <div class="form-group">
+              <label for="hotel-guests"><i class="bx bx-user"></i> Guests</label>
+              <select class="form-control" id="hotel-guests" required>
+                <option value="1">1 Guest</option>
+                <option value="2">2 Guests</option>
+                <option value="3">3 Guests</option>
+                <option value="4">4 Guests</option>
+                <option value="5+">5+ Guests</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="hotel-rooms"><i class="bx bx-bed"></i> Rooms</label>
+              <select class="form-control" id="hotel-rooms" required>
+                <option value="1">1 Room</option>
+                <option value="2">2 Rooms</option>
+                <option value="3">3 Rooms</option>
+                <option value="4+">4+ Rooms</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-gold" id="btn-search-hotel">Search Hotel</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- --- HOLIDAY PACKAGES SECTION --- -->
+  <section class="section" id="packages">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tagline">Curated Tour Packages</span>
+        <h2 class="section-title">Luxury <span class="text-gold">Holiday Packages</span></h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="packages-grid">
+        
+        <!-- Package 1: Religious -->
+        <div class="package-card glass-panel" id="pkg-religious">
+          <div class="package-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1602643163983-ed0babc39797?auto=format&fit=crop&w=800&q=80" alt="Religious Tour" class="package-img">
+            <span class="package-tag">Religious</span>
+          </div>
+          <div class="package-info">
+            <div class="package-meta">
+              <span><i class="bx bx-time"></i> 6 Days / 5 Nights</span>
+              <span><i class="bx bx-star"></i> 4.9</span>
+            </div>
+            <h3 class="package-title">🛕 Religious Tours (Kedarnath & Varanasi)</h3>
+            <p>A serene, secure spiritual pilgrimage journey to India's most holy shrines.</p>
+            <div class="package-bottom">
+              <div class="package-price">
+                <span>Starting From</span>
+                <strong>₹14,999 / person</strong>
+              </div>
+              <button class="btn-gold" onclick="openPackageDetails('religious')" id="btn-view-pkg-religious">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Package 2: Historical -->
+        <div class="package-card glass-panel" id="pkg-historical">
+          <div class="package-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80" alt="Historical Tour" class="package-img">
+            <span class="package-tag">Historical</span>
+          </div>
+          <div class="package-info">
+            <div class="package-meta">
+              <span><i class="bx bx-time"></i> 5 Days / 4 Nights</span>
+              <span><i class="bx bx-star"></i> 4.8</span>
+            </div>
+            <h3 class="package-title">🏰 Historical Tours (Royal Rajasthan Tour)</h3>
+            <p>Explore the magnificent fortresses, royal palaces, and rich heritage of Jaipur and Udaipur.</p>
+            <div class="package-bottom">
+              <div class="package-price">
+                <span>Starting From</span>
+                <strong>₹12,499 / person</strong>
+              </div>
+              <button class="btn-gold" onclick="openPackageDetails('historical')" id="btn-view-pkg-historical">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Package 3: Hill Station -->
+        <div class="package-card glass-panel" id="pkg-hill">
+          <div class="package-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=800&q=80" alt="Hill Station Tour" class="package-img">
+            <span class="package-tag">Hill Station</span>
+          </div>
+          <div class="package-info">
+            <div class="package-meta">
+              <span><i class="bx bx-time"></i> 7 Days / 6 Nights</span>
+              <span><i class="bx bx-star"></i> 4.9</span>
+            </div>
+            <h3 class="package-title">🏔 Hill Station Tours (Leh Ladakh & Manali)</h3>
+            <p>Experience snowfall, breathtaking valleys, majestic mountains, and scenic blue lakes.</p>
+            <div class="package-bottom">
+              <div class="package-price">
+                <span>Starting From</span>
+                <strong>₹19,999 / person</strong>
+              </div>
+              <button class="btn-gold" onclick="openPackageDetails('hill')" id="btn-view-pkg-hill">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Package 4: Wildlife -->
+        <div class="package-card glass-panel" id="pkg-wildlife">
+          <div class="package-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1608933221976-59b3ec709fdf?auto=format&fit=crop&w=800&q=80" alt="Wildlife Safari" class="package-img">
+            <span class="package-tag">Wildlife Safari</span>
+          </div>
+          <div class="package-info">
+            <div class="package-meta">
+              <span><i class="bx bx-time"></i> 3 Days / 2 Nights</span>
+              <span><i class="bx bx-star"></i> 4.7</span>
+            </div>
+            <h3 class="package-title">🐅 Wildlife Tours (Ranthambore Tiger Safari)</h3>
+            <p>An adventurous forest safari to spot Royal Bengal Tigers and exotic wildlife.</p>
+            <div class="package-bottom">
+              <div class="package-price">
+                <span>Starting From</span>
+                <strong>₹8,999 / person</strong>
+              </div>
+              <button class="btn-gold" onclick="openPackageDetails('wildlife')" id="btn-view-pkg-wildlife">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Package 5: Family -->
+        <div class="package-card glass-panel" id="pkg-family">
+          <div class="package-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80" alt="Family Tour" class="package-img">
+            <span class="package-tag">Family Special</span>
+          </div>
+          <div class="package-info">
+            <div class="package-meta">
+              <span><i class="bx bx-time"></i> 6 Days / 5 Nights</span>
+              <span><i class="bx bx-star"></i> 4.9</span>
+            </div>
+            <h3 class="package-title">👨‍👩‍👧‍👦 Family Tours (Kerala Houseboat & Hills)</h3>
+            <p>A secure family holiday featuring traditional houseboats and tea gardens.</p>
+            <div class="package-bottom">
+              <div class="package-price">
+                <span>Starting From</span>
+                <strong>₹15,499 / person</strong>
+              </div>
+              <button class="btn-gold" onclick="openPackageDetails('family')" id="btn-view-pkg-family">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Package 6: Honeymoon -->
+        <div class="package-card glass-panel" id="pkg-honeymoon">
+          <div class="package-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80" alt="Honeymoon Tour" class="package-img">
+            <span class="package-tag">Honeymoon</span>
+          </div>
+          <div class="package-info">
+            <div class="package-meta">
+              <span><i class="bx bx-time"></i> 5 Days / 4 Nights</span>
+              <span><i class="bx bx-star"></i> 5.0</span>
+            </div>
+            <h3 class="package-title">❤️ Honeymoon Tours (Romantic Udaipur Resorts)</h3>
+            <p>Curated romantic lake views and luxury candlelit dinners for newlyweds.</p>
+            <div class="package-bottom">
+              <div class="package-price">
+                <span>Starting From</span>
+                <strong>₹16,999 / person</strong>
+              </div>
+              <button class="btn-gold" onclick="openPackageDetails('honeymoon')" id="btn-view-pkg-honeymoon">View Details</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- --- WHY CHOOSE KANNU YATRI SECTION --- -->
+  <section class="section section-bg-dark" id="why-choose-us">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tagline">Our Commitment</span>
+        <h2 class="section-title">Why Choose <span class="text-gold">Kannu Yatri?</span></h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="why-grid">
+        
+        <!-- Feature 1 -->
+        <div class="why-card glass-panel" id="why-feat-drivers">
+          <div class="why-icon-container"><i class="bx bx-user-check"></i></div>
+          <h3>Verified Drivers</h3>
+          <p>Every driver is background verified, licensed, and professionally trained.</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="why-card glass-panel" id="why-feat-prices">
+          <div class="why-icon-container"><i class="bx bx-rupee"></i></div>
+          <h3>Affordable Prices</h3>
+          <p>Luxury travel solutions matching your budget with zero hidden charges.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="why-card glass-panel" id="why-feat-support">
+          <div class="why-icon-container"><i class="bx bx-support"></i></div>
+          <h3>24×7 Customer Support</h3>
+          <p>Our dedicated support desk is available around the clock to assist you.</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="why-card glass-panel" id="why-feat-safety">
+          <div class="why-icon-container"><i class="bx bx-shield-quarter"></i></div>
+          <h3>Safe Travel</h3>
+          <p>Equipped with GPS tracking and comprehensive safety guidelines for passenger security.</p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="why-card glass-panel" id="why-feat-payments">
+          <div class="why-icon-container"><i class="bx bx-credit-card-front"></i></div>
+          <h3>Secure Payments</h3>
+          <p>Fully secure payment channels to ensure safe digital transactions.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- --- STATS BANNER / ANIMATED COUNTERS --- -->
+  <div class="stats-banner">
+    <div class="section-container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-number" data-target="25000" id="stat-clients">0</span><span class="stat-number text-gold">+</span>
+          <span class="stat-label">Satisfied Clients</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" data-target="150" id="stat-drivers">0</span><span class="stat-number text-gold">+</span>
+          <span class="stat-label">Verified Drivers</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" data-target="500000" id="stat-km">0</span><span class="stat-number text-gold">+</span>
+          <span class="stat-label">KM Traveled</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" data-target="30" id="stat-dest">0</span><span class="stat-number text-gold">+</span>
+          <span class="stat-label">Active Routes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- --- ABOUT US SECTION --- -->
+  <section class="section" id="about">
+    <div class="section-container">
+      <div class="about-grid">
+        
+        <!-- Images Grid -->
+        <div class="about-img-group">
+          <div class="about-img-item" id="abt-img-1"><img src="https://images.unsplash.com/photo-1586016413664-864c0dd76f53?auto=format&fit=crop&w=600&q=80" alt="Premium Trip Bags"></div>
+          <div class="about-img-item" id="abt-img-2"><img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80" alt="Road Trip SUV"></div>
+          <div class="about-img-item" id="abt-img-3"><img src="https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?auto=format&fit=crop&w=600&q=80" alt="Happy Tour"></div>
+          <div class="about-img-item" id="abt-img-4"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=600&q=80" alt="Travel Boating"></div>
+          
+          <div class="about-badge">
+            <strong>10+</strong>
+            <span>Years of<br>Trust</span>
+          </div>
+        </div>
+
+        <!-- Text details -->
+        <div class="about-text">
+          <span class="section-tagline">About Us</span>
+          <h2 class="about-text-title">Kannu Yatri: Synonym for Safe & Comfort Travel</h2>
+          <p><strong>Kannu Yatri</strong> is a premier and highly trusted travel operator based in Pratapgarh, Rajasthan. We provide comprehensive travel arrangements, offering <strong>Bus Booking, Cab Booking, Hotel Booking & Holiday Packages</strong> on a single platform.</p>
+          <p>Our guiding philosophy <em>"Safe Travel is Our Promise"</em> is our operating protocol for every trip we execute. All our fleet vehicles are regularly inspected and feature GPS tracking devices.</p>
+          
+          <div class="about-features">
+            <div class="about-feat-item"><i class="bx bx-check-circle"></i> Luxury Reclining Seating</div>
+            <div class="about-feat-item"><i class="bx bx-check-circle"></i> Rapid Emergency Response</div>
+            <div class="about-feat-item"><i class="bx bx-check-circle"></i> Clean, Sanitized Cabins</div>
+            <div class="about-feat-item"><i class="bx bx-check-circle"></i> Customized Budget Iterations</div>
+          </div>
+
+          <div style="display: flex; gap: 20px;">
+            <div class="glass-panel" style="padding: 20px; flex: 1;" id="abt-mission">
+              <h4 style="color: var(--color-gold); margin-bottom: 8px;"><i class="bx bx-target-lock"></i> Our Mission</h4>
+              <p style="font-size: 0.8rem;">To deliver safe, reliable, comfortable, and affordable travel services to every passenger.</p>
+            </div>
+            <div class="glass-panel" style="padding: 20px; flex: 1;" id="abt-vision">
+              <h4 style="color: var(--color-gold); margin-bottom: 8px;"><i class="bx bx-show-alt"></i> Our Vision</h4>
+              <p style="font-size: 0.8rem;">To establish Kannu Yatri as a premier national travel operator recognized for customer security.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- --- CUSTOMER REVIEWS SLIDER --- -->
+  <section class="section section-bg-dark" id="reviews">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tagline">Client Testimonials</span>
+        <h2 class="section-title">What Our Customers <span class="text-gold">Say</span></h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="reviews-container">
+        <div class="reviews-wrapper" id="reviews-slider">
+          
+          <!-- Slide 1 -->
+          <div class="review-slide">
+            <div class="review-card glass-panel" id="rev-card-1">
+              <i class="fa fa-quote-left quote-icon"></i>
+              <div class="rating-stars">
+                <i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i>
+              </div>
+              <p class="review-text">"I booked a one-way cab from Pratapgarh to Udaipur. The vehicle was clean, well-maintained, and the driver was extremely polite and professional. I am very satisfied with their focus on safety."</p>
+              <h4 class="reviewer-name">Suresh Sharma</h4>
+              <span class="reviewer-city">Udaipur, Rajasthan</span>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="review-slide">
+            <div class="review-card glass-panel" id="rev-card-2">
+              <i class="fa fa-quote-left quote-icon"></i>
+              <div class="rating-stars">
+                <i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i>
+              </div>
+              <p class="review-text">"The tour arrangements they set up for our Rajasthan journey were exceptional. The driver stayed with us throughout and recommended excellent local sights. Safe, budget-friendly, and professional!"</p>
+              <h4 class="reviewer-name">Rajesh Patidar</h4>
+              <span class="reviewer-city">Pratapgarh, Rajasthan</span>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="review-slide">
+            <div class="review-card glass-panel" id="rev-card-3">
+              <i class="fa fa-quote-left quote-icon"></i>
+              <div class="rating-stars">
+                <i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i><i class="bx bxs-star"></i>
+              </div>
+              <p class="review-text">"I needed to book an emergency ticket late at night. Their 24/7 support line responded instantly, processed my booking, and kept me updated. Outstanding passenger support!"</p>
+              <h4 class="reviewer-name">Priyanka Dubey</h4>
+              <span class="reviewer-city">Indore, Madhya Pradesh</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="reviews-nav">
+          <button class="rev-nav-btn" onclick="prevReview()" id="rev-prev-btn" aria-label="Previous Review"><i class="bx bx-left-arrow-alt"></i></button>
+          <button class="rev-nav-btn" onclick="nextReview()" id="rev-next-btn" aria-label="Next Review"><i class="bx bx-right-arrow-alt"></i></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- GALLERY SECTION --- -->
+  <section class="section" id="gallery">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tagline">Visual Tour</span>
+        <h2 class="section-title">Our Travel <span class="text-gold">Gallery</span></h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <!-- Filter buttons -->
+      <div class="gallery-filters">
+        <button class="gallery-filter-btn active" onclick="filterGallery('all')" id="btn-gal-all">All</button>
+        <button class="gallery-filter-btn" onclick="filterGallery('cabs')" id="btn-gal-cabs">Cabs</button>
+        <button class="gallery-filter-btn" onclick="filterGallery('buses')" id="btn-gal-buses">Buses</button>
+        <button class="gallery-filter-btn" onclick="filterGallery('hotels')" id="btn-gal-hotels">Hotels</button>
+        <button class="gallery-filter-btn" onclick="filterGallery('destinations')" id="btn-gal-dest">Destinations</button>
+      </div>
+
+      <!-- Grid -->
+      <div class="gallery-grid">
+        
+        <!-- Item 1 -->
+        <div class="gallery-item cabs" id="gal-item-1">
+          <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80" alt="Luxury Sedan">
+          <div class="gallery-overlay">
+            <h3 class="gallery-overlay-title">Luxury Sedan Cab</h3>
+            <span class="gallery-overlay-tag">Cabs Booking</span>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="gallery-item buses" id="gal-item-2">
+          <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=600&q=80" alt="Sleeper Volvo Bus">
+          <div class="gallery-overlay">
+            <h3 class="gallery-overlay-title">Premium Sleeper Coach</h3>
+            <span class="gallery-overlay-tag">Buses Booking</span>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="gallery-item hotels" id="gal-item-3">
+          <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=600&q=80" alt="Premium Hotel Room">
+          <div class="gallery-overlay">
+            <h3 class="gallery-overlay-title">Heritage Hotel Suites</h3>
+            <span class="gallery-overlay-tag">Hotels Booking</span>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="gallery-item destinations" id="gal-item-4">
+          <img src="https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=600&q=80" alt="Udaipur City Palace Lake">
+          <div class="gallery-overlay">
+            <h3 class="gallery-overlay-title">Udaipur Lake Palace</h3>
+            <span class="gallery-overlay-tag">Destinations</span>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="gallery-item destinations" id="gal-item-5">
+          <img src="https://images.unsplash.com/photo-1506477331477-33d5d8b3dc85?auto=format&fit=crop&w=600&q=80" alt="Himalayas Leh pass">
+          <div class="gallery-overlay">
+            <h3 class="gallery-overlay-title">Leh Ladakh Pass</h3>
+            <span class="gallery-overlay-tag">Destinations</span>
+          </div>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="gallery-item destinations" id="gal-item-6">
+          <img src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=600&q=80" alt="Kerala green hills">
+          <div class="gallery-overlay">
+            <h3 class="gallery-overlay-title">Kerala Backwaters</h3>
+            <span class="gallery-overlay-tag">Destinations</span>
+          </div>
+        </div>
+
+        <!-- Item 7 -->
+        <div class="gallery-item cabs" id="gal-item-7">
+          <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=600&q=80" alt="Premium SUV Innova">
+          <div class="gallery-overlay">
+            <h3 class="gallery-overlay-title">Royal Luxury SUV</h3>
+            <span class="gallery-overlay-tag">Cabs Booking</span>
+          </div>
+        </div>
+
+        <!-- Item 8 -->
+        <div class="gallery-item hotels" id="gal-item-8">
+          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80" alt="Luxury Resort Pool">
+          <div class="gallery-overlay">
+            <h3 class="gallery-overlay-title">Luxury Villa Resorts</h3>
+            <span class="gallery-overlay-tag">Hotels Booking</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- --- FAQ SECTION --- -->
+  <section class="section section-bg-dark" id="faq">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tagline">Support Center</span>
+        <h2 class="section-title">Frequently Asked <span class="text-gold">Questions</span></h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="faq-grid">
+        
+        <!-- FAQ 1 -->
+        <div class="faq-item glass-panel" id="faq-item-1">
+          <div class="faq-question" onclick="toggleFaq(1)">
+            <h3>How do I make a booking on Kannu Yatri?</h3>
+            <i class="bx bx-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>You can search for your preferred service (cabs, buses, or hotels) directly through our portal. Fill in the relevant details, choose your choice, and confirm your request. You can also contact us directly using the floating WhatsApp or Call buttons.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item glass-panel" id="faq-item-2">
+          <div class="faq-question" onclick="toggleFaq(2)">
+            <h3>Are the drivers verified and safe?</h3>
+            <i class="bx bx-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Yes. Under our 'Safe Travel is Our Promise' policy, we only assign background verified, licensed, and highly experienced drivers. Fleet tracking and passenger security are strictly enforced.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item glass-panel" id="faq-item-3">
+          <div class="faq-question" onclick="toggleFaq(3)">
+            <h3>Do you offer customized holiday packages?</h3>
+            <i class="bx bx-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Yes, we design custom itineraries for religious tours, family trips, wildlife adventures, and honeymoon packages. Reach out to our travel specialists to create a custom package fitting your budget and requirements.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item glass-panel" id="faq-item-4">
+          <div class="faq-question" onclick="toggleFaq(4)">
+            <h3>What is your booking cancellation policy?</h3>
+            <i class="bx bx-chevron-down faq-icon"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Cancellations made 24 hours or more before the scheduled trip receive a 100% refund, processed within 2-3 working days. Last-minute cancellations may involve a processing fee. Please read our Refund Policy page for full details.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- --- CONTACT SECTION --- -->
+  <section class="section" id="contact">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tagline">Get In Touch</span>
+        <h2 class="section-title">Contact <span class="text-gold">Us</span></h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="contact-grid">
+        
+        <!-- Contact Information Info -->
+        <div class="contact-info">
+          
+          <!-- Address -->
+          <div class="contact-card glass-panel" id="contact-card-addr">
+            <div class="contact-icon"><i class="bx bx-map"></i></div>
+            <div class="contact-details">
+              <h3>📍 Our Address</h3>
+              <p>Kannu Yatri Office,<br>Pratapgarh, Rajasthan – 312605</p>
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="contact-card glass-panel" id="contact-card-phone">
+            <div class="contact-icon"><i class="bx bx-phone-call"></i></div>
+            <div class="contact-details">
+              <h3>📞 Phone Numbers</h3>
+              <a href="tel:+919131964831" class="text-gold">+91 9131964831</a>
+              <a href="tel:+919680480116" class="text-gold">+91 9680480116</a>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="contact-card glass-panel" id="contact-card-email">
+            <div class="contact-icon"><i class="bx bx-envelope"></i></div>
+            <div class="contact-details">
+              <h3>✉ Email Address</h3>
+              <a href="mailto:kanikasecure123@gmail.com">kanikasecure123@gmail.com</a>
+            </div>
+          </div>
+
+          <!-- Google Map Mockup Styled Dark -->
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14589.654341031317!2d74.77312154407421!3d24.03233800689945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39665bc7291a27e3%3A0xc3cbcfd758f8cd83!2sPratapgarh%2C%20Rajasthan%20312605!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+
+        </div>
+
+        <!-- Contact Form Card -->
+        <div class="contact-form-panel glass-panel-luxury" id="contact-form-container">
+          <h3 style="font-family: var(--font-heading); font-size: 1.8rem; color: var(--color-gold); margin-bottom: 25px;"><i class="bx bx-send"></i> Send Message</h3>
+          
+          <form class="contact-form" onsubmit="handleContactSubmit(event)" id="main-contact-form">
+            <div class="form-group">
+              <label for="contact-name">Full Name</label>
+              <input type="text" class="form-control" id="contact-name" placeholder="e.g., Amit Sharma" required>
+            </div>
+            <div class="form-group">
+              <label for="contact-phone">Phone Number</label>
+              <input type="tel" class="form-control" id="contact-phone" placeholder="e.g., 9876543210" pattern="[0-9]{10}" required>
+            </div>
+            <div class="form-group full-width">
+              <label for="contact-email">Email Address</label>
+              <input type="email" class="form-control" id="contact-email" placeholder="email@domain.com">
+            </div>
+            <div class="form-group full-width">
+              <label for="contact-subject">Subject</label>
+              <input type="text" class="form-control" id="contact-subject" placeholder="e.g., Tour Inquiry" required>
+            </div>
+            <div class="form-group full-width">
+              <label for="contact-message">Message</label>
+              <textarea class="form-control" id="contact-message" placeholder="Write your message here..." required></textarea>
+            </div>
+            <button type="submit" class="btn-gold" id="btn-submit-contact">Send Message</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- --- NEWSLETTER SECTION --- -->
+  <section class="newsletter-banner">
+    <div class="newsletter-container">
+      <div class="newsletter-text">
+        <h3>Subscribe to Tour Offers</h3>
+        <p>Stay updated with our latest luxury travel packages and early bird travel discounts.</p>
+      </div>
+      <form class="newsletter-form" onsubmit="handleNewsletterSubmit(event)" id="newsletter-form">
+        <input type="email" class="form-control" id="newsletter-email" placeholder="Enter your email address" required>
+        <button type="submit" class="btn-gold" id="btn-newsletter-sub">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- --- FOOTER --- -->
+  <footer>
+    <div class="section-container">
+      <div class="footer-grid">
+        
+        <!-- Col 1: Brand Info -->
+        <div class="footer-brand">
+          <a href="#hero" class="logo-wrapper">
+            <img src="KannuYatrlogo.jpeg" alt="Kannu Yatri Logo" class="logo-img">
+            <div class="logo-text">
+              <span class="logo-brand">KANNU <span>YATRI</span></span>
+              <span class="logo-tagline">Safe Travel is Our Promise</span>
+            </div>
+          </a>
+          <p>Pratapgarh, Rajasthan's trusted travel partner. Providing luxury bus coaches, tourist cabs, premium hotels, and customized holiday packages.</p>
+          <div class="social-links">
+            <a href="https://facebook.com" target="_blank" class="social-btn" aria-label="Facebook"><i class="bx bxl-facebook"></i></a>
+            <a href="https://instagram.com" target="_blank" class="social-btn" aria-label="Instagram"><i class="bx bxl-instagram"></i></a>
+            <a href="https://youtube.com" target="_blank" class="social-btn" aria-label="YouTube"><i class="bx bxl-youtube"></i></a>
+            <a href="https://wa.me/919131964831" target="_blank" class="social-btn" aria-label="WhatsApp"><i class="bx bxl-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Col 2: Services Links -->
+        <div class="footer-links-col">
+          <h4>Booking Services</h4>
+          <ul>
+            <li><a href="#booking-section" onclick="setActiveBookingTab('bus')">🚌 Bus Booking</a></li>
+            <li><a href="#booking-section" onclick="setActiveBookingTab('cab')">🚖 Cab Booking</a></li>
+            <li><a href="#booking-section" onclick="setActiveBookingTab('hotel')">🏨 Hotel Booking</a></li>
+            <li><a href="#packages">🌴 Holiday Packages</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Useful Links -->
+        <div class="footer-links-col">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contacts Info -->
+        <div class="footer-links-col">
+          <h4>Office Contact</h4>
+          <ul class="footer-contact-info">
+            <li>
+              <i class="bx bx-map-pin"></i>
+              <span>Pratapgarh, Rajasthan – 312605</span>
+            </li>
+            <li>
+              <i class="bx bx-phone"></i>
+              <div style="display:flex; flex-direction:column; gap:4px;">
+                <a href="tel:+919131964831">+91 9131964831</a>
+                <a href="tel:+919680480116">+91 9680480116</a>
+              </div>
+            </li>
+            <li>
+              <i class="bx bx-envelope"></i>
+              <a href="mailto:kanikasecure123@gmail.com">kanikasecure123@gmail.com</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Footer Bottom links -->
+      <div class="footer-bottom">
+        <div class="footer-copy">
+          &copy; 2026 Kannu Yatri. All Rights Reserved. Safe Travel is Our Promise.
+        </div>
+        <div class="footer-bottom-links">
+          <a href="#" onclick="openLegalModal('privacy')">Privacy Policy</a>
+          <a href="#" onclick="openLegalModal('refund')">Refund Policy</a>
+          <a href="#" onclick="openLegalModal('terms')">Terms & Conditions</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- --- RESULTS MODAL CONTAINER (BUS, CAB, HOTEL, PACKAGES) --- -->
+  <div class="modal-overlay" id="search-modal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title-text">Available Options</h3>
+        <span class="modal-close" onclick="closeModal()" id="modal-close-btn">&times;</span>
+      </div>
+      <div class="modal-body" id="modal-body-content">
+        <!-- Results or dynamic seat selectors will inject here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- --- TOAST CONTAINER FOR NOTIFICATIONS --- -->
+  <div class="toast-container" id="toast-box"></div>
+
+  <!-- GSAP Core CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <!-- GSAP ScrollTrigger CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
+  <!-- Custom JS Script -->
+  <script src="script.js"></script>
+</body>
+</html>
