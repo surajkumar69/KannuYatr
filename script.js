@@ -112,26 +112,40 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- 3D TILT ANIMATION FOR CARDS ---
-  const tiltCards = document.querySelectorAll('.booking-card, .package-card, .why-card');
-  tiltCards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const xc = rect.width / 2;
-      const yc = rect.height / 2;
-      
-      // Calculate rotation angles
-      const rotateX = (yc - y) / 12; // tilt vertical
-      const rotateY = (x - xc) / 12; // tilt horizontal
-      
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-    });
+  window.initTiltAnimation = () => {
+    const tiltCards = document.querySelectorAll('.booking-card, .package-card, .why-card');
+    tiltCards.forEach(card => {
+      // Remove any existing listeners to avoid doubling
+      card.removeEventListener('mousemove', card._tiltMove);
+      card.removeEventListener('mouseleave', card._tiltLeave);
 
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+      card._tiltMove = (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const xc = rect.width / 2;
+        const yc = rect.height / 2;
+        
+        // Calculate rotation angles
+        const rotateX = (yc - y) / 12; // tilt vertical
+        const rotateY = (x - xc) / 12; // tilt horizontal
+        
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+      };
+
+      card._tiltLeave = () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+      };
+
+      card.addEventListener('mousemove', card._tiltMove);
+      card.addEventListener('mouseleave', card._tiltLeave);
     });
-  });
+  };
+
+  // Initialize dynamic databases and render packages on load
+  initDatabase();
+  renderPackages();
+  window.initTiltAnimation();
 
   // --- ANIMATED COUNTERS FOR STATS ---
   const statNumbers = document.querySelectorAll('.stat-number');
@@ -359,6 +373,273 @@ function handleNewsletterSubmit(event) {
   document.getElementById('newsletter-form').reset();
 }
 
+// --- LOCAL STORAGE STATE MANAGEMENT (DYNAMIC DATABASES) ---
+const DEFAULT_BUSES = [
+  { id: 'bus_1', operator: 'Kannu Yatri Sleeper AC', route: 'Pratapgarh - Jaipur', time: '09:30 PM', price: 850, type: 'Volvo AC 2+1', seatsLeft: 12, inclusions: ['Sterilized Blankets', 'USB Ports', 'Mineral Water'] },
+  { id: 'bus_2', operator: 'Kannu Yatri Volvo Multi-Axle', route: 'Pratapgarh - Udaipur', time: '10:15 PM', price: 1200, type: 'Volvo Multi-Axle VIP', seatsLeft: 8, inclusions: ['Flatbed Sleeper', 'Captain Seats', 'Pillow & Water'] },
+  { id: 'bus_3', operator: 'Kannu Yatri Sleeper AC', route: 'Pratapgarh - Udaipur', time: '08:00 AM', price: 750, type: 'Volvo AC 2+1', seatsLeft: 14, inclusions: ['Reclining Sleeper', 'USB Charger', 'AC Coach'] },
+  { id: 'bus_4', operator: 'Kannu Yatri Express Sleeper', route: 'Pratapgarh - Indore', time: '11:00 PM', price: 900, type: 'Non-AC Sleeper', seatsLeft: 16, inclusions: ['Sleeper Berths', 'USB Chargers', 'Fast Transit'] },
+  { id: 'bus_5', operator: 'Kannu Yatri Royal Express', route: 'Pratapgarh - Chittorgarh', time: '07:30 AM', price: 350, type: 'AC Seater', seatsLeft: 22, inclusions: ['Luxury Seats', 'AC Cabin', 'Express Route'] }
+];
+
+const DEFAULT_PACKAGES = [
+  {
+    id: 'darshan',
+    name: 'Sacred Darshan Tour (Pavitra Darshan Yatra)',
+    tag: 'Religious',
+    duration: '3 Days / 2 Nights',
+    price: 3999,
+    route: 'Pratapgarh - Eklingji - Nathdwara - Charbhuja Ji - Savaliya Ji - Chittorgarh',
+    image: 'asKNS.jpeg', // Using the uploaded image file as requested
+    inclusions: ['AC Ertiga Cab (7 Seater)', '2 Nights AC Hotel Room', '5 Tasty Pure Veg Meals', '5 Breakfasts', 'Driver Allowance & Tolls Included', 'Sightseeing of all Shrines'],
+    itinerary: [
+      { day: 'Day 1', title: 'Pratapgarh Departure & Shrinathji Darshan', desc: 'Depart from Pratapgarh in a premium AC Ertiga cab. Arrive at Eklingji Temple for Shiva Darshan, then transfer to Nathdwara for the divine evening Shrinathji Darshan. Overnight stay at AC hotel.' },
+      { day: 'Day 2', title: 'Charbhuja Ji & Savaliya Ji Pilgrimage', desc: 'Early morning travel to Charbhuja Ji Temple, followed by a serene visit to Savaliya Ji Seth Temple. Drive to Chittorgarh for dinner and overnight stay in AC hotel.' },
+      { day: 'Day 3', title: 'Chittorgarh Fort Sightseeing & Return', desc: 'Explore Chittorgarh Fort (Vijay Stambh, Kirti Stambh, Padmini Palace, Rana Kumbha Palace) with a guide, then return to Pratapgarh in the evening.' }
+    ]
+  },
+  {
+    id: 'udaipur_abu',
+    name: 'Udaipur, Haldighati & Mount Abu Special Tour',
+    tag: 'Special Tour',
+    duration: '3 Days / 2 Nights',
+    price: 4499,
+    route: 'Pratapgarh - Udaipur - Haldighati - Mount Abu',
+    image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80',
+    inclusions: ['AC Ertiga Cab (7 Seater)', '2 Nights AC Hotel Room', '5 Delicious Veg Meals', '5 Breakfasts', 'Driver Charges & Parking Included', 'Local Guide Support'],
+    itinerary: [
+      { day: 'Day 1', title: 'Udaipur City Palace & Lake Pichola Cruise', desc: 'Pickup from Pratapgarh in AC Ertiga. Drive to Udaipur, check-in to hotel. Visit Udaipur City Palace, Jagdish Temple, and enjoy a sunset cruise on Lake Pichola.' },
+      { day: 'Day 2', title: 'Haldighati Sights & Mount Abu Arrival', desc: 'Travel to Mount Abu via Haldighati. Tour Maharana Pratap Memorial, Chetak Smarak, and Haldighati Museum. Check-in to Mount Abu hotel and enjoy evening boating on Nakki Lake.' },
+      { day: 'Day 3', title: 'Dilwara Temples, Guru Shikhar & Departure', desc: 'Visit Dilwara Jain Temple, Guru Shikhar Peak (highest point in Rajasthan), and sunset at Sunset Point. Drive back to Pratapgarh for final drop.' }
+    ]
+  },
+  {
+    id: 'religious',
+    name: 'Sacred Darshan Tours',
+    tag: 'Religious',
+    duration: '6 Days / 5 Nights',
+    price: 14999,
+    route: 'Varanasi - Haridwar - Rishikesh - Sonprayag - Kedarnath',
+    image: 'temple_pilgrimage.jpg',
+    inclusions: ['Private Verified Cab', '3-Star Deluxe Hotels', 'Daily Breakfast & Dinner', 'VIP Darshan Passes', '24/7 Ground Assistance'],
+    itinerary: [
+      { day: 'Day 1', title: 'Varanasi Arrival & Evening Ganga Aarti', desc: 'Arrive in Varanasi, check-in to a luxury hotel, and view the iconic Ganga Aarti ceremony from a private boat.' },
+      { day: 'Day 2', title: 'Kashi Vishwanath Darshan & Sarnath', desc: 'Enjoy VIP Darshan passes at Kashi Vishwanath Temple, visit Annapurna Temple, and tour the historic Buddhist site Sarnath.' },
+      { day: 'Day 3', title: 'Travel to Haridwar & Rishikesh', desc: 'Transit to Haridwar/Rishikesh. Attend Har Ki Pauri Aarti and explore Laxman Jhula in Rishikesh.' },
+      { day: 'Day 4', title: 'Drive to Sonprayag (Kedarnath Base)', desc: 'Scenic mountain drive along the Mandakini river to Sonprayag base camp.' },
+      { day: 'Day 5', title: 'Kedarnath Temple Darshan & Trek', desc: 'Trek to Kedarnath Temple (helicopter, pony, or walking options available). Attend evening prayer rituals and rest at the shrine.' },
+      { day: 'Day 6', title: 'Return Journey & Haridwar Departure', desc: 'Descend from the shrine and transfer to Haridwar/Delhi airport or railway station for departure.' }
+    ]
+  },
+  {
+    id: 'historical',
+    name: '🏰 Historical Tours (Royal Rajasthan Tour)',
+    tag: 'Historical',
+    duration: '5 Days / 4 Nights',
+    price: 12499,
+    route: 'Udaipur - Chittorgarh Fort - Pratapgarh - Deogarh Palace - Jaipur',
+    image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80',
+    inclusions: ['Toyota Innova Cab', 'Heritage Haveli Stays', 'Daily Breakfast', 'Chittorgarh Fort Guide', 'Traditional Thewa Art Tour'],
+    itinerary: [
+      { day: 'Day 1', title: 'Arrival in Udaipur', desc: 'Pickup from Udaipur airport/railway station by private cab. Check-in to a premium lakefront hotel and enjoy a sunset cruise on Lake Pichola.' },
+      { day: 'Day 2', title: 'Udaipur Palace & Sightseeing', desc: 'Guided tour of Udaipur City Palace, Saheliyon-ki-Bari gardens, Jagdish Temple, and sunset at Sajjangarh Monsoon Palace.' },
+      { day: 'Day 3', title: 'Chittorgarh Fort Tour to Pratapgarh', desc: 'Travel to Chittorgarh Fort, the largest fortress in India, followed by evening arrival in Pratapgarh.' },
+      { day: 'Day 4', title: 'Pratapgarh Sights & Traditional Thewa Art', desc: 'Tour the historic Deogarh Palace and meet local artisans executing traditional "Thewa" gold-on-glass engraving art.' },
+      { day: 'Day 5', title: 'Jaipur Sightseeing & Drop', desc: 'Drive to Jaipur, tour Hawa Mahal and Amer Fort, followed by airport/railway station departure drop.' }
+    ]
+  },
+  {
+    id: 'hill',
+    name: 'Hill Station Tours',
+    tag: 'Hill Station',
+    duration: '7 Days / 6 Nights',
+    price: 19999,
+    route: 'Manali - Solang Valley - Atal Tunnel - Jispa - Baralacha La - Leh - Pangong Lake',
+    image: 'hill_station.jpg',
+    inclusions: ['4x4 SUV (Scorpio/Fortuner)', 'Swiss Luxury Camps', 'Breakfast & Dinner', 'Inner Line Permits', 'Oxygen Cylinder in Cab'],
+    itinerary: [
+      { day: 'Day 1', title: 'Manali Arrival & Mall Road', desc: 'Arrive in Manali, check-in to a luxury hotel, and visit Hidimba Devi Temple and local markets on Mall Road.' },
+      { day: 'Day 2', title: 'Solang Valley Adventures', desc: 'Day trip to Solang Valley for paragliding and snow sports. Drive through the historic Atal Tunnel to Lahaul Valley.' },
+      { day: 'Day 3', title: 'Scenic Drive to Jispa via Rohtang Pass', desc: 'Drive through Rohtang Pass glaciers. Enjoy mountain camping, star-gazing, and bonfire nights in Jispa.' },
+      { day: 'Day 4', title: 'Jispa to Leh Mountain Road Trip', desc: 'Road trip along the high-altitude Baralacha La and Nakee La passes to arrive in Leh Ladakh.' },
+      { day: 'Day 5', title: 'Pangong Lake Day Trip', desc: 'Travel to Pangong Lake, famous for its shifting blue waters. Experience local wildlife and monastery sights.' },
+      { day: 'Day 6', title: 'Khardung La Pass (Highest Motor Road)', desc: 'Excursion to Khardung La, one of the highest drivable passes in the world. Visit Leh Palace.' },
+      { day: 'Day 7', title: 'Leh Airport Departure Drop', desc: 'Drop off at Leh airport for your onward journey.' }
+    ]
+  },
+  {
+    id: 'wildlife',
+    name: 'Wildlife Tours',
+    tag: 'Wildlife Safari',
+    duration: '3 Days / 2 Nights',
+    price: 8999,
+    route: 'Sawai Madhopur - Ranthambore Fort - Jungle Safari',
+    image: 'elephant_safari.jpg',
+    inclusions: ['AC Cab Pickup/Drop', 'Premium Forest Resort stay', 'All Meals (Breakfast, Lunch, Dinner)', 'Open Gypsy Tiger Safari Ticket', 'Forest Guide & Entry Fees'],
+    itinerary: [
+      { day: 'Day 1', title: 'Arrival in Ranthambore & Fort Tour', desc: 'Pickup from Sawai Madhopur station, check-in to forest resort. Hike up to the UNESCO heritage site Ranthambore Fort and Trinetra Ganesha Temple.' },
+      { day: 'Day 2', title: 'Morning Tiger Safari & Jungle Walk', desc: 'Enter Ranthambore National Park in an open gypsy. Spot Royal Bengal Tigers, leopards, and crocodiles. Evening nature hike.' },
+      { day: 'Day 3', title: 'Resort Breakfast & Departure Drop', desc: 'Leisurely breakfast by the pool, final photography sessions, and transfer to the railway station for departure.' }
+    ]
+  },
+  {
+    id: 'family',
+    name: '👨‍👩‍👧‍👦 Family Tours (Kerala Houseboat & Hills)',
+    tag: 'Family Special',
+    duration: '6 Days / 5 Nights',
+    price: 15499,
+    route: 'Cochin - Munnar - Tea Gardens - Thekkady - Alleppey Backwaters - Kovalam Beach',
+    image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80',
+    inclusions: ['AC Private Ertiga Cab', 'Premium Hotels & Houseboat', 'All Meals on Houseboat', 'Kerala Spice Garden Tour', 'Driver Allowances & Taxes'],
+    itinerary: [
+      { day: 'Day 1', title: 'Cochin Pick-up & Drive to Munnar', desc: 'Warm welcome at Cochin airport. Scenic drive to Munnar passing Cheeyappara and Valara waterfalls.' },
+      { day: 'Day 2', title: 'Munnar Tea Gardens Tour', desc: 'Spend the day touring tea estate museums, Mattupetty Dam, Eco Point, and boating on Kundala Lake.' },
+      { day: 'Day 3', title: 'Munnar to Thekkady Safari', desc: 'Drive to Thekkady. Tour local spice plantations and take a boat safari on Periyar Lake to spot wild elephants.' },
+      { day: 'Day 4', title: 'Alleppey Luxury Houseboat Check-in', desc: 'Board a private luxury houseboat in Alleppey backwaters. Relax as you cruise past rural Kerala villages. Dine onboard.' },
+      { day: 'Day 5', title: 'Kovalam Beach Excursion', desc: 'Travel to Kovalam beach resort. Climb the lighthouse monument and watch the sunset over the Arabian Sea.' },
+      { day: 'Day 6', title: 'Cochin Shopping & Departure', desc: 'Transfer back to Cochin for local shopping and onward departure drop.' }
+    ]
+  },
+  {
+    id: 'honeymoon',
+    name: '❤️ Honeymoon Tours (Romantic Udaipur Resorts)',
+    tag: 'Honeymoon',
+    duration: '5 Days / 4 Nights',
+    price: 16999,
+    route: 'Udaipur - Lake Pichola Cruise - Kumbhalgarh Fort - Luxury Villa Spa',
+    image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80',
+    inclusions: ['Luxury Sedan Cab', '5-Star Lake Face Pool Resort', 'Breakfast & Special Candlelight Dinners', '1 Hour Couple Spa Therapy', 'Honeymoon Cake & Room Decor'],
+    itinerary: [
+      { day: 'Day 1', title: 'Romantic Welcome in Udaipur', desc: 'VIP pickup at Udaipur airport. Check-in to a luxury lake-view villa resort. Enjoy a private candlelit dinner under the stars.' },
+      { day: 'Day 2', title: 'Lake Cruise & Island Palace visit', desc: 'Tour the beautiful Saheliyon-ki-Bari gardens and enjoy a private boat cruise to Jag Mandir Island Palace for afternoon tea.' },
+      { day: 'Day 3', title: 'Kumbhalgarh Fortress Excursion', desc: 'Day trip to the majestic Kumbhalgarh Fort. Couples\' photoshoot along the high battlements.' },
+      { day: 'Day 4', title: 'Resort Wellness & Couple\'s Spa', desc: 'Unwind with a 1-hour professional Ayurvedic couple\'s spa session. Relax by the pool with traditional folk entertainment in the evening.' },
+      { day: 'Day 5', title: 'Traditional Handloom Shopping & Drop', desc: 'Browse Udaipur handlooms and handicraft markets. Transfer to airport with a complimentary gift hamper.' }
+    ]
+  }
+];
+
+function initDatabase() {
+  const storedPkgs = localStorage.getItem('kannu_packages');
+  if (storedPkgs) {
+    try {
+      const pkgs = JSON.parse(storedPkgs);
+      const hasOldData = pkgs.some(p => 
+        (p.id === 'religious' && (p.name.includes('Kedarnath') || p.image.includes('unsplash') || p.image.includes('photo-'))) ||
+        (p.id === 'hill' && (p.name.includes('Leh') || p.image.includes('unsplash') || p.image.includes('photo-'))) ||
+        (p.id === 'wildlife' && (p.name.includes('Ranthambore') || p.image.includes('unsplash') || p.image.includes('photo-')))
+      );
+      if (hasOldData) {
+        pkgs.forEach(p => {
+          if (p.id === 'religious') {
+            p.name = 'Sacred Darshan Tours';
+            p.image = 'temple_pilgrimage.jpg';
+          } else if (p.id === 'hill') {
+            p.name = 'Hill Station Tours';
+            p.image = 'hill_station.jpg';
+          } else if (p.id === 'wildlife') {
+            p.name = 'Wildlife Tours';
+            p.image = 'elephant_safari.jpg';
+          }
+        });
+        localStorage.setItem('kannu_packages', JSON.stringify(pkgs));
+      }
+    } catch (e) {
+      localStorage.removeItem('kannu_packages');
+    }
+  }
+
+  if (!localStorage.getItem('kannu_buses')) {
+    localStorage.setItem('kannu_buses', JSON.stringify(DEFAULT_BUSES));
+  }
+  if (!localStorage.getItem('kannu_packages')) {
+    localStorage.setItem('kannu_packages', JSON.stringify(DEFAULT_PACKAGES));
+  }
+}
+
+function getBuses() {
+  return JSON.parse(localStorage.getItem('kannu_buses') || '[]');
+}
+
+function saveBuses(buses) {
+  localStorage.setItem('kannu_buses', JSON.stringify(buses));
+}
+
+function getPackages() {
+  return JSON.parse(localStorage.getItem('kannu_packages') || '[]');
+}
+
+function savePackages(packages) {
+  localStorage.setItem('kannu_packages', JSON.stringify(packages));
+}
+
+// Render dynamic packages on homepage
+function renderPackages() {
+  const container = document.getElementById('packages-container');
+  if (!container) return;
+  
+  const packages = getPackages();
+  let html = '';
+  
+  packages.forEach(pkg => {
+    let inclusionsHTML = '';
+    const previewList = pkg.inclusions ? pkg.inclusions.slice(0, 3) : [];
+    previewList.forEach(inc => {
+      inclusionsHTML += `<li><i class="bx bx-check-double"></i> ${inc}</li>`;
+    });
+    if (pkg.inclusions && pkg.inclusions.length > 3) {
+      inclusionsHTML += `<li><i class="bx bx-plus"></i> ${pkg.inclusions.length - 3} More</li>`;
+    }
+
+    html += `
+      <div class="package-card glass-panel" id="pkg-${pkg.id}">
+        <div class="package-img-wrapper">
+          <img src="${pkg.image || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80'}" alt="${pkg.name}" class="package-img">
+          <span class="package-tag">${pkg.tag || 'Holiday'}</span>
+        </div>
+        <div class="package-info">
+          <div class="package-meta">
+            <span><i class="bx bx-time"></i> ${pkg.duration}</span>
+            <span><i class="bx bx-star"></i> 4.9</span>
+          </div>
+          
+          <div class="card-insurance-badge">
+            <i class="bx bx-shield-quarter"></i> Free ₹5L Insurance for Group Leader
+          </div>
+          
+          <h3 class="package-title">${pkg.name}</h3>
+          
+          <div class="package-route">
+            <i class="bx bx-map"></i> <span><strong>Route:</strong> ${pkg.route}</span>
+          </div>
+          
+          <ul class="package-inclusions-preview">
+            ${inclusionsHTML}
+          </ul>
+          
+          <div class="package-bottom">
+            <div class="package-price">
+              <span>Starting From</span>
+              <strong>₹${Number(pkg.price).toLocaleString('en-IN')} / member</strong>
+            </div>
+            
+            <div class="package-actions-row">
+              <button class="btn-gold" onclick="openQuickBookPackage('${pkg.id}')">Book Now</button>
+              <button class="btn-outline" onclick="openPackageDetails('${pkg.id}')">Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  
+  container.innerHTML = html;
+  
+  if (window.initTiltAnimation) {
+    window.initTiltAnimation();
+  }
+}
+
 // --- INTERACTIVE SEARCH MODAL HANDLERS ---
 const modalOverlay = document.getElementById('search-modal');
 const modalTitle = document.getElementById('modal-title-text');
@@ -406,67 +687,78 @@ function handleSearch(type, subtype, event) {
 }
 
 function renderSearchResults(type, subtype) {
+  // Insurance alert HTML to show on booking page
+  const insuranceAlertHTML = `
+    <div class="insurance-modal-alert">
+      <i class="bx bx-shield-quarter"></i>
+      <div>
+        <strong>FREE ₹5,00,000 Travel Insurance Active</strong>
+        The Group Leader (Mukhya) receives FREE ₹5,00,000 Travel Insurance during this trip. All travelers are covered for safety.
+      </div>
+    </div>
+  `;
+
   if (type === 'cab') {
     modalTitle.innerText = `Available Cab Options (${subtype === 'oneway' ? 'One Way' : subtype === 'round' ? 'Round Trip' : 'Driver Only'})`;
     
-    // Cabs mockup list
     let pickupVal = document.getElementById(`cab-${subtype === 'oneway' ? 'ow' : subtype === 'round' ? 'rt' : 'dr'}-pickup`).value;
     let dropVal = document.getElementById(`cab-${subtype === 'oneway' ? 'ow' : subtype === 'round' ? 'rt' : 'dr'}-drop`).value;
     
     modalBody.innerHTML = `
+      ${insuranceAlertHTML}
       <div style="margin-bottom: 20px; border-bottom: 1px solid var(--color-border-light); padding-bottom: 15px;">
         <span style="color:var(--color-gold); font-size:0.9rem; font-weight:600;">ROUTE:</span>
         <strong style="color:#FFF; font-size:1.1rem;">${pickupVal} ➔ ${dropVal}</strong>
       </div>
       <div class="modal-results-list">
         
-        <div class="result-item glass-panel">
-          <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=200&q=80" class="result-img" alt="Luxury Sedan">
-          <div class="result-details">
+        <div class="result-item glass-panel" style="display: flex; gap: 20px; align-items: center; padding: 20px; margin-bottom: 15px;">
+          <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=200&q=80" class="result-img" alt="Luxury Sedan" style="width: 120px; height: 90px; object-fit: cover; border-radius: 6px;">
+          <div class="result-details" style="flex-grow: 1;">
             <h4>Maruti Dzire / Hyundai Xcent (Sedan)</h4>
-            <div class="result-meta">
+            <div class="result-meta" style="display: flex; gap: 15px; font-size: 0.8rem; margin: 5px 0; color: var(--color-gold);">
               <span><i class="bx bx-user"></i> 4+1 Seats</span>
               <span><i class="bx bx-check-shield"></i> AC & Luggage Space</span>
-              <span><i class="bx bxs-star" style="color:var(--color-gold);"></i> 4.8</span>
+              <span><i class="bx bxs-star"></i> 4.8</span>
             </div>
-            <p style="font-size:0.75rem; margin-top:5px; color:var(--color-text-muted);">Clean interiors, background-verified driver, and real-time GPS tracking.</p>
+            <p style="font-size:0.75rem; color:var(--color-text-muted);">Clean interiors, background-verified driver, and real-time GPS tracking.</p>
           </div>
-          <div class="result-action">
-            <span class="result-price">₹${subtype === 'round' ? '18/KM' : '10/KM'}</span>
+          <div class="result-action" style="text-align: right; min-width: 120px;">
+            <span class="result-price" style="display: block; font-size: 1.3rem; font-weight: 700; color: var(--color-gold); margin-bottom: 10px;">₹${subtype === 'round' ? '18/KM' : '10/KM'}</span>
             <button class="btn-gold" onclick="confirmBooking('cab', 'Sedan', '${pickupVal}', '${dropVal}')">Book Cab</button>
           </div>
         </div>
 
-        <div class="result-item glass-panel">
-          <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=200&q=80" class="result-img" alt="Luxury SUV">
-          <div class="result-details">
+        <div class="result-item glass-panel" style="display: flex; gap: 20px; align-items: center; padding: 20px; margin-bottom: 15px;">
+          <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=200&q=80" class="result-img" alt="Luxury SUV" style="width: 120px; height: 90px; object-fit: cover; border-radius: 6px;">
+          <div class="result-details" style="flex-grow: 1;">
             <h4>Maruti Ertiga / Toyota Innova (SUV)</h4>
-            <div class="result-meta">
+            <div class="result-meta" style="display: flex; gap: 15px; font-size: 0.8rem; margin: 5px 0; color: var(--color-gold);">
               <span><i class="bx bx-user"></i> 6+1 Seats</span>
               <span><i class="bx bx-check-shield"></i> Dual AC & Roof Carrier</span>
-              <span><i class="bx bxs-star" style="color:var(--color-gold);"></i> 4.9</span>
+              <span><i class="bx bxs-star"></i> 4.9</span>
             </div>
-            <p style="font-size:0.75rem; margin-top:5px; color:var(--color-text-muted);">Excellent family utility vehicle designed for comfortable long-distance tours.</p>
+            <p style="font-size:0.75rem; color:var(--color-text-muted);">Excellent family utility vehicle designed for comfortable long-distance tours.</p>
           </div>
-          <div class="result-action">
-            <span class="result-price">₹${subtype === 'round' ? '22/KM' : '14/KM'}</span>
+          <div class="result-action" style="text-align: right; min-width: 120px;">
+            <span class="result-price" style="display: block; font-size: 1.3rem; font-weight: 700; color: var(--color-gold); margin-bottom: 10px;">₹${subtype === 'round' ? '22/KM' : '14/KM'}</span>
             <button class="btn-gold" onclick="confirmBooking('cab', 'SUV', '${pickupVal}', '${dropVal}')">Book Cab</button>
           </div>
         </div>
 
-        <div class="result-item glass-panel">
-          <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=200&q=80" class="result-img" alt="Premium SUV">
-          <div class="result-details">
+        <div class="result-item glass-panel" style="display: flex; gap: 20px; align-items: center; padding: 20px; margin-bottom: 15px;">
+          <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=200&q=80" class="result-img" alt="Premium SUV" style="width: 120px; height: 90px; object-fit: cover; border-radius: 6px;">
+          <div class="result-details" style="flex-grow: 1;">
             <h4>Toyota Innova Crysta (Premium SUV)</h4>
-            <div class="result-meta">
+            <div class="result-meta" style="display: flex; gap: 15px; font-size: 0.8rem; margin: 5px 0; color: var(--color-gold);">
               <span><i class="bx bx-user"></i> 6+1 Seats</span>
               <span><i class="bx bx-crown"></i> VIP Captain Seats & Premium Rides</span>
-              <span><i class="bx bxs-star" style="color:var(--color-gold);"></i> 5.0</span>
+              <span><i class="bx bxs-star"></i> 5.0</span>
             </div>
-            <p style="font-size:0.75rem; margin-top:5px; color:var(--color-text-muted);">Premium interior layout with shock-absorbent suspension for a royal commute.</p>
+            <p style="font-size:0.75rem; color:var(--color-text-muted);">Premium interior layout with shock-absorbent suspension for a royal commute.</p>
           </div>
-          <div class="result-action">
-            <span class="result-price">₹${subtype === 'round' ? '26/KM' : '18/KM'}</span>
+          <div class="result-action" style="text-align: right; min-width: 120px;">
+            <span class="result-price" style="display: block; font-size: 1.3rem; font-weight: 700; color: var(--color-gold); margin-bottom: 10px;">₹${subtype === 'round' ? '26/KM' : '18/KM'}</span>
             <button class="btn-gold" onclick="confirmBooking('cab', 'Innova Crysta', '${pickupVal}', '${dropVal}')">Book Cab</button>
           </div>
         </div>
@@ -480,51 +772,52 @@ function renderSearchResults(type, subtype) {
     let busFrom = document.getElementById('bus-from').value;
     let busTo = document.getElementById('bus-to').value;
     
+    // Dynamic Filter
+    const buses = getBuses();
+    const filteredBuses = buses.filter(b => {
+      const route = b.route.toLowerCase();
+      const f = busFrom.toLowerCase().trim();
+      const t = busTo.toLowerCase().trim();
+      return route.includes(f) && route.includes(t);
+    });
+
+    let resultsHTML = '';
+    const displayList = filteredBuses.length > 0 ? filteredBuses : buses;
+    const isFallback = filteredBuses.length === 0;
+
+    displayList.forEach(bus => {
+      let inclHTML = bus.inclusions ? bus.inclusions.join(', ') : 'AC Sleeper';
+      resultsHTML += `
+        <div class="result-item glass-panel" style="display: flex; gap: 20px; align-items: center; padding: 20px; margin-bottom: 15px;">
+          <div style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; background: rgba(212,175,55,0.05); border-radius: 6px; font-size: 2.2rem; color: var(--color-gold); border: 1px solid var(--color-border); flex-shrink:0;">
+            <i class="bx bx-bus"></i>
+          </div>
+          <div class="result-details" style="flex-grow: 1;">
+            <h4>${bus.operator} (${bus.type})</h4>
+            <div class="result-meta" style="display: flex; gap: 15px; font-size: 0.8rem; margin: 5px 0; color: var(--color-gold);">
+              <span><i class="bx bx-time-five"></i> ${bus.time}</span>
+              <span><i class="bx bx-couch"></i> ${bus.seatsLeft} Seats Left</span>
+              <span><i class="bx bx-map"></i> ${bus.route}</span>
+            </div>
+            <p style="font-size:0.75rem; color:var(--color-text-muted);">${inclHTML} included.</p>
+          </div>
+          <div class="result-action" style="text-align: right; min-width: 120px;">
+            <span class="result-price" style="display: block; font-size: 1.3rem; font-weight: 700; color: var(--color-gold); margin-bottom: 10px;">₹${bus.price}</span>
+            <button class="btn-gold" onclick="selectBusSeats('${bus.operator}', ${bus.price})">Select Seats</button>
+          </div>
+        </div>
+      `;
+    });
+
     modalBody.innerHTML = `
+      ${insuranceAlertHTML}
       <div style="margin-bottom: 20px; border-bottom: 1px solid var(--color-border-light); padding-bottom: 15px;">
         <span style="color:var(--color-gold); font-size:0.9rem; font-weight:600;">ROUTE:</span>
         <strong style="color:#FFF; font-size:1.1rem;">${busFrom} ➔ ${busTo}</strong>
+        ${isFallback ? `<div style="color:var(--color-gold); font-size:0.8rem; margin-top:5px;"><i class="bx bx-info-circle"></i> Showing general routes (no specific bus found for "${busFrom} to ${busTo}").</div>` : ''}
       </div>
       <div class="modal-results-list">
-        
-        <div class="result-item glass-panel">
-          <div style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; background: rgba(212,175,55,0.05); border-radius: 6px; font-size: 2.2rem; color: var(--color-gold); border: 1px solid var(--color-border);">
-            <i class="bx bx-bus"></i>
-          </div>
-          <div class="result-details">
-            <h4>Kannu Yatri Sleeper 2+1 A/C Coach</h4>
-            <div class="result-meta">
-              <span><i class="bx bx-time-five"></i> 9:30 PM Departs</span>
-              <span><i class="bx bx-couch"></i> 12 Seats Left</span>
-              <span><i class="bx bxs-star" style="color:var(--color-gold);"></i> 4.7</span>
-            </div>
-            <p style="font-size:0.75rem; margin-top:5px; color:var(--color-text-muted);">USB charging sockets, sterilized blankets, and packaged mineral water included.</p>
-          </div>
-          <div class="result-action">
-            <span class="result-price">₹850</span>
-            <button class="btn-gold" onclick="selectBusSeats('Volvo AC 2+1')">Select Seats</button>
-          </div>
-        </div>
-
-        <div class="result-item glass-panel">
-          <div style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; background: rgba(212,175,55,0.05); border-radius: 6px; font-size: 2.2rem; color: var(--color-gold); border: 1px solid var(--color-border);">
-            <i class="bx bx-bus"></i>
-          </div>
-          <div class="result-details">
-            <h4>Kannu Yatri Volvo Multi-Axle Ultra VIP</h4>
-            <div class="result-meta">
-              <span><i class="bx bx-time-five"></i> 10:15 PM Departs</span>
-              <span><i class="bx bx-couch"></i> 8 Seats Left</span>
-              <span><i class="bx bxs-star" style="color:var(--color-gold);"></i> 4.9</span>
-            </div>
-            <p style="font-size:0.75rem; margin-top:5px; color:var(--color-text-muted);">Premium air suspension system, clean cabins, and flatbed sleeper berths.</p>
-          </div>
-          <div class="result-action">
-            <span class="result-price">₹1,200</span>
-            <button class="btn-gold" onclick="selectBusSeats('Volvo Multi-Axle VIP')">Select Seats</button>
-          </div>
-        </div>
-
+        ${resultsHTML}
       </div>
     `;
   }
@@ -534,42 +827,43 @@ function renderSearchResults(type, subtype) {
     let city = document.getElementById('hotel-city').value;
     
     modalBody.innerHTML = `
+      ${insuranceAlertHTML}
       <div style="margin-bottom: 20px; border-bottom: 1px solid var(--color-border-light); padding-bottom: 15px;">
         <span style="color:var(--color-gold); font-size:0.9rem; font-weight:600;">CITY:</span>
         <strong style="color:#FFF; font-size:1.1rem;">${city}</strong>
       </div>
       <div class="modal-results-list">
         
-        <div class="result-item glass-panel">
-          <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=200&q=80" class="result-img" alt="Deluxe Room">
-          <div class="result-details">
+        <div class="result-item glass-panel" style="display: flex; gap: 20px; align-items: center; padding: 20px; margin-bottom: 15px;">
+          <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=200&q=80" class="result-img" alt="Deluxe Room" style="width: 120px; height: 90px; object-fit: cover; border-radius: 6px;">
+          <div class="result-details" style="flex-grow: 1;">
             <h4>Kannu Yatri Palace Heritage Resort</h4>
-            <div class="result-meta">
+            <div class="result-meta" style="display: flex; gap: 15px; font-size: 0.8rem; margin: 5px 0; color: var(--color-gold);">
               <span><i class="bx bx-wifi"></i> Free High-speed Wi-Fi</span>
               <span><i class="bx bx-restaurant"></i> Breakfast Included</span>
-              <span><i class="bx bxs-star" style="color:var(--color-gold);"></i> 4.8</span>
+              <span><i class="bx bxs-star"></i> 4.8</span>
             </div>
-            <p style="font-size:0.75rem; margin-top:5px; color:var(--color-text-muted);">Royal Rajputana-themed spacious accommodations with beautiful garden views.</p>
+            <p style="font-size:0.75rem; color:var(--color-text-muted);">Royal Rajputana-themed spacious accommodations with beautiful garden views.</p>
           </div>
-          <div class="result-action">
-            <span class="result-price">₹3,499 / night</span>
+          <div class="result-action" style="text-align: right; min-width: 120px;">
+            <span class="result-price" style="display: block; font-size: 1.3rem; font-weight: 700; color: var(--color-gold); margin-bottom: 10px;">₹3,499 / night</span>
             <button class="btn-gold" onclick="confirmBooking('hotel', 'Heritage Resort', '${city}')">Book Now</button>
           </div>
         </div>
 
-        <div class="result-item glass-panel">
-          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=200&q=80" class="result-img" alt="Luxury Suite">
-          <div class="result-details">
+        <div class="result-item glass-panel" style="display: flex; gap: 20px; align-items: center; padding: 20px; margin-bottom: 15px;">
+          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=200&q=80" class="result-img" alt="Luxury Suite" style="width: 120px; height: 90px; object-fit: cover; border-radius: 6px;">
+          <div class="result-details" style="flex-grow: 1;">
             <h4>Lake View Luxury Suites & Villas</h4>
-            <div class="result-meta">
+            <div class="result-meta" style="display: flex; gap: 15px; font-size: 0.8rem; margin: 5px 0; color: var(--color-gold);">
               <span><i class="bx bx-swim"></i> Swimming Pool Access</span>
               <span><i class="bx bx-coffee"></i> VIP lounge & Minibar</span>
-              <span><i class="bx bxs-star" style="color:var(--color-gold);"></i> 5.0</span>
+              <span><i class="bx bxs-star"></i> 5.0</span>
             </div>
-            <p style="font-size:0.75rem; margin-top:5px; color:var(--color-text-muted);">Scenic lakefront balconies with premium room layout and personal butler services.</p>
+            <p style="font-size:0.75rem; color:var(--color-text-muted);">Scenic lakefront balconies with premium room layout and personal butler services.</p>
           </div>
-          <div class="result-action">
-            <span class="result-price">₹6,499 / night</span>
+          <div class="result-action" style="text-align: right; min-width: 120px;">
+            <span class="result-price" style="display: block; font-size: 1.3rem; font-weight: 700; color: var(--color-gold); margin-bottom: 10px;">₹6,499 / night</span>
             <button class="btn-gold" onclick="confirmBooking('hotel', 'Lake View Luxury Suite', '${city}')">Book Now</button>
           </div>
         </div>
@@ -581,14 +875,14 @@ function renderSearchResults(type, subtype) {
 
 // --- SEAT PICKER FOR BUS BOOKING ---
 let selectedSeats = [];
-const seatPrice = 850;
+let activeBusPrice = 850;
 
-function selectBusSeats(busModel) {
+function selectBusSeats(busModel, price) {
   modalTitle.innerText = `Select Seats - ${busModel}`;
   selectedSeats = [];
+  activeBusPrice = price || 850;
   
   let seatGridHTML = '';
-  // Generate 24 Mock Seats (4x6 layout)
   for (let i = 1; i <= 24; i++) {
     const isOccupied = i === 3 || i === 7 || i === 12 || i === 18 || i === 22;
     seatGridHTML += `
@@ -601,22 +895,30 @@ function selectBusSeats(busModel) {
   }
 
   modalBody.innerHTML = `
-    <div class="seat-map-container">
-      <div style="background: rgba(255,255,255,0.05); width: 100%; text-align: center; padding: 8px; border-radius: 4px; color: var(--color-gold); font-size: 0.8rem; letter-spacing: 1px; border: 1px solid var(--color-border-light);">
+    <div class="seat-map-container" style="max-width: 450px; margin: 0 auto;">
+      <div class="insurance-modal-alert" style="margin-bottom: 15px; padding: 10px 15px;">
+        <i class="bx bx-shield-quarter" style="font-size: 1.6rem;"></i>
+        <div style="font-size:0.78rem;">
+          <strong>Travel Insurance Active</strong>
+          Coverage of ₹5,00,000 for Group Leader & travelers.
+        </div>
+      </div>
+      
+      <div style="background: rgba(255,255,255,0.05); width: 100%; text-align: center; padding: 8px; border-radius: 4px; color: var(--color-gold); font-size: 0.8rem; letter-spacing: 1px; border: 1px solid var(--color-border-light); margin-bottom: 15px;">
         DRIVER CABIN / FRONT
       </div>
       
-      <div class="seat-grid">
+      <div class="seat-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px;">
         ${seatGridHTML}
       </div>
 
-      <div class="seat-legend">
-        <div class="legend-item"><div class="box"></div><span>Available</span></div>
-        <div class="legend-item sel"><div class="box"></div><span>Selected</span></div>
-        <div class="legend-item occ"><div class="box"></div><span>Occupied</span></div>
+      <div class="seat-legend" style="display: flex; justify-content: space-around; font-size: 0.8rem; margin-bottom: 20px;">
+        <div class="legend-item" style="display:flex; align-items:center; gap:5px;"><div class="box" style="width:15px; height:15px; background:var(--color-bg-dark); border:1px solid var(--color-border-light);"></div><span>Available</span></div>
+        <div class="legend-item sel" style="display:flex; align-items:center; gap:5px;"><div class="box" style="width:15px; height:15px; background:var(--color-gold);"></div><span>Selected</span></div>
+        <div class="legend-item occ" style="display:flex; align-items:center; gap:5px;"><div class="box" style="width:15px; height:15px; background:rgba(255,255,255,0.15); cursor:not-allowed;"></div><span>Occupied</span></div>
       </div>
 
-      <div style="width: 100%; border-top: 1px solid var(--color-border-light); padding-top: 20px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+      <div style="width: 100%; border-top: 1px solid var(--color-border-light); padding-top: 20px; display: flex; justify-content: space-between; align-items: center;">
         <div>
           <span style="font-size: 0.85rem; color: var(--color-text-muted);">Selected Seats: <strong id="selected-seats-num" style="color:var(--color-gold);">-</strong></span>
           <br>
@@ -643,7 +945,7 @@ function toggleSeatSelect(seatElement, seatNumber) {
 
   if (selectedSeats.length > 0) {
     seatsNum.innerText = selectedSeats.join(', ');
-    totalPrice.innerText = `₹${(selectedSeats.length * seatPrice).toLocaleString('en-IN')}`;
+    totalPrice.innerText = `₹${(selectedSeats.length * activeBusPrice).toLocaleString('en-IN')}`;
     confirmBtn.removeAttribute('disabled');
   } else {
     seatsNum.innerText = '-';
@@ -655,17 +957,25 @@ function toggleSeatSelect(seatElement, seatNumber) {
 // --- BOOKING CONFIRMATIONS ---
 function confirmBusBooking(busModel) {
   const seats = selectedSeats.join(', ');
-  const total = selectedSeats.length * seatPrice;
+  const total = selectedSeats.length * activeBusPrice;
   const bookingID = 'KYB' + Math.floor(100000 + Math.random() * 900000);
   
   modalTitle.innerText = "Booking Successful!";
   modalBody.innerHTML = `
-    <div style="text-align: center; padding: 30px 10px;">
+    <div style="text-align: center; padding: 20px 10px;">
       <i class="bx bxs-check-circle" style="font-size: 4.5rem; color: #25D366; margin-bottom: 20px;"></i>
       <h3 style="font-family: var(--font-body); font-weight:700; font-size:1.5rem; margin-bottom: 10px; color:#FFF;">Ticket Booked Successfully</h3>
-      <p style="color: var(--color-text-muted); font-size: 0.95rem; max-width:550px; margin: 0 auto 25px;">
+      <p style="color: var(--color-text-muted); font-size: 0.95rem; max-width:550px; margin: 0 auto 20px;">
         Seat number(s) <strong>${seats}</strong> registered under Reference ID: <strong>${bookingID}</strong>.
       </p>
+
+      <div class="insurance-checkout-badge">
+        <i class="bx bx-shield-quarter"></i>
+        <div>
+          <strong>FREE ₹5,00,000 Travel Insurance Activated</strong>
+          The Group Leader (Mukhya) and all travelers are covered with FREE ₹5,00,000 Travel Insurance during this journey.
+        </div>
+      </div>
 
       <div class="glass-panel" style="padding: 20px; max-width:480px; margin: 0 auto 30px; text-align: left; border: 1px dashed var(--color-gold);">
         <h4 style="color:var(--color-gold); margin-bottom: 10px;"><i class="bx bx-info-circle"></i> Important Instructions:</h4>
@@ -677,7 +987,7 @@ function confirmBusBooking(busModel) {
       </div>
 
       <div style="display:flex; justify-content:center; gap:15px;">
-        <a href="https://wa.me/919131964831?text=Booking%20Confirmation%20Request%20ID%20${bookingID}" target="_blank" class="btn-gold" style="background:#25D366; border-color:#25D366; color:#FFF!important;">
+        <a href="https://wa.me/919131964831?text=Booking%20Confirmation%20Request%20ID%20${bookingID}%20for%20${encodeURIComponent(busModel)}%20Seats%20${seats}" target="_blank" class="btn-gold" style="background:#25D366; border-color:#25D366; color:#FFF!important;">
           <i class="bx bxl-whatsapp"></i> Confirm on WhatsApp
         </a>
         <button class="btn-outline" onclick="closeModal()">Close Window</button>
@@ -699,12 +1009,20 @@ function confirmBooking(serviceType, modelName, loc1, loc2 = '') {
   }
 
   modalBody.innerHTML = `
-    <div style="text-align: center; padding: 30px 10px;">
+    <div style="text-align: center; padding: 20px 10px;">
       <i class="bx bxs-calendar-check" style="font-size: 4.5rem; color: var(--color-gold); margin-bottom: 20px;"></i>
       <h3 style="font-family: var(--font-body); font-weight:700; font-size:1.5rem; margin-bottom: 10px; color:#FFF;">Request Successfully Registered</h3>
-      <p style="color: var(--color-text-muted); font-size: 0.95rem; max-width:550px; margin: 0 auto 25px;">
+      <p style="color: var(--color-text-muted); font-size: 0.95rem; max-width:550px; margin: 0 auto 20px;">
         ${detailsText} Reference ID: <strong>${bookingID}</strong>. Our booking desk will contact you shortly to confirm arrangements and rates.
       </p>
+
+      <div class="insurance-checkout-badge">
+        <i class="bx bx-shield-quarter"></i>
+        <div>
+          <strong>FREE ₹5,00,000 Travel Insurance Activated</strong>
+          The Group Leader (Mukhya) and all travelers are covered with FREE ₹5,00,000 Travel Insurance during this journey.
+        </div>
+      </div>
 
       <div class="glass-panel" style="padding: 20px; max-width:480px; margin: 0 auto 30px; text-align: left; border: 1px dashed var(--color-gold);">
         <h4 style="color:var(--color-gold); margin-bottom: 10px;"><i class="bx bx-info-circle"></i> Booking Conditions:</h4>
@@ -727,121 +1045,37 @@ function confirmBooking(serviceType, modelName, loc1, loc2 = '') {
 }
 
 // --- HOLIDAY PACKAGE DETAILS AND ITINERARY MODAL ---
-const packageDetailsData = {
-  religious: {
-    title: "🛕 Religious Tours (Kedarnath & Varanasi Tour)",
-    duration: "6 Days / 5 Nights",
-    price: "₹14,999 / person",
-    image: "https://images.unsplash.com/photo-1602643163983-ed0babc39797?auto=format&fit=crop&w=800&q=80",
-    itinerary: [
-      { day: "Day 1", title: "Varanasi Arrival & Evening Ganga Aarti", desc: "Arrive in Varanasi, check-in to a luxury hotel, and view the iconic Ganga Aarti ceremony from a private boat." },
-      { day: "Day 2", title: "Kashi Vishwanath Darshan & Sarnath", desc: "Enjoy VIP Darshan passes at Kashi Vishwanath Temple, visit Annapurna Temple, and tour the historic Buddhist site Sarnath." },
-      { day: "Day 3", title: "Travel to Haridwar & Rishikesh", desc: "Transit to Haridwar/Rishikesh. Attend Har Ki Pauri Aarti and explore Laxman Jhula in Rishikesh." },
-      { day: "Day 4", title: "Drive to Sonprayag (Kedarnath Base)", desc: "Scenic mountain drive along the Mandakini river to Sonprayag base camp." },
-      { day: "Day 5", title: "Kedarnath Temple Darshan & Trek", desc: "Trek to Kedarnath Temple (helicopter, pony, or walking options available). Attend evening prayer rituals and rest at the shrine." },
-      { day: "Day 6", title: "Return Journey & Haridwar Departure", desc: "Descend from the shrine and transfer to Haridwar/Delhi airport or railway station for departure." }
-    ],
-    inclusions: ["Verified Private Cab throughout", "3-Star Deluxe Hotel Stays", "Daily Breakfast & Dinner", "VIP Darshan Passes", "24/7 Backstage Support"]
-  },
-  historical: {
-    title: "🏰 Historical Tours (Royal Rajasthan Tour)",
-    duration: "5 Days / 4 Nights",
-    price: "₹12,499 / person",
-    image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80",
-    itinerary: [
-      { day: "Day 1", title: "Arrival in Udaipur (City of Lakes)", desc: "Pickup from Udaipur airport/railway station by private cab. Check-in to a premium lakefront hotel and enjoy a sunset cruise on Lake Pichola." },
-      { day: "Day 2", title: "Udaipur City Palace & Sightseeing", desc: "Guided tour of Udaipur City Palace, Saheliyon-ki-Bari gardens, Jagdish Temple, and sunset at Sajjangarh Monsoon Palace." },
-      { day: "Day 3", title: "Chittorgarh Fort Tour to Pratapgarh", desc: "Travel to Chittorgarh Fort, the largest fortress in India, followed by evening arrival in Pratapgarh." },
-      { day: "Day 4", title: "Pratapgarh Sights & Traditional Thewa Art", desc: "Tour the historic Deogarh Palace and meet local artisans executing traditional 'Thewa' gold-on-glass engraving art." },
-      { day: "Day 5", title: "Jaipur Sightseeing & Drop", desc: "Drive to Jaipur, tour Hawa Mahal and Amer Fort, followed by airport/railway station departure drop." }
-    ],
-    inclusions: ["Dedicated Toyota Innova Cab", "Heritage Haveli Accommodation", "Breakfast at all Hotels", "Certified Tour Guide in Chittor", "Local Thewa Art Demo Pass"]
-  },
-  hill: {
-    title: "🏔 Hill Station Tours (Leh Ladakh & Manali Trek)",
-    duration: "7 Days / 6 Nights",
-    price: "₹19,999 / person",
-    image: "https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=800&q=80",
-    itinerary: [
-      { day: "Day 1", title: "Manali Arrival & Mall Road", desc: "Arrive in Manali, check-in to a luxury hotel, and visit Hidimba Devi Temple and local markets on Mall Road." },
-      { day: "Day 2", title: "Solang Valley Adventures", desc: "Day trip to Solang Valley for paragliding and snow sports. Drive through the historic Atal Tunnel to Lahaul Valley." },
-      { day: "Day 3", title: "Scenic Drive to Jispa via Rohtang Pass", desc: "Drive through Rohtang Pass glaciers. Enjoy mountain camping, star-gazing, and bonfire nights in Jispa." },
-      { day: "Day 4", title: "Jispa to Leh Mountain Road Trip", desc: "Road trip along the high-altitude Baralacha La and Nakee La passes to arrive in Leh Ladakh." },
-      { day: "Day 5", title: "Pangong Lake Day Trip", desc: "Travel to Pangong Lake, famous for its shifting blue waters. Experience local wildlife and monastery sights." },
-      { day: "Day 6", title: "Khardung La Pass (Highest Motor Road)", desc: "Excursion to Khardung La, one of the highest drivable passes in the world. Visit Leh Palace." },
-      { day: "Day 7", title: "Leh Airport Departure Drop", desc: "Drop off at Leh airport for your onward journey." }
-    ],
-    inclusions: ["Custom 4x4 SUV (Scorpio/Fortuner)", "Luxury Swiss Camps & Cottages", "All Meals (Veg breakfast/dinner)", "Permits & Inner Line Clearance", "Oxygen Cylinder in Cab"]
-  },
-  wildlife: {
-    title: "🐅 Wildlife Tours (Ranthambore Tiger Safari)",
-    duration: "3 Days / 2 Nights",
-    price: "₹8,999 / person",
-    image: "https://images.unsplash.com/photo-1608933221976-59b3ec709fdf?auto=format&fit=crop&w=800&q=80",
-    itinerary: [
-      { day: "Day 1", title: "Arrival in Ranthambore & Fort Tour", desc: "Pickup from Sawai Madhopur station, check-in to a forest resort. Hike up to the UNESCO heritage site Ranthambore Fort and Trinetra Ganesha Temple." },
-      { day: "Day 2", title: "Morning Tiger Safari & Jungle Walk", desc: "Enter Ranthambore National Park in an open gypsy. Spot Royal Bengal Tigers, leopards, and crocodiles. Evening nature hike." },
-      { day: "Day 3", title: "Resort Breakfast & Departure Drop", desc: "Leisurely breakfast by the pool, final photography sessions, and transfer to the railway station for departure." }
-    ],
-    inclusions: ["AC Cab Pick-Drop", "Premium Jungle Resort stay", "All meals included", "1 Open Gypsy Safari Ticket", "Park Entrance Fees"]
-  },
-  family: {
-    title: "👨‍👩‍👧‍👦 Family Tours (Kerala Houseboat & Hills)",
-    duration: "6 Days / 5 Nights",
-    price: "₹15,499 / person",
-    image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80",
-    itinerary: [
-      { day: "Day 1", title: "Cochin Pick-up & Drive to Munnar", desc: "Warm welcome at Cochin airport. Scenic drive to Munnar passing Cheeyappara and Valara waterfalls." },
-      { day: "Day 2", title: "Munnar Tea Gardens Tour", desc: "Spend the day touring tea estate museums, Mattupetty Dam, Eco Point, and boating on Kundala Lake." },
-      { day: "Day 3", title: "Munnar to Thekkady Safari", desc: "Drive to Thekkady. Tour local spice plantations and take a boat safari on Periyar Lake to spot wild elephants." },
-      { day: "Day 4", title: "Alleppey Luxury Houseboat Check-in", desc: "Board a private luxury houseboat in Alleppey backwaters. Relax as you cruise past rural Kerala villages. Dine onboard." },
-      { day: "Day 5", title: "Kovalam Beach Excursion", desc: "Travel to Kovalam beach resort. Climb the lighthouse monument and watch the sunset over the Arabian Sea." },
-      { day: "Day 6", title: "Cochin Shopping & Departure", desc: "Transfer back to Cochin for local shopping and onward departure drop." }
-    ],
-    inclusions: ["Air Conditioned Private Ertiga Cab", "Premium Hotels & 1 Night Private Houseboat", "Breakfast at hotels, All Meals on Houseboat", "Traditional Kerala Spice Tour Pass", "Taxes & Driver Allowances"]
-  },
-  honeymoon: {
-    title: "❤️ Honeymoon Tours (Romantic Udaipur Resorts)",
-    duration: "5 Days / 4 Nights",
-    price: "₹16,999 / person",
-    image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80",
-    itinerary: [
-      { day: "Day 1", title: "Romantic Welcome in Udaipur", desc: "VIP pickup at Udaipur airport. Check-in to a luxury lake-view villa resort. Enjoy a private candlelit dinner under the stars." },
-      { day: "Day 2", title: "Lake Cruise & Island Palace visit", desc: "Tour the beautiful Saheliyon-ki-Bari gardens and enjoy a private boat cruise to Jag Mandir Island Palace for afternoon tea." },
-      { day: "Day 3", title: "Kumbhalgarh Fortress Excursion", desc: "Day trip to the majestic Kumbhalgarh Fort. Couples' photoshoot along the high battlements." },
-      { day: "Day 4", title: "Resort Wellness & Couple's Spa", desc: "Unwind with a 1-hour professional Ayurvedic couple's spa session. Relax by the pool with traditional folk entertainment in the evening." },
-      { day: "Day 5", title: "Traditional Handloom Shopping & Drop", desc: "Browse Udaipur handlooms and handicraft markets. Transfer to airport with a complimentary gift hamper." }
-    ],
-    inclusions: ["Luxury Audi/Dezire Cab", "5-Star Lake Face Pool Villa Resort", "All Breakfasts, 2 Special Candlelight Dinners", "1 Hour Couple Spa Therapy", "Flower Decoration & Honeymoon Cake"]
-  }
-};
-
-function openPackageDetails(pkgKey) {
-  const pkg = packageDetailsData[pkgKey];
+function openPackageDetails(pkgId) {
+  const packages = getPackages();
+  const pkg = packages.find(p => p.id === pkgId);
   if (!pkg) return;
 
   openModal();
-  modalTitle.innerText = pkg.title;
+  modalTitle.innerText = pkg.name;
 
   let itineraryHTML = '';
-  pkg.itinerary.forEach(step => {
-    itineraryHTML += `
-      <div style="margin-bottom: 20px; border-left: 2px solid var(--color-gold); padding-left: 15px; position:relative;">
-        <span style="position:absolute; left:-7px; top:0; width:12px; height:12px; border-radius:50%; background:var(--color-gold);"></span>
-        <strong style="color:var(--color-gold); font-size:0.95rem; text-transform:uppercase; display:block;">${step.day} - ${step.title}</strong>
-        <p style="font-size:0.85rem; margin-top:5px; color:var(--color-text-muted);">${step.desc}</p>
-      </div>
-    `;
-  });
+  if (pkg.itinerary && Array.isArray(pkg.itinerary)) {
+    pkg.itinerary.forEach(step => {
+      itineraryHTML += `
+        <div style="margin-bottom: 20px; border-left: 2px solid var(--color-gold); padding-left: 15px; position:relative;">
+          <span style="position:absolute; left:-7px; top:0; width:12px; height:12px; border-radius:50%; background:var(--color-gold);"></span>
+          <strong style="color:var(--color-gold); font-size:0.95rem; text-transform:uppercase; display:block;">${step.day} - ${step.title}</strong>
+          <p style="font-size:0.85rem; margin-top:5px; color:var(--color-text-muted);">${step.desc}</p>
+        </div>
+      `;
+    });
+  }
 
   let inclusionsHTML = '';
-  pkg.inclusions.forEach(inc => {
-    inclusionsHTML += `
-      <li style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:#FFF; margin-bottom:8px;">
-        <i class="bx bx-check-double" style="color:var(--color-gold); font-size:1.1rem;"></i> ${inc}
-      </li>
-    `;
-  });
+  if (pkg.inclusions && Array.isArray(pkg.inclusions)) {
+    pkg.inclusions.forEach(inc => {
+      inclusionsHTML += `
+        <li style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:#FFF; margin-bottom:8px;">
+          <i class="bx bx-check-double" style="color:var(--color-gold); font-size:1.1rem;"></i> ${inc}
+        </li>
+      `;
+    });
+  }
 
   modalBody.innerHTML = `
     <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:30px;">
@@ -854,8 +1088,16 @@ function openPackageDetails(pkgKey) {
       </div>
 
       <div>
-        <img src="${pkg.image}" alt="${pkg.title}" style="width:100%; height:180px; object-fit:cover; border-radius:8px; border:1px solid var(--color-border-light); margin-bottom:20px;">
+        <img src="${pkg.image || 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=600&q=80'}" alt="${pkg.name}" style="width:100%; height:180px; object-fit:cover; border-radius:8px; border:1px solid var(--color-border-light); margin-bottom:20px;">
         
+        <div class="insurance-modal-alert" style="margin-bottom: 20px;">
+          <i class="bx bx-shield-quarter" style="font-size: 2.2rem; color: var(--color-gold);"></i>
+          <div>
+            <strong>FREE ₹5,00,000 Travel Insurance</strong>
+            The Group Leader (Mukhya) receives FREE ₹5,00,000 Travel Insurance during the journey.
+          </div>
+        </div>
+
         <div class="glass-panel" style="padding: 20px; margin-bottom: 20px;">
           <h4 style="color:var(--color-gold); margin-bottom:12px; font-size:1rem;"><i class="bx bx-gift"></i> Package Inclusions</h4>
           <ul style="list-style:none;">
@@ -866,17 +1108,664 @@ function openPackageDetails(pkgKey) {
         <div style="display:flex; flex-direction:column; gap:10px; background:rgba(212,175,55,0.05); padding:20px; border-radius:8px; border:1px solid var(--color-border);">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <span style="font-size:0.85rem; color:var(--color-text-muted);">Duration: <strong>${pkg.duration}</strong></span>
-            <span style="font-size:1.25rem; font-weight:700; color:var(--color-gold);">${pkg.price}</span>
+            <span style="font-size:1.25rem; font-weight:700; color:var(--color-gold);">₹${Number(pkg.price).toLocaleString('en-IN')} / member</span>
           </div>
           
-          <a href="https://wa.me/919131964831?text=Hi%20Kannu%20Yatri,%20I%20want%20to%20book%20the%20${encodeURIComponent(pkg.title)}%20package." target="_blank" class="btn-gold" style="background:#25D366; border-color:#25D366; color:#FFF!important; width:100%;">
-            <i class="bx bxl-whatsapp"></i> Book This Package Now
-          </a>
+          <button class="btn-gold" onclick="openQuickBookPackage('${pkg.id}')" style="width: 100%;">
+            <i class="bx bx-calendar-check"></i> Book This Package Now
+          </button>
         </div>
       </div>
 
     </div>
   `;
+}
+
+// --- QUICK PACKAGE BOOKING MODAL ---
+function openQuickBookPackage(pkgId) {
+  const packages = getPackages();
+  const pkg = packages.find(p => p.id === pkgId);
+  if (!pkg) return;
+  
+  openModal();
+  modalTitle.innerText = `Book Holiday Package`;
+  
+  modalBody.innerHTML = `
+    <div style="max-width: 550px; margin: 0 auto; padding: 10px 0;">
+      <div class="insurance-modal-alert">
+        <i class="bx bx-shield-quarter"></i>
+        <div>
+          <strong>FREE ₹5,00,000 Travel Insurance Active</strong>
+          The Group Leader (Mukhya) receives FREE ₹5,00,000 Travel Insurance during this trip. All travelers are covered.
+        </div>
+      </div>
+      
+      <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-border-light); padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+        <h4 style="color:#FFF; font-size:1.15rem; margin-bottom: 8px;">Selected Package:</h4>
+        <strong style="color:var(--color-gold); font-size:1.30rem; display:block; margin-bottom: 5px;">${pkg.name}</strong>
+        <span style="font-size:0.85rem; color:var(--color-text-muted);"><i class="bx bx-time"></i> ${pkg.duration} | <i class="bx bx-map"></i> ${pkg.route}</span>
+        <div style="margin-top: 12px; font-size: 1.15rem; color:#FFF; font-weight:700;">Price: <span style="color:var(--color-gold);">₹${Number(pkg.price).toLocaleString('en-IN')} / member</span></div>
+      </div>
+
+      <form id="pkg-quick-book-form" onsubmit="handlePackageQuickBookSubmit('${pkg.id}', event)">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:20px;">
+          <div class="form-group" style="display:flex; flex-direction:column; gap:8px;">
+            <label for="pbook-name" style="font-size:0.85rem; color:#FFF;"><i class="bx bx-user"></i> Full Name</label>
+            <input type="text" id="pbook-name" class="form-control" placeholder="Group Leader Name" style="width:100%;" required>
+          </div>
+          <div class="form-group" style="display:flex; flex-direction:column; gap:8px;">
+            <label for="pbook-phone" style="font-size:0.85rem; color:#FFF;"><i class="bx bx-phone"></i> Phone Number</label>
+            <input type="tel" id="pbook-phone" class="form-control" placeholder="10-digit Mobile" pattern="[0-9]{10}" style="width:100%;" required>
+          </div>
+        </div>
+        
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:25px;">
+          <div class="form-group" style="display:flex; flex-direction:column; gap:8px;">
+            <label for="pbook-date" style="font-size:0.85rem; color:#FFF;"><i class="bx bx-calendar"></i> Travel Date</label>
+            <input type="date" id="pbook-date" class="form-control" style="width:100%;" required>
+          </div>
+          <div class="form-group" style="display:flex; flex-direction:column; gap:8px;">
+            <label for="pbook-passengers" style="font-size:0.85rem; color:#FFF;"><i class="bx bx-group"></i> Total Passengers</label>
+            <select id="pbook-passengers" class="form-control" style="width:100%;" required>
+              <option value="1">1 Person</option>
+              <option value="2">2 Persons</option>
+              <option value="3">3 Persons</option>
+              <option value="4">4 Persons</option>
+              <option value="5">5 Persons</option>
+              <option value="6+">6+ Persons (Recommended Group Size)</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-gold" style="width:100%; height:50px; font-size:1rem;"><i class="bx bx-calendar-check"></i> Book Package Now</button>
+      </form>
+    </div>
+  `;
+  
+  const pbookDate = document.getElementById('pbook-date');
+  if (pbookDate) {
+    const today = new Date().toISOString().split('T')[0];
+    pbookDate.min = today;
+    pbookDate.value = today;
+  }
+}
+
+function handlePackageQuickBookSubmit(pkgId, event) {
+  event.preventDefault();
+  const packages = getPackages();
+  const pkg = packages.find(p => p.id === pkgId);
+  if (!pkg) return;
+
+  const name = document.getElementById('pbook-name').value;
+  const phone = document.getElementById('pbook-phone').value;
+  const date = document.getElementById('pbook-date').value;
+  const passengers = document.getElementById('pbook-passengers').value;
+
+  const bookingID = 'KYP' + Math.floor(100000 + Math.random() * 900000);
+  
+  modalTitle.innerText = "Package Booking Registered!";
+  modalBody.innerHTML = `
+    <div style="text-align: center; padding: 20px 10px;">
+      <i class="bx bxs-check-circle" style="font-size: 4.5rem; color: #25D366; margin-bottom: 20px;"></i>
+      <h3 style="font-family: var(--font-body); font-weight:700; font-size:1.5rem; margin-bottom: 10px; color:#FFF;">Package Booked Successfully</h3>
+      <p style="color: var(--color-text-muted); font-size: 0.95rem; max-width:550px; margin: 0 auto 20px;">
+        Dear <strong>${name}</strong>, your booking request for <strong>${pkg.name}</strong> has been registered. Reference ID: <strong>${bookingID}</strong>.
+      </p>
+
+      <div class="insurance-checkout-badge">
+        <i class="bx bx-shield-quarter"></i>
+        <div>
+          <strong>FREE ₹5,00,000 Travel Insurance Active</strong>
+          As the Mukhya (Group Leader), you are insured for ₹5,00,000. All travelers enjoy safety protection during this trip.
+        </div>
+      </div>
+
+      <div class="glass-panel" style="padding: 20px; max-width:480px; margin: 0 auto 30px; text-align: left; border: 1px dashed var(--color-gold);">
+        <h4 style="color:var(--color-gold); margin-bottom: 10px;"><i class="bx bx-info-circle"></i> Instructions to Confirm:</h4>
+        <p style="font-size: 0.85rem; line-height: 1.6;">
+          • An advance payment is required to lock in the Ertiga cab and 3-Star AC hotel stays.<br>
+          • Share your Reference ID on WhatsApp for instant confirmation:<br>
+          <strong style="color: var(--color-gold); font-size: 1rem;"><i class="bx bx-phone-call"></i> +91 9131964831 / +91 9680480116</strong>
+        </p>
+      </div>
+
+      <div style="display:flex; justify-content:center; gap:15px;">
+        <a href="https://wa.me/919131964831?text=Hi%20Kannu%20Yatri,%20I%20want%20to%20confirm%20my%20booking%20for%20${encodeURIComponent(pkg.name)}.%20Ref%20ID:%20${bookingID}.%20Traveler:%20${name},%20Date:%20${date},%20Size:%20${passengers}." target="_blank" class="btn-gold" style="background:#25D366; border-color:#25D366; color:#FFF!important;">
+          <i class="bx bxl-whatsapp"></i> Confirm on WhatsApp
+        </a>
+        <button class="btn-outline" onclick="closeModal()">Close Window</button>
+      </div>
+    </div>
+  `;
+  showToast("Package booking request submitted!", "bx bx-check-double");
+}
+
+// --- ADMIN PORTAL PANEL HANDLERS ---
+const adminModal = document.getElementById('admin-modal');
+const adminModalTitle = document.getElementById('admin-modal-title');
+const adminModalBody = document.getElementById('admin-modal-body-content');
+
+let currentAdminTab = 'buses';
+
+function openAdminPortal(event) {
+  if (event) event.preventDefault();
+  if (adminModal) {
+    adminModal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    checkAdminLogin();
+  }
+}
+
+function closeAdminModal() {
+  if (adminModal) {
+    adminModal.classList.remove('show');
+    document.body.style.overflow = 'auto';
+  }
+}
+
+function checkAdminLogin() {
+  const isLoggedIn = sessionStorage.getItem('kannu_admin_logged');
+  if (isLoggedIn === 'true') {
+    renderAdminDashboard();
+  } else {
+    renderAdminLogin();
+  }
+}
+
+function renderAdminLogin() {
+  adminModalTitle.innerText = "Admin Security Login";
+  adminModalBody.innerHTML = `
+    <div class="admin-login-container">
+      <i class="bx bx-shield-quarter" style="font-size: 3.5rem; color: var(--color-gold); margin-bottom: 15px; display: block;"></i>
+      <h3 style="margin-bottom: 10px;">Security Portal</h3>
+      <p style="font-size:0.8rem; margin-bottom: 20px;">Enter security key to manage bookings database.</p>
+      <form onsubmit="handleAdminLogin(event)">
+        <div class="form-group" style="margin-bottom: 20px;">
+          <input type="password" id="admin-pass-key" class="form-control" placeholder="Security Password" style="text-align:center; width:100%;" required>
+        </div>
+        <button type="submit" class="btn-gold" style="width:100%;">Access Database</button>
+      </form>
+    </div>
+  `;
+}
+
+function handleAdminLogin(event) {
+  event.preventDefault();
+  const password = document.getElementById('admin-pass-key').value;
+  // Security Password as requested
+  if (password === 'kannu2026' || password === 'admin') {
+    sessionStorage.setItem('kannu_admin_logged', 'true');
+    showToast("Access granted. Admin session active.", "bx bx-lock-open");
+    renderAdminDashboard();
+  } else {
+    showToast("Invalid security key!", "bx bx-lock");
+  }
+}
+
+function handleAdminLogout() {
+  sessionStorage.removeItem('kannu_admin_logged');
+  showToast("Admin session ended.", "bx bx-lock");
+  renderAdminLogin();
+}
+
+function renderAdminDashboard() {
+  adminModalTitle.innerText = "Kannu Yatri Database Management";
+  adminModalBody.innerHTML = `
+    <div class="admin-dashboard">
+      <div class="admin-sidebar">
+        <button class="admin-nav-btn ${currentAdminTab === 'buses' ? 'active' : ''}" onclick="switchAdminTab('buses')">
+          <i class="bx bx-bus"></i> Cabs / Buses
+        </button>
+        <button class="admin-nav-btn ${currentAdminTab === 'packages' ? 'active' : ''}" onclick="switchAdminTab('packages')">
+          <i class="bx bx-package"></i> Tour Packages
+        </button>
+        <button class="admin-nav-btn" onclick="handleAdminLogout()" style="margin-top:auto; color:#DC3545;">
+          <i class="bx bx-log-out"></i> Log Out
+        </button>
+      </div>
+      <div class="admin-content" id="admin-content-view">
+        <!-- Render lists based on active tab -->
+      </div>
+    </div>
+  `;
+  renderAdminTabContent();
+}
+
+function switchAdminTab(tabName) {
+  currentAdminTab = tabName;
+  document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  renderAdminDashboard();
+}
+
+function renderAdminTabContent() {
+  const contentView = document.getElementById('admin-content-view');
+  if (!contentView) return;
+
+  if (currentAdminTab === 'buses') {
+    renderAdminBuses(contentView);
+  } else if (currentAdminTab === 'packages') {
+    renderAdminPackages(contentView);
+  }
+}
+
+// --- BUSES MANAGEMENT ---
+function renderAdminBuses(container) {
+  const buses = getBuses();
+  let tableRows = '';
+  
+  buses.forEach((bus, index) => {
+    tableRows += `
+      <tr>
+        <td><strong>${bus.operator}</strong></td>
+        <td>${bus.route}</td>
+        <td>${bus.time}</td>
+        <td>₹${bus.price}</td>
+        <td>${bus.seatsLeft}</td>
+        <td>
+          <div class="admin-action-btns">
+            <button class="admin-mini-btn edit" onclick="openEditBusForm(${index})">Edit</button>
+            <button class="admin-mini-btn delete" onclick="deleteBus(${index})">Delete</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  });
+
+  container.innerHTML = `
+    <div class="admin-header-row">
+      <h3>Manage Buses Listing</h3>
+      <button class="btn-gold" onclick="openAddBusForm()"><i class="bx bx-plus"></i> Add Bus</button>
+    </div>
+    <div style="overflow-x: auto;">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Operator (Type)</th>
+            <th>Route</th>
+            <th>Departs</th>
+            <th>Fare</th>
+            <th>Seats</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${tableRows.length > 0 ? tableRows : '<tr><td colspan="6" style="text-align:center;">No buses in registry. Add a new bus coach!</td></tr>'}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function openAddBusForm() {
+  const contentView = document.getElementById('admin-content-view');
+  contentView.innerHTML = `
+    <div class="admin-header-row">
+      <h3>Add New Bus Listing</h3>
+      <button class="btn-outline" onclick="renderAdminTabContent()"><i class="bx bx-arrow-back"></i> Back</button>
+    </div>
+    <form class="admin-form" onsubmit="saveBus(event)">
+      <div class="form-group">
+        <label>Operator / Bus Name</label>
+        <input type="text" id="abus-operator" class="form-control" placeholder="e.g., Kannu Yatri Sleeper AC" required>
+      </div>
+      <div class="form-group">
+        <label>Coach / Vehicle Type</label>
+        <input type="text" id="abus-type" class="form-control" placeholder="e.g., Volvo AC 2+1" required>
+      </div>
+      <div class="form-group">
+        <label>Route (Format: From - To)</label>
+        <input type="text" id="abus-route" class="form-control" placeholder="e.g., Pratapgarh - Udaipur" required>
+      </div>
+      <div class="form-group">
+        <label>Departure Time</label>
+        <input type="text" id="abus-time" class="form-control" placeholder="e.g., 10:15 PM" required>
+      </div>
+      <div class="form-group">
+        <label>Price Rate (Fare in INR)</label>
+        <input type="number" id="abus-price" class="form-control" placeholder="e.g., 850" required>
+      </div>
+      <div class="form-group">
+        <label>Total Seats Available</label>
+        <input type="number" id="abus-seats" class="form-control" value="24" required>
+      </div>
+      <div class="form-group full-width">
+        <label>Inclusions / Features (Comma separated)</label>
+        <input type="text" id="abus-inclusions" class="form-control" placeholder="e.g., Sterilized Blankets, USB Charging, Water Bottle">
+      </div>
+      <div class="admin-form-actions">
+        <button type="button" class="btn-outline" onclick="renderAdminTabContent()">Cancel</button>
+        <button type="submit" class="btn-gold">Save Bus Listing</button>
+      </div>
+    </form>
+  `;
+}
+
+function openEditBusForm(index) {
+  const buses = getBuses();
+  const bus = buses[index];
+  if (!bus) return;
+
+  const contentView = document.getElementById('admin-content-view');
+  contentView.innerHTML = `
+    <div class="admin-header-row">
+      <h3>Edit Bus Coach Details</h3>
+      <button class="btn-outline" onclick="renderAdminTabContent()"><i class="bx bx-arrow-back"></i> Back</button>
+    </div>
+    <form class="admin-form" onsubmit="saveBus(event, ${index})">
+      <div class="form-group">
+        <label>Operator / Bus Name</label>
+        <input type="text" id="abus-operator" class="form-control" value="${bus.operator}" required>
+      </div>
+      <div class="form-group">
+        <label>Coach / Vehicle Type</label>
+        <input type="text" id="abus-type" class="form-control" value="${bus.type}" required>
+      </div>
+      <div class="form-group">
+        <label>Route (Format: From - To)</label>
+        <input type="text" id="abus-route" class="form-control" value="${bus.route}" required>
+      </div>
+      <div class="form-group">
+        <label>Departure Time</label>
+        <input type="text" id="abus-time" class="form-control" value="${bus.time}" required>
+      </div>
+      <div class="form-group">
+        <label>Price Rate (Fare in INR)</label>
+        <input type="number" id="abus-price" class="form-control" value="${bus.price}" required>
+      </div>
+      <div class="form-group">
+        <label>Seats Available</label>
+        <input type="number" id="abus-seats" class="form-control" value="${bus.seatsLeft}" required>
+      </div>
+      <div class="form-group full-width">
+        <label>Inclusions / Features (Comma separated)</label>
+        <input type="text" id="abus-inclusions" class="form-control" value="${bus.inclusions ? bus.inclusions.join(', ') : ''}">
+      </div>
+      <div class="admin-form-actions">
+        <button type="button" class="btn-outline" onclick="renderAdminTabContent()">Cancel</button>
+        <button type="submit" class="btn-gold">Update Bus Listing</button>
+      </div>
+    </form>
+  `;
+}
+
+function saveBus(event, editIndex = null) {
+  event.preventDefault();
+  const operator = document.getElementById('abus-operator').value;
+  const type = document.getElementById('abus-type').value;
+  const route = document.getElementById('abus-route').value;
+  const time = document.getElementById('abus-time').value;
+  const price = Number(document.getElementById('abus-price').value);
+  const seatsLeft = Number(document.getElementById('abus-seats').value);
+  const inclusionsVal = document.getElementById('abus-inclusions').value;
+  
+  const inclusions = inclusionsVal ? inclusionsVal.split(',').map(s => s.trim()) : [];
+
+  let buses = getBuses();
+  const busData = {
+    id: editIndex !== null ? buses[editIndex].id : 'bus_' + Date.now(),
+    operator,
+    type,
+    route,
+    time,
+    price,
+    seatsLeft,
+    inclusions
+  };
+
+  if (editIndex !== null) {
+    buses[editIndex] = busData;
+    showToast("Bus schedule updated successfully!", "bx bx-check-double");
+  } else {
+    buses.push(busData);
+    showToast("New bus coach added to scheduling!", "bx bx-check-double");
+  }
+
+  saveBuses(buses);
+  renderAdminTabContent();
+}
+
+function deleteBus(index) {
+  if (confirm("Are you sure you want to delete this bus schedule from scheduling?")) {
+    let buses = getBuses();
+    buses.splice(index, 1);
+    saveBuses(buses);
+    showToast("Bus schedule deleted from registry.", "bx bx-trash");
+    renderAdminTabContent();
+  }
+}
+
+
+// --- HOLIDAY PACKAGES MANAGEMENT ---
+function renderAdminPackages(container) {
+  const packages = getPackages();
+  let tableRows = '';
+  
+  packages.forEach((pkg, index) => {
+    tableRows += `
+      <tr>
+        <td><strong>${pkg.name}</strong></td>
+        <td>${pkg.route}</td>
+        <td>${pkg.duration}</td>
+        <td>₹${Number(pkg.price).toLocaleString('en-IN')}</td>
+        <td>
+          <div class="admin-action-btns">
+            <button class="admin-mini-btn edit" onclick="openEditPackageForm(${index})">Edit</button>
+            <button class="admin-mini-btn delete" onclick="deletePackage(${index})">Delete</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  });
+
+  container.innerHTML = `
+    <div class="admin-header-row">
+      <h3>Manage Holiday Packages</h3>
+      <button class="btn-gold" onclick="openAddPackageForm()"><i class="bx bx-plus"></i> Add Package</button>
+    </div>
+    <div style="overflow-x: auto;">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Package Name</th>
+            <th>Route Details</th>
+            <th>Duration</th>
+            <th>Starts From</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${tableRows.length > 0 ? tableRows : '<tr><td colspan="5" style="text-align:center;">No packages found in database. Create a package card!</td></tr>'}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function openAddPackageForm() {
+  const contentView = document.getElementById('admin-content-view');
+  
+  const itineraryPlaceholder = 
+    `Day 1: Arrival & Sightseeing | Check-in and visit scenic attractions.\n` +
+    `Day 2: Temple Tour | Attend morning darshan and local markets.\n` +
+    `Day 3: Return | Visit forts and head back home.`;
+
+  contentView.innerHTML = `
+    <div class="admin-header-row">
+      <h3>Create Tour Package Card</h3>
+      <button class="btn-outline" onclick="renderAdminTabContent()"><i class="bx bx-arrow-back"></i> Back</button>
+    </div>
+    <form class="admin-form" onsubmit="savePackage(event)">
+      <div class="form-group">
+        <label>Package Name</label>
+        <input type="text" id="apkg-name" class="form-control" placeholder="e.g., Sacred Darshan Tour" required>
+      </div>
+      <div class="form-group">
+        <label>Category Tag (e.g. Religious, Honeymoon)</label>
+        <input type="text" id="apkg-tag" class="form-control" placeholder="e.g., Religious" required>
+      </div>
+      <div class="form-group">
+        <label>Duration</label>
+        <input type="text" id="apkg-duration" class="form-control" placeholder="e.g., 3 Days / 2 Nights" required>
+      </div>
+      <div class="form-group">
+        <label>Starting Price (INR / Member)</label>
+        <input type="number" id="apkg-price" class="form-control" placeholder="e.g., 3999" required>
+      </div>
+      <div class="form-group">
+        <label>Route / Locations Covered</label>
+        <input type="text" id="apkg-route" class="form-control" placeholder="e.g., Pratapgarh - Udaipur - Mount Abu" required>
+      </div>
+      <div class="form-group">
+        <label>Card Image URL</label>
+        <input type="text" id="apkg-image" class="form-control" placeholder="Image URL (Unsplash or local files)" value="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80">
+      </div>
+      <div class="form-group full-width">
+        <label>Inclusions / Features (Comma separated)</label>
+        <input type="text" id="apkg-inclusions" class="form-control" placeholder="e.g., AC Cab, 2 Nights AC Hotel, Veg Meals, Driver Allowance" required>
+      </div>
+      <div class="form-group full-width">
+        <label>Day-by-Day Itinerary (Format: Day X: Title | Description (one day per line))</label>
+        <textarea id="apkg-itinerary" class="form-control" style="min-height: 120px; font-family: monospace;" placeholder="${itineraryPlaceholder}" required></textarea>
+      </div>
+      <div class="admin-form-actions">
+        <button type="button" class="btn-outline" onclick="renderAdminTabContent()">Cancel</button>
+        <button type="submit" class="btn-gold">Save Package Card</button>
+      </div>
+    </form>
+  `;
+}
+
+function openEditPackageForm(index) {
+  const packages = getPackages();
+  const pkg = packages[index];
+  if (!pkg) return;
+
+  const contentView = document.getElementById('admin-content-view');
+  
+  // Format itinerary back to text lines
+  let itinText = '';
+  if (pkg.itinerary && Array.isArray(pkg.itinerary)) {
+    itinText = pkg.itinerary.map(i => `${i.day}: ${i.title} | ${i.desc}`).join('\n');
+  }
+
+  contentView.innerHTML = `
+    <div class="admin-header-row">
+      <h3>Edit Tour Package Card</h3>
+      <button class="btn-outline" onclick="renderAdminTabContent()"><i class="bx bx-arrow-back"></i> Back</button>
+    </div>
+    <form class="admin-form" onsubmit="savePackage(event, ${index})">
+      <div class="form-group">
+        <label>Package Name</label>
+        <input type="text" id="apkg-name" class="form-control" value="${pkg.name}" required>
+      </div>
+      <div class="form-group">
+        <label>Category Tag</label>
+        <input type="text" id="apkg-tag" class="form-control" value="${pkg.tag || ''}" required>
+      </div>
+      <div class="form-group">
+        <label>Duration</label>
+        <input type="text" id="apkg-duration" class="form-control" value="${pkg.duration}" required>
+      </div>
+      <div class="form-group">
+        <label>Starting Price (INR)</label>
+        <input type="number" id="apkg-price" class="form-control" value="${pkg.price}" required>
+      </div>
+      <div class="form-group">
+        <label>Route / Locations Covered</label>
+        <input type="text" id="apkg-route" class="form-control" value="${pkg.route}" required>
+      </div>
+      <div class="form-group">
+        <label>Card Image URL</label>
+        <input type="text" id="apkg-image" class="form-control" value="${pkg.image || ''}">
+      </div>
+      <div class="form-group full-width">
+        <label>Inclusions / Features (Comma separated)</label>
+        <input type="text" id="apkg-inclusions" class="form-control" value="${pkg.inclusions ? pkg.inclusions.join(', ') : ''}" required>
+      </div>
+      <div class="form-group full-width">
+        <label>Day-by-Day Itinerary (Format: Day X: Title | Description (one day per line))</label>
+        <textarea id="apkg-itinerary" class="form-control" style="min-height: 120px; font-family: monospace;" required>${itinText}</textarea>
+      </div>
+      <div class="admin-form-actions">
+        <button type="button" class="btn-outline" onclick="renderAdminTabContent()">Cancel</button>
+        <button type="submit" class="btn-gold">Update Package Card</button>
+      </div>
+    </form>
+  `;
+}
+
+function savePackage(event, editIndex = null) {
+  event.preventDefault();
+  const name = document.getElementById('apkg-name').value;
+  const tag = document.getElementById('apkg-tag').value;
+  const duration = document.getElementById('apkg-duration').value;
+  const price = Number(document.getElementById('apkg-price').value);
+  const route = document.getElementById('apkg-route').value;
+  const image = document.getElementById('apkg-image').value;
+  const inclusionsVal = document.getElementById('apkg-inclusions').value;
+  const itineraryVal = document.getElementById('apkg-itinerary').value;
+
+  const inclusions = inclusionsVal ? inclusionsVal.split(',').map(s => s.trim()) : [];
+  
+  // Parse itinerary back into array objects
+  const itinerary = [];
+  if (itineraryVal) {
+    const lines = itineraryVal.split('\n');
+    lines.forEach(line => {
+      if (line.trim().length === 0) return;
+      const parts = line.split('|');
+      const headerPart = parts[0] || '';
+      const descPart = parts[1] || '';
+      
+      const headSubParts = headerPart.split(':');
+      const day = (headSubParts[0] || 'Day').trim();
+      const title = (headSubParts[1] || '').trim();
+      
+      itinerary.push({
+        day,
+        title,
+        desc: descPart.trim()
+      });
+    });
+  }
+
+  let packages = getPackages();
+  const packageData = {
+    id: editIndex !== null ? packages[editIndex].id : 'pkg_' + Date.now(),
+    name,
+    tag,
+    duration,
+    price,
+    route,
+    image,
+    inclusions,
+    itinerary
+  };
+
+  if (editIndex !== null) {
+    packages[editIndex] = packageData;
+    showToast("Holiday package card details updated!", "bx bx-check-double");
+  } else {
+    packages.push(packageData);
+    showToast("New holiday package added to homepage!", "bx bx-check-double");
+  }
+
+  savePackages(packages);
+  renderPackages(); // Rerender homepage
+  renderAdminTabContent(); // Refresh admin list
+}
+
+function deletePackage(index) {
+  if (confirm("Are you sure you want to delete this holiday package from the database?")) {
+    let packages = getPackages();
+    packages.splice(index, 1);
+    savePackages(packages);
+    showToast("Tour package removed from homepage.", "bx bx-trash");
+    renderPackages(); // Rerender homepage
+    renderAdminTabContent(); // Refresh admin list
+  }
 }
 
 // --- LEGAL MODALS DISPLAY ---
@@ -926,3 +1815,4 @@ function openLegalModal(legalKey) {
     `;
   }
 }
+
