@@ -122,7 +122,7 @@
 
         <!-- Cab Card -->
         <div class="booking-card glass-panel" onclick="setActiveBookingTab('cab')" id="quick-card-cab">
-          <div class="booking-card-bg" style="background-image: url('https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=800&q=80');"></div>
+          <div class="booking-card-bg" style="background-image: url('maruti_ertiga.jpg');"></div>
           <div class="booking-card-content">
             <div class="booking-card-icon"><i class="bx bx-taxi"></i></div>
             <div>
@@ -215,9 +215,8 @@
               <div class="form-group">
                 <label for="cab-ow-vehicle"><i class="bx bx-car"></i> Vehicle Type</label>
                 <select class="form-control" id="cab-ow-vehicle" required>
-                  <option value="Sedan">Sedan (Dzire, Etios) - Standard Luxury</option>
-                  <option value="SUV">SUV (Innova, Ertiga) - Family Luxury</option>
-                  <option value="Premium SUV">Premium SUV (Innova Crysta) - Ultra Luxury</option>
+                  <option value="Sedan">Maruti Swift Dzire</option>
+                  <option value="SUV">Maruti Ertiga (7 Seater)</option>
                 </select>
               </div>
               <button type="submit" class="btn-gold" id="btn-search-cab-ow">Search Cab</button>
@@ -246,9 +245,8 @@
               <div class="form-group">
                 <label for="cab-rt-vehicle"><i class="bx bx-car"></i> Vehicle</label>
                 <select class="form-control" id="cab-rt-vehicle" required>
-                  <option value="Sedan">Sedan (Dzire, Etios)</option>
-                  <option value="SUV">SUV (Innova, Ertiga)</option>
-                  <option value="Premium SUV">Premium SUV (Innova Crysta)</option>
+                  <option value="Sedan">Maruti Swift Dzire</option>
+                  <option value="SUV">Maruti Ertiga (7 Seater)</option>
                 </select>
               </div>
               <button type="submit" class="btn-gold" id="btn-search-cab-rt">Search Cab</button>
@@ -333,20 +331,24 @@
 
         <!-- HOTEL BOOKING PANEL -->
         <div class="booking-content-panel glass-panel-luxury" id="panel-hotel">
-          <form class="booking-form has-btn" onsubmit="handleSearch('hotel', 'default', event)" id="hotel-booking-form">
-            <div class="form-group">
-              <label for="hotel-city"><i class="bx bx-buildings"></i> City or Hotel</label>
-              <input type="text" class="form-control" id="hotel-city" placeholder="e.g., Udaipur" required>
+          <form class="booking-form hotel-booking-form" onsubmit="handleHotelBookingSubmit(event)" id="hotel-booking-form">
+            <div class="form-group col-3">
+              <label for="hotel-from"><i class="bx bx-map-pin"></i> From</label>
+              <input type="text" class="form-control" id="hotel-from" placeholder="e.g., Pratapgarh" required>
             </div>
-            <div class="form-group">
+            <div class="form-group col-3">
+              <label for="hotel-destination"><i class="bx bx-buildings"></i> Destination</label>
+              <input type="text" class="form-control" id="hotel-destination" placeholder="e.g., Udaipur" required>
+            </div>
+            <div class="form-group col-3">
               <label for="hotel-in"><i class="bx bx-calendar-check"></i> Check-In Date</label>
               <input type="date" class="form-control" id="hotel-in" required>
             </div>
-            <div class="form-group">
+            <div class="form-group col-3">
               <label for="hotel-out"><i class="bx bx-calendar-x"></i> Check-Out Date</label>
               <input type="date" class="form-control" id="hotel-out" required>
             </div>
-            <div class="form-group">
+            <div class="form-group col-3">
               <label for="hotel-guests"><i class="bx bx-user"></i> Guests</label>
               <select class="form-control" id="hotel-guests" required>
                 <option value="1">1 Guest</option>
@@ -356,7 +358,7 @@
                 <option value="5+">5+ Guests</option>
               </select>
             </div>
-            <div class="form-group">
+            <div class="form-group col-3">
               <label for="hotel-rooms"><i class="bx bx-bed"></i> Rooms</label>
               <select class="form-control" id="hotel-rooms" required>
                 <option value="1">1 Room</option>
@@ -365,7 +367,28 @@
                 <option value="4+">4+ Rooms</option>
               </select>
             </div>
-            <button type="submit" class="btn-gold" id="btn-search-hotel">Search Hotel</button>
+            <div class="form-group col-3">
+              <label for="hotel-category"><i class="bx bx-star"></i> Hotel Category</label>
+              <select class="form-control" id="hotel-category" required>
+                <option value="Budget">Budget</option>
+                <option value="Deluxe">Deluxe</option>
+                <option value="Premium">Premium</option>
+                <option value="Luxury">Luxury</option>
+              </select>
+            </div>
+            <div class="form-group col-3">
+              <label for="hotel-special"><i class="bx bx-message-detail"></i> Special Request (Optional)</label>
+              <input type="text" class="form-control" id="hotel-special" placeholder="e.g., Lake view room">
+            </div>
+            <div class="form-group col-4">
+              <label for="hotel-name"><i class="bx bx-user-circle"></i> Name</label>
+              <input type="text" class="form-control" id="hotel-name" placeholder="Your Name" required>
+            </div>
+            <div class="form-group col-4">
+              <label for="hotel-phone"><i class="bx bx-phone"></i> Phone Number</label>
+              <input type="tel" class="form-control" id="hotel-phone" placeholder="Your Phone Number" required>
+            </div>
+            <button type="submit" class="btn-gold" id="btn-search-hotel">Book Hotel</button>
           </form>
         </div>
 
@@ -775,7 +798,7 @@
 
         <!-- Item 4 -->
         <div class="gallery-item destinations" id="gal-item-4">
-          <img src="https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=600&q=80" alt="Udaipur City Palace Lake">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Udaipur_Lake_India.JPG/960px-Udaipur_Lake_India.JPG" alt="Udaipur Lake Palace">
           <div class="gallery-overlay">
             <h3 class="gallery-overlay-title">Udaipur Lake Palace</h3>
             <span class="gallery-overlay-tag">Destinations</span>
@@ -793,7 +816,7 @@
 
         <!-- Item 6 -->
         <div class="gallery-item destinations" id="gal-item-6">
-          <img src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=600&q=80" alt="Kerala green hills">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Alappuzha_Boat_Beauty_W.jpg/960px-Alappuzha_Boat_Beauty_W.jpg" alt="Kerala backwaters">
           <div class="gallery-overlay">
             <h3 class="gallery-overlay-title">Kerala Backwaters</h3>
             <span class="gallery-overlay-tag">Destinations</span>
@@ -802,9 +825,9 @@
 
         <!-- Item 7 -->
         <div class="gallery-item cabs" id="gal-item-7">
-          <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=600&q=80" alt="Premium SUV Innova">
+          <img src="maruti_ertiga.jpg" alt="Maruti Ertiga (7 Seater)">
           <div class="gallery-overlay">
-            <h3 class="gallery-overlay-title">Royal Luxury SUV</h3>
+            <h3 class="gallery-overlay-title">Premium Ertiga (7 Seater)</h3>
             <span class="gallery-overlay-tag">Cabs Booking</span>
           </div>
         </div>

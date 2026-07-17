@@ -2654,3 +2654,49 @@ footer {
   }
 }
 
+/* --- HOTEL BOOKING FORM RESPONSIVE GRID --- */
+.booking-form.hotel-booking-form {
+  grid-template-columns: repeat(12, 1fr) !important;
+  display: grid;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.hotel-booking-form .form-group.col-3 {
+  grid-column: span 3;
+}
+
+.hotel-booking-form .form-group.col-4 {
+  grid-column: span 4;
+}
+
+.hotel-booking-form button[type="submit"] {
+  grid-column: span 4;
+  height: 52px;
+  width: 100%;
+}
+
+@media (max-width: 992px) {
+  .hotel-booking-form .form-group.col-3 {
+    grid-column: span 6;
+  }
+  .hotel-booking-form .form-group.col-4 {
+    grid-column: span 6;
+  }
+  .hotel-booking-form button[type="submit"] {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 768px) {
+  .booking-form.hotel-booking-form {
+    grid-template-columns: 1fr !important;
+  }
+  .hotel-booking-form .form-group.col-3,
+  .hotel-booking-form .form-group.col-4,
+  .hotel-booking-form button[type="submit"] {
+    grid-column: span 1 !important;
+  }
+}
+
+

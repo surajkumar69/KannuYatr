@@ -393,7 +393,7 @@ const DEFAULT_PACKAGES = [
     route: 'Pratapgarh - Eklingji - Nathdwara - Charbhuja Ji - Sawaliya Ji - Chittorgarh',
     image: 'asKNS.jpeg',
     hotelDetails: 'Comfortable AC Hotels in Nathdwara & Chittorgarh',
-    vehicleDetails: 'AC Ertiga / Innova (7 Seater)',
+    vehicleDetails: 'AC Ertiga (7 Seater)',
     mealDetails: '5 Tasty Pure Veg Meals & 5 Breakfasts',
     inclusions: [
       'AC Ertiga Cab (7 Seater)',
@@ -411,11 +411,11 @@ const DEFAULT_PACKAGES = [
       'Anything not mentioned in inclusions'
     ],
     sightseeing: [
-      { name: 'Eklingji Temple', image: 'https://images.unsplash.com/photo-1609137144814-1c7c9ee7c514?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Nathdwara Temple', image: 'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Charbhuja Temple', image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Sawaliya Ji Temple', image: 'https://images.unsplash.com/photo-1621252179027-94459d278660?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Chittorgarh Fort', image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80' }
+      { name: 'Eklingji Temple', image: 'https://upload.wikimedia.org/wikipedia/commons/2/28/Meera_temple_Eklingji.jpg' },
+      { name: 'Nathdwara Temple', image: 'https://upload.wikimedia.org/wikipedia/commons/3/35/Gateway_To_Temple%2C_Nathdwara.jpg' },
+      { name: 'Charbhuja Temple', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Temple_in_Bundi_14.jpg/960px-Temple_in_Bundi_14.jpg' },
+      { name: 'Sawaliya Ji Temple', image: 'https://upload.wikimedia.org/wikipedia/commons/0/04/Sanwaliaji3.JPG' },
+      { name: 'Chittorgarh Fort', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Chittorgarh_fort.JPG/960px-Chittorgarh_fort.JPG' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Pratapgarh Departure & Shrinathji Darshan', desc: 'Depart from Pratapgarh in a premium AC Ertiga cab. Arrive at Eklingji Temple for Shiva Darshan, then transfer to Nathdwara for the divine evening Shrinathji Darshan. Overnight stay at AC hotel.' },
@@ -432,7 +432,7 @@ const DEFAULT_PACKAGES = [
     route: 'Pratapgarh - Udaipur - Haldighati - Mount Abu',
     image: 'temple_pilgrimage.jpg',
     hotelDetails: 'Deluxe AC Hotel Stay (1 Night Udaipur, 1 Night Mount Abu)',
-    vehicleDetails: 'AC Ertiga / Innova (7 Seater)',
+    vehicleDetails: 'AC Ertiga (7 Seater)',
     mealDetails: '5 Delicious Veg Meals & 5 Breakfasts',
     inclusions: [
       'AC Ertiga Cab (7 Seater)',
@@ -450,14 +450,14 @@ const DEFAULT_PACKAGES = [
       'Any extra sightseeing deviation requests'
     ],
     sightseeing: [
-      { name: 'Haldighati', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Maharana Pratap Memorial', image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Chetak Memorial', image: 'https://images.unsplash.com/photo-1582967788606-a171c1080cb0?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Haldighati Museum', image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Fateh Sagar Lake', image: 'https://images.unsplash.com/photo-1595658658481-d53d3f999875?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Pichola Lake', image: 'https://images.unsplash.com/photo-1615880484746-a134be9a6ecf?auto=format&fit=crop&w=600&q=80' },
-      { name: 'City Palace Udaipur', image: 'https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Saheliyon Ki Bari', image: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=600&q=80' }
+      { name: 'Haldighati', image: 'https://upload.wikimedia.org/wikipedia/commons/9/90/Haldighati_Pass.jpg' },
+      { name: 'Maharana Pratap Memorial', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Statue_of_Maharana_Pratap_of_Mewar%2C_commemorating_the_Battle_of_Haldighati%2C_City_Palace%2C_Udaipur.jpg/960px-Statue_of_Maharana_Pratap_of_Mewar%2C_commemorating_the_Battle_of_Haldighati%2C_City_Palace%2C_Udaipur.jpg' },
+      { name: 'Chetak Memorial', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Chetak_Samadhi.jpg/960px-Chetak_Samadhi.jpg' },
+      { name: 'Haldighati Museum', image: 'https://upload.wikimedia.org/wikipedia/commons/9/90/Haldighati_Pass.jpg' },
+      { name: 'Fateh Sagar Lake', image: 'https://upload.wikimedia.org/wikipedia/commons/5/50/Fatehsagar_nehrugarden.jpg' },
+      { name: 'Pichola Lake', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Udaipur_Lake_India.JPG/960px-Udaipur_Lake_India.JPG' },
+      { name: 'City Palace Udaipur', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Udaipur_City_Palace.jpg/960px-Udaipur_City_Palace.jpg' },
+      { name: 'Saheliyon Ki Bari', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Saheliyon-ki-Bari_Fountain.JPG/960px-Saheliyon-ki-Bari_Fountain.JPG' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Udaipur City Palace & Lake Pichola Cruise', desc: 'Pickup from Pratapgarh in AC Ertiga. Drive to Udaipur, check-in to hotel. Visit Udaipur City Palace, Jagdish Temple, and enjoy a sunset cruise on Lake Pichola.' },
@@ -492,13 +492,13 @@ const DEFAULT_PACKAGES = [
       'Anything not explicitly mentioned in inclusions'
     ],
     sightseeing: [
-      { name: 'Jaisalmer Fort', image: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Patwon Ki Haveli', image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Sam Sand Dunes', image: 'https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Gadisar Lake', image: 'https://images.unsplash.com/photo-1595658658481-d53d3f999875?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Mehrangarh Fort', image: 'https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Jaswant Thada', image: 'https://images.unsplash.com/photo-1615880484746-a134be9a6ecf?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Umaid Bhawan Palace', image: 'https://images.unsplash.com/photo-1621252179027-94459d278660?auto=format&fit=crop&w=600&q=80' }
+      { name: 'Jaisalmer Fort', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Jaisalmer_forteresse.jpg/960px-Jaisalmer_forteresse.jpg' },
+      { name: 'Patwon Ki Haveli', image: 'https://upload.wikimedia.org/wikipedia/commons/8/8e/Patwon_Ki_Haveli_-_26140771308.jpg' },
+      { name: 'Sam Sand Dunes', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Thar_desert_Rajasthan_India.jpg/960px-Thar_desert_Rajasthan_India.jpg' },
+      { name: 'Gadisar Lake', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Main_entrance_of_Gadisar_Lake.jpg/960px-Main_entrance_of_Gadisar_Lake.jpg' },
+      { name: 'Mehrangarh Fort', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Mehrangarh_Fort_sanhita.jpg/960px-Mehrangarh_Fort_sanhita.jpg' },
+      { name: 'Jaswant Thada', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Jaswant_Thada_Dawn.jpg/960px-Jaswant_Thada_Dawn.jpg' },
+      { name: 'Umaid Bhawan Palace', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/1996_-218-20A_Jodhpur_Hotel_Umaid_Bhawan_Palace_%282233393509%29.jpg/960px-1996_-218-20A_Jodhpur_Hotel_Umaid_Bhawan_Palace_%282233393509%29.jpg' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Pratapgarh to Jaisalmer & Sightseeing', desc: 'Depart from Pratapgarh. Arrive in Jaisalmer. Visit the world-famous golden Jaisalmer Fort, Patwon Ki Haveli, and Gadisar Lake. Overnight stay in Jaisalmer.' },
@@ -534,11 +534,11 @@ const DEFAULT_PACKAGES = [
       'Personal expenses (tips, laundry, shopping)'
     ],
     sightseeing: [
-      { name: 'Shri Mahakaleshwar Jyotirlinga', image: 'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Shri Omkareshwar Jyotirlinga', image: 'https://images.unsplash.com/photo-1609137144814-1c7c9ee7c514?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Narmada Ghat Maheshwar', image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Mandu Fort & Jahaz Mahal', image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Pashupatinath Temple Mandsaur', image: 'https://images.unsplash.com/photo-1621252179027-94459d278660?auto=format&fit=crop&w=600&q=80' }
+      { name: 'Shri Mahakaleshwar Jyotirlinga', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Mahakaleshwar_Temple%2C_Ujjain.jpg/960px-Mahakaleshwar_Temple%2C_Ujjain.jpg' },
+      { name: 'Shri Omkareshwar Jyotirlinga', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Omkareswar_Jyotirlinga.jpg/960px-Omkareswar_Jyotirlinga.jpg' },
+      { name: 'Narmada Ghat Maheshwar', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Maheshwar_fort.JPG/960px-Maheshwar_fort.JPG' },
+      { name: 'Mandu Fort & Jahaz Mahal', image: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/A_beautiful_Jahaz_Mahal.jpg' },
+      { name: 'Pashupatinath Temple Mandsaur', image: 'https://upload.wikimedia.org/wikipedia/commons/1/19/Pashupatinath_Mandsaur.jpg' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Pratapgarh to Ujjain & Mahakal Darshan', desc: 'Depart from Pratapgarh in a comfortable AC Ertiga. Arrive in Ujjain. Visit the holy Mahakaleshwar Temple for Jyotirlinga darshan and experience the divine Bhasm Aarti. Overnight stay in Ujjain.' },
@@ -561,10 +561,10 @@ const DEFAULT_PACKAGES = [
     inclusions: ['Private Verified Cab', '3-Star Deluxe Hotels', 'Daily Breakfast & Dinner', 'VIP Darshan Passes', '24/7 Ground Assistance', 'Free ₹5,00,000 Accidental Insurance'],
     exclusions: ['Helicopter, pony, or porter charges', 'Personal travel expenses', 'Anything not mentioned in inclusions'],
     sightseeing: [
-      { name: 'Kashi Vishwanath', image: 'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Ganga Aarti Haridwar', image: 'https://images.unsplash.com/photo-1609137144814-1c7c9ee7c514?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Rishikesh Laxman Jhula', image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Kedarnath Temple', image: 'https://images.unsplash.com/photo-1621252179027-94459d278660?auto=format&fit=crop&w=600&q=80' }
+      { name: 'Kashi Vishwanath', image: 'https://upload.wikimedia.org/wikipedia/commons/f/ff/Kashi_Vishwanath.jpg' },
+      { name: 'Ganga Aarti Haridwar', image: 'https://upload.wikimedia.org/wikipedia/commons/0/0f/Evening_view_of_Har-ki-Pauri%2C_Haridwar.jpg' },
+      { name: 'Rishikesh Laxman Jhula', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Rishikesh-Lakshman_Jhula_by_Kaustubh_Nayyar.jpg/960px-Rishikesh-Lakshman_Jhula_by_Kaustubh_Nayyar.jpg' },
+      { name: 'Kedarnath Temple', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Kedarnath_Temple_in_Rainy_season.jpg/960px-Kedarnath_Temple_in_Rainy_season.jpg' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Varanasi Arrival & Evening Ganga Aarti', desc: 'Arrive in Varanasi, check-in to a luxury hotel, and view the iconic Ganga Aarti ceremony from a private boat.' },
@@ -584,14 +584,14 @@ const DEFAULT_PACKAGES = [
     route: 'Udaipur - Chittorgarh Fort - Pratapgarh - Deogarh Palace - Jaipur',
     image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80',
     hotelDetails: 'Heritage Haveli & Boutique Resorts',
-    vehicleDetails: 'Toyota Innova Crysta / Ertiga AC',
+    vehicleDetails: 'Maruti Ertiga (7 Seater) AC',
     mealDetails: 'Daily Breakfast buffet',
-    inclusions: ['Toyota Innova Cab', 'Heritage Haveli Stays', 'Daily Breakfast', 'Chittorgarh Fort Guide', 'Traditional Thewa Art Tour', 'Free ₹5,00,000 Accidental Insurance'],
+    inclusions: ['AC Maruti Ertiga Cab', 'Heritage Haveli Stays', 'Daily Breakfast', 'Chittorgarh Fort Guide', 'Traditional Thewa Art Tour', 'Free ₹5,00,000 Accidental Insurance'],
     exclusions: ['Lunch, Dinner & personal drinks', 'Monument entry tickets', 'Camera fees and guide tips'],
     sightseeing: [
-      { name: 'Udaipur Lake Pichola', image: 'https://images.unsplash.com/photo-1615880484746-a134be9a6ecf?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Chittorgarh Fort', image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Jaipur Hawa Mahal', image: 'https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?auto=format&fit=crop&w=600&q=80' }
+      { name: 'Udaipur Lake Pichola', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Udaipur_Lake_India.JPG/960px-Udaipur_Lake_India.JPG' },
+      { name: 'Chittorgarh Fort', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Chittorgarh_fort.JPG/960px-Chittorgarh_fort.JPG' },
+      { name: 'Jaipur Hawa Mahal', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/East_facade_Hawa_Mahal_Jaipur_from_ground_level_%28July_2022%29_-_img_01.jpg/960px-East_facade_Hawa_Mahal_Jaipur_from_ground_level_%28July_2022%29_-_img_01.jpg' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Arrival in Udaipur', desc: 'Pickup from Udaipur airport/railway station by private cab. Check-in to a premium lakefront hotel and enjoy a sunset cruise on Lake Pichola.' },
@@ -610,7 +610,7 @@ const DEFAULT_PACKAGES = [
     route: 'Pratapgarh - Shimla - Kullu - Manali',
     image: 'hill_station.jpg',
     hotelDetails: 'Premium 3-Star Hill View AC/Heated Resorts',
-    vehicleDetails: 'Premium Toyota Innova / AC Sedan Cab',
+    vehicleDetails: 'Maruti Ertiga / AC Sedan Cab',
     mealDetails: 'Daily Breakfast & Dinner (Pure Veg/Non-Veg Options)',
     inclusions: [
       'AC Sedan/SUV Cab transport',
@@ -627,11 +627,11 @@ const DEFAULT_PACKAGES = [
       'Anything not explicitly mentioned in inclusions'
     ],
     sightseeing: [
-      { name: 'Mall Road Shimla', image: 'https://images.unsplash.com/photo-1597075687490-8f673c6c17f6?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Kufri Valley', image: 'https://images.unsplash.com/photo-1626450977874-9f8997321e07?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Hadimba Temple Manali', image: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Solang Valley', image: 'https://images.unsplash.com/photo-1596701062351-8c2c14d1fdd0?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Atal Tunnel', image: 'https://images.unsplash.com/photo-1617653202545-931490e87f1d?auto=format&fit=crop&w=600&q=80' }
+      { name: 'Mall Road Shimla', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Mall_Road_Shimla_1.jpg/960px-Mall_Road_Shimla_1.jpg' },
+      { name: 'Kufri Valley', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Shimla_hills.jpg/960px-Shimla_hills.jpg' },
+      { name: 'Hadimba Temple Manali', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Hidimba_Devi_Temple_-_North-east_View_-_Manali_2014-05-11_2648-2649.TIF/lossy-page1-960px-Hidimba_Devi_Temple_-_North-east_View_-_Manali_2014-05-11_2648-2649.TIF.jpg' },
+      { name: 'Solang Valley', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Solang_Valley_%2CManali%2C_Himachal_Pardes%2C_India.JPG/960px-Solang_Valley_%2CManali%2C_Himachal_Pardes%2C_India.JPG' },
+      { name: 'Atal Tunnel', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Atal_Tunnel_vrtmrgmpksk_%282%29.jpg/960px-Atal_Tunnel_vrtmrgmpksk_%282%29.jpg' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Pratapgarh to Shimla Arrival & Mall Road', desc: 'Start your premium journey from Pratapgarh in a comfortable AC cab. Scenic drive to Shimla. Check-in to your resort and enjoy a relaxed evening on the Mall Road.' },
@@ -655,8 +655,8 @@ const DEFAULT_PACKAGES = [
     inclusions: ['AC Cab Pickup/Drop', 'Premium Forest Resort stay', 'All Meals (Breakfast, Lunch, Dinner)', 'Open Gypsy Tiger Safari Ticket', 'Forest Guide & Entry Fees', 'Free ₹5,00,000 Accidental Insurance'],
     exclusions: ['Tips, laundry & alcoholic drinks', 'Personal cameras and gear charges', 'Anything not mentioned in inclusions'],
     sightseeing: [
-      { name: 'Ranthambore Fort', image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Tiger Safari', image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80' }
+      { name: 'Ranthambore Fort', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Ranthambhore_Fort.jpg/960px-Ranthambhore_Fort.jpg' },
+      { name: 'Tiger Safari', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Bengal_tiger_in_Sanjay_Dubri_Tiger_Reserve_December_2024_by_Tisha_Mukherjee_11.jpg/960px-Bengal_tiger_in_Sanjay_Dubri_Tiger_Reserve_December_2024_by_Tisha_Mukherjee_11.jpg' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Arrival in Ranthambore & Fort Tour', desc: 'Pickup from Sawai Madhopur station, check-in to forest resort. Hike up to the UNESCO heritage site Ranthambore Fort and Trinetra Ganesha Temple.' },
@@ -678,8 +678,8 @@ const DEFAULT_PACKAGES = [
     inclusions: ['AC Private Ertiga Cab', 'Premium Hotels & Houseboat', 'All Meals on Houseboat', 'Kerala Spice Garden Tour', 'Driver Allowances & Taxes', 'Free ₹5,00,000 Accidental Insurance'],
     exclusions: ['Activity tickets (Elephant ride, Kathakali show)', 'Personal items, tips & laundry'],
     sightseeing: [
-      { name: 'Munnar Tea Gardens', image: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Alleppey Backwaters', image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80' }
+      { name: 'Munnar Tea Gardens', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Munnar_Overview.jpg/960px-Munnar_Overview.jpg' },
+      { name: 'Alleppey Backwaters', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Alappuzha_Boat_Beauty_W.jpg/960px-Alappuzha_Boat_Beauty_W.jpg' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Cochin Pick-up & Drive to Munnar', desc: 'Warm welcome at Cochin airport. Scenic drive to Munnar passing Cheeyappara and Valara waterfalls.' },
@@ -704,8 +704,8 @@ const DEFAULT_PACKAGES = [
     inclusions: ['Luxury Sedan Cab', '5-Star Lake Face Pool Resort', 'Breakfast & Special Candlelight Dinners', '1 Hour Couple Spa Therapy', 'Honeymoon Cake & Room Decor', 'Free ₹5,00,000 Accidental Insurance'],
     exclusions: ['Sightseeing entry passes', 'Personal shopping and optional flights'],
     sightseeing: [
-      { name: 'Lake Pichola Cruise', image: 'https://images.unsplash.com/photo-1615880484746-a134be9a6ecf?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Kumbhalgarh Fort', image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80' }
+      { name: 'Lake Pichola Cruise', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Udaipur_Lake_India.JPG/960px-Udaipur_Lake_India.JPG' },
+      { name: 'Kumbhalgarh Fort', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Kumbhalgarh_055.jpg/960px-Kumbhalgarh_055.jpg' }
     ],
     itinerary: [
       { day: 'Day 1', title: 'Romantic Welcome in Udaipur', desc: 'VIP pickup at Udaipur airport. Check-in to a luxury lake-view villa resort. Enjoy a private candlelit dinner under the stars.' },
@@ -720,15 +720,15 @@ const DEFAULT_PACKAGES = [
 const DEFAULT_CABS = [
   {
     id: 'cab_udaipur',
-    name: 'Pratapgarh to Udaipur Premium Innova Cab',
+    name: 'Pratapgarh to Udaipur Premium Swift Dzire Cab',
     tag: 'Cab Package',
     image: 'WhatsApp Image 2026-07-17 at 2.38.19 PM.jpeg',
     route: 'Pratapgarh ➔ Udaipur (Round Trip)',
     price: 4000,
-    vehicle: 'Toyota Innova Crysta (6+1 Seats, Dual AC)',
+    vehicle: 'Maruti Swift Dzire',
     duration: 'One Way & Two Way',
     hotelDetails: 'N/A (Day Tour/Transfer)',
-    vehicleDetails: 'Toyota Innova Crysta Premium AC',
+    vehicleDetails: 'Maruti Swift Dzire AC',
     mealDetails: 'Breakfast for 2 passengers included',
     pricingDetails: 'Two Way: ₹4,000 | One Way: ₹2,500 (All-Inclusive)',
     inclusions: [
@@ -743,9 +743,9 @@ const DEFAULT_CABS = [
       'Additional food or shopping'
     ],
     sightseeing: [
-      { name: 'City Palace Udaipur', image: 'https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Lake Pichola', image: 'https://images.unsplash.com/photo-1615880484746-a134be9a6ecf?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Fateh Sagar Lake', image: 'https://images.unsplash.com/photo-1595658658481-d53d3f999875?auto=format&fit=crop&w=600&q=80' }
+      { name: 'City Palace Udaipur', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Udaipur_City_Palace.jpg/960px-Udaipur_City_Palace.jpg' },
+      { name: 'Lake Pichola', image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Udaipur_Lake_India.JPG/960px-Udaipur_Lake_India.JPG' },
+      { name: 'Fateh Sagar Lake', image: 'https://upload.wikimedia.org/wikipedia/commons/5/50/Fatehsagar_nehrugarden.jpg' }
     ],
     itinerary: [
       { day: 'One Way', title: 'Pratapgarh to Udaipur Transfer', desc: 'Direct one-way transfer drop from Pratapgarh to any address/airport/railway station in Udaipur. Fare: ₹2,500.' },
@@ -754,15 +754,15 @@ const DEFAULT_CABS = [
   },
   {
     id: 'cab_ahmedabad',
-    name: 'Pratapgarh to Ahmedabad Premium Innova Cab',
+    name: 'Pratapgarh to Ahmedabad Premium Ertiga Cab',
     tag: 'Cab Package',
     image: 'WhatsApp Image 2026-07-17 at 2.38.18 PM (1).jpeg',
     route: 'Pratapgarh ➔ Ahmedabad',
     price: 4500,
-    vehicle: 'Toyota Innova Crysta (6+1 Seats, Dual AC)',
+    vehicle: 'Maruti Ertiga (7 Seater)',
     duration: 'One Way & Two Way',
     hotelDetails: 'N/A (Transfer Service)',
-    vehicleDetails: 'Toyota Innova Crysta Premium AC',
+    vehicleDetails: 'Maruti Ertiga (7 Seater) AC',
     mealDetails: 'Breakfast for 2 passengers included',
     pricingDetails: 'One Way: ₹4,500 | Two Way: ₹6,500 (All-Inclusive)',
     inclusions: [
@@ -779,7 +779,7 @@ const DEFAULT_CABS = [
     ],
     sightseeing: [
       { name: 'Sabarmati Riverfront', image: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Akshardham Temple', image: 'https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?auto=format&fit=crop&w=600&q=80' }
+      { name: 'Akshardham Temple', image: 'https://upload.wikimedia.org/wikipedia/commons/d/df/Akshardham_Gandhinagar.jpg' }
     ],
     itinerary: [
       { day: 'One Way', title: 'Single Journey Drop', desc: 'Direct one-way transfer from Pratapgarh to any address/airport in Ahmedabad. Fare: ₹4,500.' },
@@ -814,8 +814,8 @@ const DEFAULT_CABS = [
     ],
     sightseeing: [
       { name: 'Alto 800', image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Maruti Ritz', image: 'https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Swift Dzire', image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80' }
+      { name: 'Maruti Ritz', image: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Swift Dzire', image: 'swift_dzire.jpg' }
     ],
     itinerary: [
       { day: 'Alto 800', title: 'Economy Option', desc: 'Alto 800 self-drive hired at ₹1.90 per KM. Extremely fuel efficient.' },
@@ -826,7 +826,7 @@ const DEFAULT_CABS = [
 ];
 
 function initDatabase() {
-  const DB_VERSION = 'v2';
+  const DB_VERSION = 'v4';
   const storedVersion = localStorage.getItem('kannu_db_version');
   if (storedVersion !== DB_VERSION) {
     localStorage.setItem('kannu_db_version', DB_VERSION);
@@ -983,6 +983,60 @@ if (modalOverlay) {
     if (e.target === modalOverlay) closeModal();
   });
 }
+function handleHotelBookingSubmit(event) {
+  if (event) event.preventDefault();
+
+  const name = document.getElementById('hotel-name').value;
+  const phone = document.getElementById('hotel-phone').value;
+  const from = document.getElementById('hotel-from').value;
+  const destination = document.getElementById('hotel-destination').value;
+  const checkIn = document.getElementById('hotel-in').value;
+  const checkOut = document.getElementById('hotel-out').value;
+  const guests = document.getElementById('hotel-guests').value;
+  const rooms = document.getElementById('hotel-rooms').value;
+  const category = document.getElementById('hotel-category').value;
+  const specialRequest = document.getElementById('hotel-special').value || 'None';
+
+  const message = `🏨 *Hotel Booking Request*
+
+Name: ${name}
+Phone: ${phone}
+
+📍 From: ${from}
+📍 Destination: ${destination}
+
+📅 Check-in: ${checkIn}
+📅 Check-out: ${checkOut}
+
+👥 Guests: ${guests}
+🛏 Rooms: ${rooms}
+
+⭐ Hotel Category: ${category}
+
+📝 Special Request: ${specialRequest}
+
+Please share the best hotel options and final quotation.`;
+
+  const encodedMessage = encodeURIComponent(message);
+  const phoneNumber = '919131964831';
+  const webUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+  const appUrl = `whatsapp://send?phone=${phoneNumber}&text=${encodedMessage}`;
+
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    window.location.href = appUrl;
+    setTimeout(() => {
+      window.open(webUrl, '_blank');
+    }, 1000);
+  } else {
+    window.open(webUrl, '_blank');
+  }
+
+  if (typeof showToast === 'function') {
+    showToast("Opening WhatsApp...", "bx bxl-whatsapp");
+  }
+}
 
 function handleSearch(type, subtype, event) {
   if (event) event.preventDefault();
@@ -1031,9 +1085,9 @@ function renderSearchResults(type, subtype) {
       <div class="modal-results-list">
         
         <div class="result-item glass-panel" style="display: flex; gap: 20px; align-items: center; padding: 20px; margin-bottom: 15px;">
-          <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=200&q=80" class="result-img" alt="Luxury Sedan" style="width: 120px; height: 90px; object-fit: cover; border-radius: 6px;">
+          <img src="swift_dzire.jpg" class="result-img" alt="Maruti Swift Dzire" style="width: 120px; height: 90px; object-fit: cover; border-radius: 6px;">
           <div class="result-details" style="flex-grow: 1;">
-            <h4>Maruti Dzire / Hyundai Xcent (Sedan)</h4>
+            <h4>Maruti Swift Dzire</h4>
             <div class="result-meta" style="display: flex; gap: 15px; font-size: 0.8rem; margin: 5px 0; color: var(--color-gold);">
               <span><i class="bx bx-user"></i> 4+1 Seats</span>
               <span><i class="bx bx-check-shield"></i> AC & Luggage Space</span>
@@ -1043,14 +1097,14 @@ function renderSearchResults(type, subtype) {
           </div>
           <div class="result-action" style="text-align: right; min-width: 120px;">
             <span class="result-price" style="display: block; font-size: 1.3rem; font-weight: 700; color: var(--color-gold); margin-bottom: 10px;">₹${subtype === 'round' ? '18/KM' : '10/KM'}</span>
-            <button class="btn-gold" onclick="confirmBooking('cab', 'Sedan', '${pickupVal}', '${dropVal}')">Book Cab</button>
+            <button class="btn-gold" onclick="confirmBooking('cab', 'Maruti Swift Dzire', '${pickupVal}', '${dropVal}')">Book Cab</button>
           </div>
         </div>
 
         <div class="result-item glass-panel" style="display: flex; gap: 20px; align-items: center; padding: 20px; margin-bottom: 15px;">
-          <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=200&q=80" class="result-img" alt="Luxury SUV" style="width: 120px; height: 90px; object-fit: cover; border-radius: 6px;">
+          <img src="maruti_ertiga.jpg" class="result-img" alt="Maruti Ertiga (7 Seater)" style="width: 120px; height: 90px; object-fit: cover; border-radius: 6px;">
           <div class="result-details" style="flex-grow: 1;">
-            <h4>Maruti Ertiga / Toyota Innova (SUV)</h4>
+            <h4>Maruti Ertiga (7 Seater)</h4>
             <div class="result-meta" style="display: flex; gap: 15px; font-size: 0.8rem; margin: 5px 0; color: var(--color-gold);">
               <span><i class="bx bx-user"></i> 6+1 Seats</span>
               <span><i class="bx bx-check-shield"></i> Dual AC & Roof Carrier</span>
@@ -1060,24 +1114,7 @@ function renderSearchResults(type, subtype) {
           </div>
           <div class="result-action" style="text-align: right; min-width: 120px;">
             <span class="result-price" style="display: block; font-size: 1.3rem; font-weight: 700; color: var(--color-gold); margin-bottom: 10px;">₹${subtype === 'round' ? '22/KM' : '14/KM'}</span>
-            <button class="btn-gold" onclick="confirmBooking('cab', 'SUV', '${pickupVal}', '${dropVal}')">Book Cab</button>
-          </div>
-        </div>
-
-        <div class="result-item glass-panel" style="display: flex; gap: 20px; align-items: center; padding: 20px; margin-bottom: 15px;">
-          <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=200&q=80" class="result-img" alt="Premium SUV" style="width: 120px; height: 90px; object-fit: cover; border-radius: 6px;">
-          <div class="result-details" style="flex-grow: 1;">
-            <h4>Toyota Innova Crysta (Premium SUV)</h4>
-            <div class="result-meta" style="display: flex; gap: 15px; font-size: 0.8rem; margin: 5px 0; color: var(--color-gold);">
-              <span><i class="bx bx-user"></i> 6+1 Seats</span>
-              <span><i class="bx bx-crown"></i> VIP Captain Seats & Premium Rides</span>
-              <span><i class="bx bxs-star"></i> 5.0</span>
-            </div>
-            <p style="font-size:0.75rem; color:var(--color-text-muted);">Premium interior layout with shock-absorbent suspension for a royal commute.</p>
-          </div>
-          <div class="result-action" style="text-align: right; min-width: 120px;">
-            <span class="result-price" style="display: block; font-size: 1.3rem; font-weight: 700; color: var(--color-gold); margin-bottom: 10px;">₹${subtype === 'round' ? '26/KM' : '18/KM'}</span>
-            <button class="btn-gold" onclick="confirmBooking('cab', 'Innova Crysta', '${pickupVal}', '${dropVal}')">Book Cab</button>
+            <button class="btn-gold" onclick="confirmBooking('cab', 'Maruti Ertiga (7 Seater)', '${pickupVal}', '${dropVal}')">Book Cab</button>
           </div>
         </div>
 
