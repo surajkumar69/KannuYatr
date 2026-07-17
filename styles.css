@@ -915,19 +915,21 @@ header.scrolled {
 
 .package-img-wrapper {
   position: relative;
-  height: 250px;
-  overflow: hidden;
+  /* Removed height: 250px and overflow: hidden to prevent cropping */
 }
 
 .package-img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  display: block;
+  background: transparent;
   transition: transform var(--transition-slow);
 }
 
 .package-card:hover .package-img {
-  transform: scale(1.1);
+  transform: scale(1.05); /* slightly reduced hover scale to prevent overflow issues */
 }
 
 .package-tag {
@@ -2647,10 +2649,6 @@ footer {
   .package-details-grid-body {
     grid-template-columns: 1fr;
     gap: 20px;
-  }
-
-  .package-hero-banner {
-    height: 180px !important;
   }
 }
 

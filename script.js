@@ -1494,7 +1494,7 @@ function renderCabs() {
     html += `
       <div class="package-card glass-panel" id="cab-card-${cab.id}">
         <div class="package-img-wrapper">
-          <img src="${cab.image}" alt="${cab.name}" class="package-img" style="width:100%; height:100%; object-fit:cover;">
+          <img src="${cab.image}" alt="${cab.name}" class="package-img">
           <span class="package-tag">${cab.tag}</span>
         </div>
         <div class="package-info">
@@ -1606,9 +1606,9 @@ function openCabPackageDetails(cabId) {
     <div class="package-detail-modal-wrapper">
       
       <!-- Hero Banner -->
-      <div class="package-hero-banner" style="position: relative; height: 220px; border-radius: var(--border-radius); overflow: hidden; margin-bottom: 25px; border: 1px solid var(--color-border);">
-        <div style="background-image: url('${cab.image}'); background-size: cover; background-position: center; width: 100%; height: 100%; filter: brightness(0.4);"></div>
-        <div style="position: absolute; bottom: 20px; left: 25px; right: 25px; z-index: 5;">
+      <div class="package-hero-banner" style="position: relative; border-radius: var(--border-radius); margin-bottom: 25px; border: 1px solid var(--color-border); background: var(--color-bg-dark); padding: 0;">
+        <img src="${cab.image}" alt="${cab.name}" class="package-img" style="width: 100%; height: auto; aspect-ratio: auto; object-fit: contain; display: block; background: transparent; border-radius: var(--border-radius) var(--border-radius) 0 0;">
+        <div style="padding: 20px 25px; background: rgba(0, 0, 0, 0.4); border-top: 1px solid var(--color-border-light); border-radius: 0 0 var(--border-radius) var(--border-radius);">
           <span style="color: var(--color-gold); font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;">${cab.tag}</span>
           <h2 style="font-family: var(--font-heading); font-size: 1.6rem; color: #FFF; font-weight: 700; margin-top: 5px; margin-bottom: 10px;">${cab.name}</h2>
           <p style="font-size: 0.85rem; color: var(--color-gold-light); display: flex; align-items: center; gap: 15px; margin: 0;">
@@ -1774,9 +1774,9 @@ function openPackageDetails(pkgId) {
     <div class="package-detail-modal-wrapper">
       
       <!-- Hero Banner -->
-      <div class="package-hero-banner" style="position: relative; height: 220px; border-radius: var(--border-radius); overflow: hidden; margin-bottom: 25px; border: 1px solid var(--color-border);">
-        <div style="background-image: url('${pkg.image}'); background-size: cover; background-position: center; width: 100%; height: 100%; filter: brightness(0.4);"></div>
-        <div style="position: absolute; bottom: 20px; left: 25px; right: 25px; z-index: 5;">
+      <div class="package-hero-banner" style="position: relative; border-radius: var(--border-radius); margin-bottom: 25px; border: 1px solid var(--color-border); background: var(--color-bg-dark); padding: 0;">
+        <img src="${pkg.image}" alt="${pkg.name}" class="package-img" style="width: 100%; height: auto; aspect-ratio: auto; object-fit: contain; display: block; background: transparent; border-radius: var(--border-radius) var(--border-radius) 0 0;">
+        <div style="padding: 20px 25px; background: rgba(0, 0, 0, 0.4); border-top: 1px solid var(--color-border-light); border-radius: 0 0 var(--border-radius) var(--border-radius);">
           <span style="color: var(--color-gold); font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;">${pkg.tag}</span>
           <h2 style="font-family: var(--font-heading); font-size: 1.6rem; color: #FFF; font-weight: 700; margin-top: 5px; margin-bottom: 10px;">${pkg.name}</h2>
           <p style="font-size: 0.85rem; color: var(--color-gold-light); display: flex; align-items: center; gap: 15px; margin: 0;">
