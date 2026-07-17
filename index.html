@@ -302,7 +302,7 @@
 
         <!-- BUS BOOKING PANEL -->
         <div class="booking-content-panel glass-panel-luxury" id="panel-bus">
-          <form class="booking-form has-btn" onsubmit="handleSearch('bus', 'default', event)" id="bus-booking-form">
+          <form class="booking-form has-btn" onsubmit="handleBusBookingSubmit(event)" id="bus-booking-form">
             <div class="form-group">
               <label for="bus-from"><i class="bx bx-map-pin"></i> From</label>
               <input type="text" class="form-control" id="bus-from" placeholder="e.g., Pratapgarh" required>
@@ -325,7 +325,7 @@
                 <option value="5+">5+ Passengers</option>
               </select>
             </div>
-            <button type="submit" class="btn-gold" id="btn-search-bus">Search Bus</button>
+            <button type="submit" class="btn-gold" id="btn-search-bus">Send WhatsApp Inquiry</button>
           </form>
         </div>
 
@@ -388,7 +388,7 @@
               <label for="hotel-phone"><i class="bx bx-phone"></i> Phone Number</label>
               <input type="tel" class="form-control" id="hotel-phone" placeholder="Your Phone Number" required>
             </div>
-            <button type="submit" class="btn-gold" id="btn-search-hotel">Book Hotel</button>
+            <button type="submit" class="btn-gold" id="btn-search-hotel">Send WhatsApp Inquiry</button>
           </form>
         </div>
 

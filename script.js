@@ -997,25 +997,29 @@ function handleHotelBookingSubmit(event) {
   const category = document.getElementById('hotel-category').value;
   const specialRequest = document.getElementById('hotel-special').value || 'None';
 
-  const message = `🏨 *Hotel Booking Request*
+  // Validate dates
+  if (new Date(checkOut) < new Date(checkIn)) {
+    if (typeof showToast === 'function') {
+      showToast("Check-out date cannot be before check-in date!", "bx bx-error");
+    } else {
+      alert("Check-out date cannot be before check-in date!");
+    }
+    return;
+  }
 
-Name: ${name}
-Phone: ${phone}
+  const message = `🏨 *Hotel Booking Inquiry*
 
-📍 From: ${from}
 📍 Destination: ${destination}
-
 📅 Check-in: ${checkIn}
 📅 Check-out: ${checkOut}
-
 👥 Guests: ${guests}
 🛏 Rooms: ${rooms}
-
 ⭐ Hotel Category: ${category}
-
 📝 Special Request: ${specialRequest}
+👤 Name: ${name}
+📞 Phone: ${phone}
 
-Please share the best hotel options and final quotation.`;
+Please contact me regarding this hotel booking.`;
 
   const encodedMessage = encodeURIComponent(message);
   const phoneNumber = '919131964831';
@@ -1024,17 +1028,81 @@ Please share the best hotel options and final quotation.`;
 
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
+  if (typeof showToast === 'function') {
+    showToast("Opening WhatsApp...", "bx bxl-whatsapp");
+  }
+
   if (isMobile) {
+    let appOpened = false;
+    const handleBlur = () => {
+      appOpened = true;
+      window.removeEventListener('blur', handleBlur);
+    };
+    window.addEventListener('blur', handleBlur);
+
+    // Try to open WhatsApp app via deep link
     window.location.href = appUrl;
+
+    // Fallback if app doesn't open within 1.5 seconds
     setTimeout(() => {
-      window.open(webUrl, '_blank');
-    }, 1000);
+      window.removeEventListener('blur', handleBlur);
+      if (!appOpened) {
+        window.open(webUrl, '_blank');
+      }
+    }, 1500);
   } else {
     window.open(webUrl, '_blank');
   }
+}
+
+function handleBusBookingSubmit(event) {
+  if (event) event.preventDefault();
+
+  const from = document.getElementById('bus-from').value;
+  const to = document.getElementById('bus-to').value;
+  const travelDate = document.getElementById('bus-date').value;
+  const passengers = document.getElementById('bus-passengers').value;
+
+  const message = `🚌 *Bus Booking Inquiry*
+
+📍 From: ${from}
+📍 To: ${to}
+📅 Travel Date: ${travelDate}
+👥 Passengers: ${passengers}
+
+Please share the available buses, fare, and booking details.`;
+
+  const encodedMessage = encodeURIComponent(message);
+  const phoneNumber = '919131964831';
+  const webUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+  const appUrl = `whatsapp://send?phone=${phoneNumber}&text=${encodedMessage}`;
+
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   if (typeof showToast === 'function') {
     showToast("Opening WhatsApp...", "bx bxl-whatsapp");
+  }
+
+  if (isMobile) {
+    let appOpened = false;
+    const handleBlur = () => {
+      appOpened = true;
+      window.removeEventListener('blur', handleBlur);
+    };
+    window.addEventListener('blur', handleBlur);
+
+    // Try to open WhatsApp app via deep link
+    window.location.href = appUrl;
+
+    // Fallback if app doesn't open within 1.5 seconds
+    setTimeout(() => {
+      window.removeEventListener('blur', handleBlur);
+      if (!appOpened) {
+        window.open(webUrl, '_blank');
+      }
+    }, 1500);
+  } else {
+    window.open(webUrl, '_blank');
   }
 }
 
