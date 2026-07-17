@@ -145,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize dynamic databases and render packages on load
   initDatabase();
   renderPackages();
+  renderCabs();
   window.initTiltAnimation();
 
   // --- ANIMATED COUNTERS FOR STATS ---
@@ -389,9 +390,33 @@ const DEFAULT_PACKAGES = [
     tag: 'Religious',
     duration: '3 Days / 2 Nights',
     price: 3999,
-    route: 'Pratapgarh - Eklingji - Nathdwara - Charbhuja Ji - Savaliya Ji - Chittorgarh',
-    image: 'asKNS.jpeg', // Using the uploaded image file as requested
-    inclusions: ['AC Ertiga Cab (7 Seater)', '2 Nights AC Hotel Room', '5 Tasty Pure Veg Meals', '5 Breakfasts', 'Driver Allowance & Tolls Included', 'Sightseeing of all Shrines'],
+    route: 'Pratapgarh - Eklingji - Nathdwara - Charbhuja Ji - Sawaliya Ji - Chittorgarh',
+    image: 'asKNS.jpeg',
+    hotelDetails: 'Comfortable AC Hotels in Nathdwara & Chittorgarh',
+    vehicleDetails: 'AC Ertiga / Innova (7 Seater)',
+    mealDetails: '5 Tasty Pure Veg Meals & 5 Breakfasts',
+    inclusions: [
+      'AC Ertiga Cab (7 Seater)',
+      '2 Nights AC Hotel Room Stays',
+      '5 Tasty Pure Veg Meals (Lunch/Dinner)',
+      '5 Delicious Breakfasts',
+      'Driver Allowance & Tolls Included',
+      'Sightseeing of all Shrines',
+      'Free ₹5,00,000 Accidental Insurance'
+    ],
+    exclusions: [
+      'Special VIP Darshan ticket charges',
+      'Personal shopping, laundry & telephone calls',
+      'Guide charges inside temples',
+      'Anything not mentioned in inclusions'
+    ],
+    sightseeing: [
+      { name: 'Eklingji Temple', image: 'https://images.unsplash.com/photo-1609137144814-1c7c9ee7c514?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Nathdwara Temple', image: 'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Charbhuja Temple', image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Sawaliya Ji Temple', image: 'https://images.unsplash.com/photo-1621252179027-94459d278660?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Chittorgarh Fort', image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80' }
+    ],
     itinerary: [
       { day: 'Day 1', title: 'Pratapgarh Departure & Shrinathji Darshan', desc: 'Depart from Pratapgarh in a premium AC Ertiga cab. Arrive at Eklingji Temple for Shiva Darshan, then transfer to Nathdwara for the divine evening Shrinathji Darshan. Overnight stay at AC hotel.' },
       { day: 'Day 2', title: 'Charbhuja Ji & Savaliya Ji Pilgrimage', desc: 'Early morning travel to Charbhuja Ji Temple, followed by a serene visit to Savaliya Ji Seth Temple. Drive to Chittorgarh for dinner and overnight stay in AC hotel.' },
@@ -405,12 +430,121 @@ const DEFAULT_PACKAGES = [
     duration: '3 Days / 2 Nights',
     price: 4499,
     route: 'Pratapgarh - Udaipur - Haldighati - Mount Abu',
-    image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80',
-    inclusions: ['AC Ertiga Cab (7 Seater)', '2 Nights AC Hotel Room', '5 Delicious Veg Meals', '5 Breakfasts', 'Driver Charges & Parking Included', 'Local Guide Support'],
+    image: 'temple_pilgrimage.jpg',
+    hotelDetails: 'Deluxe AC Hotel Stay (1 Night Udaipur, 1 Night Mount Abu)',
+    vehicleDetails: 'AC Ertiga / Innova (7 Seater)',
+    mealDetails: '5 Delicious Veg Meals & 5 Breakfasts',
+    inclusions: [
+      'AC Ertiga Cab (7 Seater)',
+      '2 Nights AC Hotel Rooms (Deluxe)',
+      '5 Delicious Veg Meals',
+      '5 Healthy Breakfasts',
+      'Driver Charges, Tolls & Parking Included',
+      'Local Guide Support',
+      'Free ₹5,00,000 Accidental Insurance'
+    ],
+    exclusions: [
+      'Nakki Lake & Pichola Lake boating ticket charges',
+      'Haldighati Museum & City Palace entry tickets',
+      'Personal purchases, laundry, and guide tips',
+      'Any extra sightseeing deviation requests'
+    ],
+    sightseeing: [
+      { name: 'Haldighati', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Maharana Pratap Memorial', image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Chetak Memorial', image: 'https://images.unsplash.com/photo-1582967788606-a171c1080cb0?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Haldighati Museum', image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Fateh Sagar Lake', image: 'https://images.unsplash.com/photo-1595658658481-d53d3f999875?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Pichola Lake', image: 'https://images.unsplash.com/photo-1615880484746-a134be9a6ecf?auto=format&fit=crop&w=600&q=80' },
+      { name: 'City Palace Udaipur', image: 'https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Saheliyon Ki Bari', image: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=600&q=80' }
+    ],
     itinerary: [
       { day: 'Day 1', title: 'Udaipur City Palace & Lake Pichola Cruise', desc: 'Pickup from Pratapgarh in AC Ertiga. Drive to Udaipur, check-in to hotel. Visit Udaipur City Palace, Jagdish Temple, and enjoy a sunset cruise on Lake Pichola.' },
       { day: 'Day 2', title: 'Haldighati Sights & Mount Abu Arrival', desc: 'Travel to Mount Abu via Haldighati. Tour Maharana Pratap Memorial, Chetak Smarak, and Haldighati Museum. Check-in to Mount Abu hotel and enjoy evening boating on Nakki Lake.' },
       { day: 'Day 3', title: 'Dilwara Temples, Guru Shikhar & Departure', desc: 'Visit Dilwara Jain Temple, Guru Shikhar Peak (highest point in Rajasthan), and sunset at Sunset Point. Drive back to Pratapgarh for final drop.' }
+    ]
+  },
+  {
+    id: 'desert',
+    name: 'Jaisalmer & Jodhpur Desert Special Tour',
+    tag: 'Desert Tour',
+    duration: '3 Days / 2 Nights',
+    price: 6999,
+    route: 'Pratapgarh - Jaisalmer - Jodhpur - Pratapgarh',
+    image: 'WhatsApp Image 2026-07-17 at 2.38.17 PM.jpeg',
+    hotelDetails: 'Premium AC Hotels in Jaisalmer & Jodhpur',
+    vehicleDetails: 'AC Ertiga Cab (7 Seater)',
+    mealDetails: '5 Tasty Pure Veg Meals & 5 Breakfasts',
+    inclusions: [
+      'AC Ertiga Cab (7 Seater)',
+      '2 Nights AC Hotel Room (1 Jaisalmer, 1 Jodhpur)',
+      '5 Tasty Pure Veg Meals',
+      '5 Delicious Breakfasts',
+      'Sam Sand Dunes Camel Safari & Rajasthani Cultural Show',
+      'Toll Tax, Parking & Driver Allowance Included',
+      'Free ₹5,00,000 Accidental Insurance'
+    ],
+    exclusions: [
+      'Jeep Safari or optional quad biking at Dunes',
+      'Monument entrance tickets & local guide fees',
+      'Personal purchases, shopping and laundry',
+      'Anything not explicitly mentioned in inclusions'
+    ],
+    sightseeing: [
+      { name: 'Jaisalmer Fort', image: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Patwon Ki Haveli', image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Sam Sand Dunes', image: 'https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Gadisar Lake', image: 'https://images.unsplash.com/photo-1595658658481-d53d3f999875?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Mehrangarh Fort', image: 'https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Jaswant Thada', image: 'https://images.unsplash.com/photo-1615880484746-a134be9a6ecf?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Umaid Bhawan Palace', image: 'https://images.unsplash.com/photo-1621252179027-94459d278660?auto=format&fit=crop&w=600&q=80' }
+    ],
+    itinerary: [
+      { day: 'Day 1', title: 'Pratapgarh to Jaisalmer & Sightseeing', desc: 'Depart from Pratapgarh. Arrive in Jaisalmer. Visit the world-famous golden Jaisalmer Fort, Patwon Ki Haveli, and Gadisar Lake. Overnight stay in Jaisalmer.' },
+      { day: 'Day 2', title: 'Sam Sand Dunes & Travel to Jodhpur', desc: 'Enjoy breakfast. Experience the majestic Sam Sand Dunes, camel safari, and Rajasthani cultural program. Drive to Jodhpur, check-in, and visit Mehrangarh Fort and Jaswant Thada. Overnight in Jodhpur.' },
+      { day: 'Day 3', title: 'Umaid Bhawan Palace & Return', desc: 'Breakfast. Visit the grand Umaid Bhawan Palace (external view) and local spice markets. Drive back to Pratapgarh with beautiful memories.' }
+    ]
+  },
+  {
+    id: 'ujjain_omkareshwar',
+    name: 'Ujjain, Omkareshwar, Maheshwar, Mandu & Mandsaur Tour',
+    tag: 'Religious',
+    duration: '4 Days / 3 Nights',
+    price: 5999,
+    route: 'Pratapgarh - Ujjain - Omkareshwar - Maheshwar - Mandu - Mandsaur - Pratapgarh',
+    image: 'WhatsApp Image 2026-07-17 at 2.38.18 PM.jpeg',
+    hotelDetails: 'Premium AC Hotels (Ujjain & Mandu)',
+    vehicleDetails: 'AC Ertiga Cab (7 Seater)',
+    mealDetails: '8 Tasty Pure Veg Meals (4 simple + 4 special) & 8 Breakfasts',
+    inclusions: [
+      'AC Vehicle travel (7 Seater Ertiga)',
+      '3 Nights AC Hotel Stays (Double sharing)',
+      '8 Tasty Pure Veg Meals (4 Simple + 4 Special)',
+      '8 Delicious Breakfasts',
+      'Experienced driver with all allowances & tolls',
+      'Toll tax & parking fees fully included',
+      'Supporting staff assistance throughout the trip',
+      'Free ₹5,00,000 Accidental Insurance'
+    ],
+    exclusions: [
+      'VIP Quick Darshan ticket fees',
+      'Bhasm Aarti registration fee',
+      'Boating charges at Omkareshwar/Maheshwar Ghats',
+      'Personal expenses (tips, laundry, shopping)'
+    ],
+    sightseeing: [
+      { name: 'Shri Mahakaleshwar Jyotirlinga', image: 'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Shri Omkareshwar Jyotirlinga', image: 'https://images.unsplash.com/photo-1609137144814-1c7c9ee7c514?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Narmada Ghat Maheshwar', image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Mandu Fort & Jahaz Mahal', image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Pashupatinath Temple Mandsaur', image: 'https://images.unsplash.com/photo-1621252179027-94459d278660?auto=format&fit=crop&w=600&q=80' }
+    ],
+    itinerary: [
+      { day: 'Day 1', title: 'Pratapgarh to Ujjain & Mahakal Darshan', desc: 'Depart from Pratapgarh in a comfortable AC Ertiga. Arrive in Ujjain. Visit the holy Mahakaleshwar Temple for Jyotirlinga darshan and experience the divine Bhasm Aarti. Overnight stay in Ujjain.' },
+      { day: 'Day 2', title: 'Omkareshwar Jyotirlinga Pilgrimage', desc: 'Early morning travel to Omkareshwar. Have a holy bath in the river Narmada and attend Omkareshwar Jyotirlinga darshan. Overnight stay in Omkareshwar.' },
+      { day: 'Day 3', title: 'Maheshwar Fort & Mandu Exploration', desc: 'Visit Narmada Ghat and Maheshwar Fort. Drive to Mandu. Sightseeing at Mandu Fort, Jahaz Mahal, Hindola Mahal, and Baaz Bahadur Palace. Overnight stay in Mandu.' },
+      { day: 'Day 4', title: 'Pashupatinath Mandsaur & Return', desc: 'Travel to Mandsaur, visit the world-famous eight-faced Pashupatinath Temple. Return journey to Pratapgarh.' }
     ]
   },
   {
@@ -421,7 +555,17 @@ const DEFAULT_PACKAGES = [
     price: 14999,
     route: 'Varanasi - Haridwar - Rishikesh - Sonprayag - Kedarnath',
     image: 'temple_pilgrimage.jpg',
-    inclusions: ['Private Verified Cab', '3-Star Deluxe Hotels', 'Daily Breakfast & Dinner', 'VIP Darshan Passes', '24/7 Ground Assistance'],
+    hotelDetails: '3-Star Deluxe AC Hotels & Kedarnath Base Camps',
+    vehicleDetails: 'Private AC Sedan/SUV Cab',
+    mealDetails: 'Daily Buffet Breakfast & Dinner',
+    inclusions: ['Private Verified Cab', '3-Star Deluxe Hotels', 'Daily Breakfast & Dinner', 'VIP Darshan Passes', '24/7 Ground Assistance', 'Free ₹5,00,000 Accidental Insurance'],
+    exclusions: ['Helicopter, pony, or porter charges', 'Personal travel expenses', 'Anything not mentioned in inclusions'],
+    sightseeing: [
+      { name: 'Kashi Vishwanath', image: 'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Ganga Aarti Haridwar', image: 'https://images.unsplash.com/photo-1609137144814-1c7c9ee7c514?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Rishikesh Laxman Jhula', image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Kedarnath Temple', image: 'https://images.unsplash.com/photo-1621252179027-94459d278660?auto=format&fit=crop&w=600&q=80' }
+    ],
     itinerary: [
       { day: 'Day 1', title: 'Varanasi Arrival & Evening Ganga Aarti', desc: 'Arrive in Varanasi, check-in to a luxury hotel, and view the iconic Ganga Aarti ceremony from a private boat.' },
       { day: 'Day 2', title: 'Kashi Vishwanath Darshan & Sarnath', desc: 'Enjoy VIP Darshan passes at Kashi Vishwanath Temple, visit Annapurna Temple, and tour the historic Buddhist site Sarnath.' },
@@ -439,7 +583,16 @@ const DEFAULT_PACKAGES = [
     price: 12499,
     route: 'Udaipur - Chittorgarh Fort - Pratapgarh - Deogarh Palace - Jaipur',
     image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80',
-    inclusions: ['Toyota Innova Cab', 'Heritage Haveli Stays', 'Daily Breakfast', 'Chittorgarh Fort Guide', 'Traditional Thewa Art Tour'],
+    hotelDetails: 'Heritage Haveli & Boutique Resorts',
+    vehicleDetails: 'Toyota Innova Crysta / Ertiga AC',
+    mealDetails: 'Daily Breakfast buffet',
+    inclusions: ['Toyota Innova Cab', 'Heritage Haveli Stays', 'Daily Breakfast', 'Chittorgarh Fort Guide', 'Traditional Thewa Art Tour', 'Free ₹5,00,000 Accidental Insurance'],
+    exclusions: ['Lunch, Dinner & personal drinks', 'Monument entry tickets', 'Camera fees and guide tips'],
+    sightseeing: [
+      { name: 'Udaipur Lake Pichola', image: 'https://images.unsplash.com/photo-1615880484746-a134be9a6ecf?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Chittorgarh Fort', image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Jaipur Hawa Mahal', image: 'https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?auto=format&fit=crop&w=600&q=80' }
+    ],
     itinerary: [
       { day: 'Day 1', title: 'Arrival in Udaipur', desc: 'Pickup from Udaipur airport/railway station by private cab. Check-in to a premium lakefront hotel and enjoy a sunset cruise on Lake Pichola.' },
       { day: 'Day 2', title: 'Udaipur Palace & Sightseeing', desc: 'Guided tour of Udaipur City Palace, Saheliyon-ki-Bari gardens, Jagdish Temple, and sunset at Sajjangarh Monsoon Palace.' },
@@ -450,21 +603,42 @@ const DEFAULT_PACKAGES = [
   },
   {
     id: 'hill',
-    name: 'Hill Station Tours',
+    name: 'Shimla – Kullu – Manali Premium Tour',
     tag: 'Hill Station',
-    duration: '7 Days / 6 Nights',
-    price: 19999,
-    route: 'Manali - Solang Valley - Atal Tunnel - Jispa - Baralacha La - Leh - Pangong Lake',
+    duration: '5 Days / 4 Nights',
+    price: 17900,
+    route: 'Pratapgarh - Shimla - Kullu - Manali',
     image: 'hill_station.jpg',
-    inclusions: ['4x4 SUV (Scorpio/Fortuner)', 'Swiss Luxury Camps', 'Breakfast & Dinner', 'Inner Line Permits', 'Oxygen Cylinder in Cab'],
+    hotelDetails: 'Premium 3-Star Hill View AC/Heated Resorts',
+    vehicleDetails: 'Premium Toyota Innova / AC Sedan Cab',
+    mealDetails: 'Daily Breakfast & Dinner (Pure Veg/Non-Veg Options)',
+    inclusions: [
+      'AC Sedan/SUV Cab transport',
+      '4 Nights Premium AC Hotel Room Stays',
+      'Daily delicious Breakfast & Dinner',
+      'Sightseeing of all major viewpoint sights',
+      'Experienced driver and tolls/allowances included',
+      'Free ₹5,00,000 Accidental Insurance'
+    ],
+    exclusions: [
+      'Adventure activities (White-water rafting, skiing, paragliding)',
+      'Rohtang Pass special permit fee (if applicable)',
+      'Lunch, personal shopping & phone calls',
+      'Anything not explicitly mentioned in inclusions'
+    ],
+    sightseeing: [
+      { name: 'Mall Road Shimla', image: 'https://images.unsplash.com/photo-1597075687490-8f673c6c17f6?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Kufri Valley', image: 'https://images.unsplash.com/photo-1626450977874-9f8997321e07?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Hadimba Temple Manali', image: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Solang Valley', image: 'https://images.unsplash.com/photo-1596701062351-8c2c14d1fdd0?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Atal Tunnel', image: 'https://images.unsplash.com/photo-1617653202545-931490e87f1d?auto=format&fit=crop&w=600&q=80' }
+    ],
     itinerary: [
-      { day: 'Day 1', title: 'Manali Arrival & Mall Road', desc: 'Arrive in Manali, check-in to a luxury hotel, and visit Hidimba Devi Temple and local markets on Mall Road.' },
-      { day: 'Day 2', title: 'Solang Valley Adventures', desc: 'Day trip to Solang Valley for paragliding and snow sports. Drive through the historic Atal Tunnel to Lahaul Valley.' },
-      { day: 'Day 3', title: 'Scenic Drive to Jispa via Rohtang Pass', desc: 'Drive through Rohtang Pass glaciers. Enjoy mountain camping, star-gazing, and bonfire nights in Jispa.' },
-      { day: 'Day 4', title: 'Jispa to Leh Mountain Road Trip', desc: 'Road trip along the high-altitude Baralacha La and Nakee La passes to arrive in Leh Ladakh.' },
-      { day: 'Day 5', title: 'Pangong Lake Day Trip', desc: 'Travel to Pangong Lake, famous for its shifting blue waters. Experience local wildlife and monastery sights.' },
-      { day: 'Day 6', title: 'Khardung La Pass (Highest Motor Road)', desc: 'Excursion to Khardung La, one of the highest drivable passes in the world. Visit Leh Palace.' },
-      { day: 'Day 7', title: 'Leh Airport Departure Drop', desc: 'Drop off at Leh airport for your onward journey.' }
+      { day: 'Day 1', title: 'Pratapgarh to Shimla Arrival & Mall Road', desc: 'Start your premium journey from Pratapgarh in a comfortable AC cab. Scenic drive to Shimla. Check-in to your resort and enjoy a relaxed evening on the Mall Road.' },
+      { day: 'Day 2', title: 'Shimla Kufri Excursion & Viewpoints', desc: 'After breakfast, explore Kufri, the winter sports capital. Visit the Himalayan Nature Park, enjoy horse riding, and view the snow-capped Himalayan peaks. Overnight in Shimla.' },
+      { day: 'Day 3', title: 'Shimla to Manali via Kullu Valley', desc: 'Travel to Manali. En route, enjoy white-water rafting and paragliding in Kullu. Check-in to your Manali hotel and spend the evening shopping at local Tibetan markets.' },
+      { day: 'Day 4', title: 'Solang Valley Adventure & Atal Tunnel Tour', desc: 'Excursion to Solang Valley for paragliding, zorbing, and quad biking. Drive through the famous Atal Tunnel. Visit Hadimba Temple, Vashisht Hot Springs, and Club House. Overnight in Manali.' },
+      { day: 'Day 5', title: 'Return Journey to Pratapgarh', desc: 'Enjoy a hearty breakfast, pack your bags with beautiful memories, and begin the return journey to Pratapgarh.' }
     ]
   },
   {
@@ -475,7 +649,15 @@ const DEFAULT_PACKAGES = [
     price: 8999,
     route: 'Sawai Madhopur - Ranthambore Fort - Jungle Safari',
     image: 'elephant_safari.jpg',
-    inclusions: ['AC Cab Pickup/Drop', 'Premium Forest Resort stay', 'All Meals (Breakfast, Lunch, Dinner)', 'Open Gypsy Tiger Safari Ticket', 'Forest Guide & Entry Fees'],
+    hotelDetails: 'Premium Forest Resort & Luxury Tents',
+    vehicleDetails: 'AC Ertiga / Gypsy for safari',
+    mealDetails: 'All Meals (Breakfast, Lunch, Dinner)',
+    inclusions: ['AC Cab Pickup/Drop', 'Premium Forest Resort stay', 'All Meals (Breakfast, Lunch, Dinner)', 'Open Gypsy Tiger Safari Ticket', 'Forest Guide & Entry Fees', 'Free ₹5,00,000 Accidental Insurance'],
+    exclusions: ['Tips, laundry & alcoholic drinks', 'Personal cameras and gear charges', 'Anything not mentioned in inclusions'],
+    sightseeing: [
+      { name: 'Ranthambore Fort', image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Tiger Safari', image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80' }
+    ],
     itinerary: [
       { day: 'Day 1', title: 'Arrival in Ranthambore & Fort Tour', desc: 'Pickup from Sawai Madhopur station, check-in to forest resort. Hike up to the UNESCO heritage site Ranthambore Fort and Trinetra Ganesha Temple.' },
       { day: 'Day 2', title: 'Morning Tiger Safari & Jungle Walk', desc: 'Enter Ranthambore National Park in an open gypsy. Spot Royal Bengal Tigers, leopards, and crocodiles. Evening nature hike.' },
@@ -490,7 +672,15 @@ const DEFAULT_PACKAGES = [
     price: 15499,
     route: 'Cochin - Munnar - Tea Gardens - Thekkady - Alleppey Backwaters - Kovalam Beach',
     image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80',
-    inclusions: ['AC Private Ertiga Cab', 'Premium Hotels & Houseboat', 'All Meals on Houseboat', 'Kerala Spice Garden Tour', 'Driver Allowances & Taxes'],
+    hotelDetails: 'Premium Hotels & Private Luxury Houseboat',
+    vehicleDetails: 'AC Private Ertiga Cab',
+    mealDetails: 'Daily Breakfast & dinner, all meals on Houseboat',
+    inclusions: ['AC Private Ertiga Cab', 'Premium Hotels & Houseboat', 'All Meals on Houseboat', 'Kerala Spice Garden Tour', 'Driver Allowances & Taxes', 'Free ₹5,00,000 Accidental Insurance'],
+    exclusions: ['Activity tickets (Elephant ride, Kathakali show)', 'Personal items, tips & laundry'],
+    sightseeing: [
+      { name: 'Munnar Tea Gardens', image: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Alleppey Backwaters', image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80' }
+    ],
     itinerary: [
       { day: 'Day 1', title: 'Cochin Pick-up & Drive to Munnar', desc: 'Warm welcome at Cochin airport. Scenic drive to Munnar passing Cheeyappara and Valara waterfalls.' },
       { day: 'Day 2', title: 'Munnar Tea Gardens Tour', desc: 'Spend the day touring tea estate museums, Mattupetty Dam, Eco Point, and boating on Kundala Lake.' },
@@ -508,7 +698,15 @@ const DEFAULT_PACKAGES = [
     price: 16999,
     route: 'Udaipur - Lake Pichola Cruise - Kumbhalgarh Fort - Luxury Villa Spa',
     image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80',
-    inclusions: ['Luxury Sedan Cab', '5-Star Lake Face Pool Resort', 'Breakfast & Special Candlelight Dinners', '1 Hour Couple Spa Therapy', 'Honeymoon Cake & Room Decor'],
+    hotelDetails: '5-Star Lake Face Pool Resort & Villas',
+    vehicleDetails: 'Luxury Sedan Cab (Ciaz/Honda City)',
+    mealDetails: 'Daily Breakfast & Special Candlelight Dinners',
+    inclusions: ['Luxury Sedan Cab', '5-Star Lake Face Pool Resort', 'Breakfast & Special Candlelight Dinners', '1 Hour Couple Spa Therapy', 'Honeymoon Cake & Room Decor', 'Free ₹5,00,000 Accidental Insurance'],
+    exclusions: ['Sightseeing entry passes', 'Personal shopping and optional flights'],
+    sightseeing: [
+      { name: 'Lake Pichola Cruise', image: 'https://images.unsplash.com/photo-1615880484746-a134be9a6ecf?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Kumbhalgarh Fort', image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80' }
+    ],
     itinerary: [
       { day: 'Day 1', title: 'Romantic Welcome in Udaipur', desc: 'VIP pickup at Udaipur airport. Check-in to a luxury lake-view villa resort. Enjoy a private candlelit dinner under the stars.' },
       { day: 'Day 2', title: 'Lake Cruise & Island Palace visit', desc: 'Tour the beautiful Saheliyon-ki-Bari gardens and enjoy a private boat cruise to Jag Mandir Island Palace for afternoon tea.' },
@@ -519,7 +717,124 @@ const DEFAULT_PACKAGES = [
   }
 ];
 
+const DEFAULT_CABS = [
+  {
+    id: 'cab_udaipur',
+    name: 'Pratapgarh to Udaipur Premium Innova Cab',
+    tag: 'Cab Package',
+    image: 'WhatsApp Image 2026-07-17 at 2.38.19 PM.jpeg',
+    route: 'Pratapgarh ➔ Udaipur (Round Trip)',
+    price: 4000,
+    vehicle: 'Toyota Innova Crysta (6+1 Seats, Dual AC)',
+    duration: 'One Way & Two Way',
+    hotelDetails: 'N/A (Day Tour/Transfer)',
+    vehicleDetails: 'Toyota Innova Crysta Premium AC',
+    mealDetails: 'Breakfast for 2 passengers included',
+    pricingDetails: 'Two Way: ₹4,000 | One Way: ₹2,500 (All-Inclusive)',
+    inclusions: [
+      'Toll Taxes & Parking Fees Included',
+      'Professional Driver Charges & Allowance Included',
+      'Complimentary Breakfast for 2 Passengers Included',
+      'Free ₹5,00,000 Accidental Insurance (Mukhya/Group Leader)',
+      'Luxury Travel Experience'
+    ],
+    exclusions: [
+      'Sightseeing entrance charges',
+      'Additional food or shopping'
+    ],
+    sightseeing: [
+      { name: 'City Palace Udaipur', image: 'https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Lake Pichola', image: 'https://images.unsplash.com/photo-1615880484746-a134be9a6ecf?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Fateh Sagar Lake', image: 'https://images.unsplash.com/photo-1595658658481-d53d3f999875?auto=format&fit=crop&w=600&q=80' }
+    ],
+    itinerary: [
+      { day: 'One Way', title: 'Pratapgarh to Udaipur Transfer', desc: 'Direct one-way transfer drop from Pratapgarh to any address/airport/railway station in Udaipur. Fare: ₹2,500.' },
+      { day: 'Two Way', title: 'Round Trip local tour', desc: 'Pick up from Pratapgarh, transfer to Udaipur. Includes local sightseeing at City Palace, Lake Pichola boating, and return back. Fare: ₹4,000.' }
+    ]
+  },
+  {
+    id: 'cab_ahmedabad',
+    name: 'Pratapgarh to Ahmedabad Premium Innova Cab',
+    tag: 'Cab Package',
+    image: 'WhatsApp Image 2026-07-17 at 2.38.18 PM (1).jpeg',
+    route: 'Pratapgarh ➔ Ahmedabad',
+    price: 4500,
+    vehicle: 'Toyota Innova Crysta (6+1 Seats, Dual AC)',
+    duration: 'One Way & Two Way',
+    hotelDetails: 'N/A (Transfer Service)',
+    vehicleDetails: 'Toyota Innova Crysta Premium AC',
+    mealDetails: 'Breakfast for 2 passengers included',
+    pricingDetails: 'One Way: ₹4,500 | Two Way: ₹6,500 (All-Inclusive)',
+    inclusions: [
+      'Toll Taxes & Highway Charges Included',
+      'Professional Driver Charges & Allowance Included',
+      'Complimentary Breakfast for 2 Passengers Included',
+      'Free ₹5,00,000 Accidental Insurance (Mukhya/Group Leader)',
+      'Clean & Punctual Luxury Cab Service'
+    ],
+    exclusions: [
+      'Sightseeing monument entry fees',
+      'Extra kilometers or route deviations',
+      'Lunch and dinner meals'
+    ],
+    sightseeing: [
+      { name: 'Sabarmati Riverfront', image: 'https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Akshardham Temple', image: 'https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?auto=format&fit=crop&w=600&q=80' }
+    ],
+    itinerary: [
+      { day: 'One Way', title: 'Single Journey Drop', desc: 'Direct one-way transfer from Pratapgarh to any address/airport in Ahmedabad. Fare: ₹4,500.' },
+      { day: 'Two Way', title: 'Round Trip Journey', desc: 'Pick up from Pratapgarh, transfer to Ahmedabad, local sightseeing, and return back. Fare: ₹6,500.' }
+    ]
+  },
+  {
+    id: 'cab_selfdrive',
+    name: 'Self Drive Car Hire (Alto, Ritz, Swift Dzire)',
+    tag: 'Car Hire',
+    image: 'WhatsApp Image 2026-07-17 at 2.38.18 PM (2).jpeg',
+    route: 'Explore Anywhere (Self Drive)',
+    price: 1.9,
+    vehicle: 'Alto 800 / Ritz / Swift Dzire',
+    duration: 'Per KM Basis',
+    hotelDetails: 'N/A',
+    vehicleDetails: 'Choose: Alto 800, Ritz, or Swift Dzire',
+    mealDetails: 'N/A (Self Arranged)',
+    pricingDetails: 'Alto 800: ₹1.90/KM | Ritz:  ₹2.10/KM | Swift Dzire: ₹2.50/KM',
+    inclusions: [
+      'New, sanitized and well-maintained vehicles',
+      'Free ₹5,00,000 Accidental Insurance (Mukhya/Group Leader)',
+      '24x7 Emergency roadside assistance',
+      'Easy and transparent booking process',
+      'Ride as per your own conditions'
+    ],
+    exclusions: [
+      'Toll Taxes (paid by party)',
+      'Driver Charges (paid by party, if hired)',
+      'Fuel/Petrol (paid by party)',
+      'All other actual trip running expenses'
+    ],
+    sightseeing: [
+      { name: 'Alto 800', image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Maruti Ritz', image: 'https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Swift Dzire', image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80' }
+    ],
+    itinerary: [
+      { day: 'Alto 800', title: 'Economy Option', desc: 'Alto 800 self-drive hired at ₹1.90 per KM. Extremely fuel efficient.' },
+      { day: 'Maruti Ritz', title: 'Mid-range Hatchback', desc: 'Maruti Ritz self-drive hired at ₹2.10 per KM. Great cabin space.' },
+      { day: 'Swift Dzire', title: 'Comfort Sedan', desc: 'Swift Dzire self-drive hired at ₹2.50 per KM. Premium luxury comfort.' }
+    ]
+  }
+];
+
 function initDatabase() {
+  const DB_VERSION = 'v2';
+  const storedVersion = localStorage.getItem('kannu_db_version');
+  if (storedVersion !== DB_VERSION) {
+    localStorage.setItem('kannu_db_version', DB_VERSION);
+    localStorage.setItem('kannu_packages', JSON.stringify(DEFAULT_PACKAGES));
+    localStorage.setItem('kannu_cabs', JSON.stringify(DEFAULT_CABS));
+    localStorage.setItem('kannu_buses', JSON.stringify(DEFAULT_BUSES));
+  }
+
   const storedPkgs = localStorage.getItem('kannu_packages');
   if (storedPkgs) {
     try {
@@ -535,7 +850,7 @@ function initDatabase() {
             p.name = 'Sacred Darshan Tours';
             p.image = 'temple_pilgrimage.jpg';
           } else if (p.id === 'hill') {
-            p.name = 'Hill Station Tours';
+            p.name = 'Shimla – Kullu – Manali Premium Tour';
             p.image = 'hill_station.jpg';
           } else if (p.id === 'wildlife') {
             p.name = 'Wildlife Tours';
@@ -554,6 +869,9 @@ function initDatabase() {
   }
   if (!localStorage.getItem('kannu_packages')) {
     localStorage.setItem('kannu_packages', JSON.stringify(DEFAULT_PACKAGES));
+  }
+  if (!localStorage.getItem('kannu_cabs')) {
+    localStorage.setItem('kannu_cabs', JSON.stringify(DEFAULT_CABS));
   }
 }
 
@@ -1045,6 +1363,247 @@ function confirmBooking(serviceType, modelName, loc1, loc2 = '') {
 }
 
 // --- HOLIDAY PACKAGE DETAILS AND ITINERARY MODAL ---
+function getCabs() {
+  return JSON.parse(localStorage.getItem('kannu_cabs') || '[]');
+}
+
+function saveCabs(cabs) {
+  localStorage.setItem('kannu_cabs', JSON.stringify(cabs));
+}
+
+function renderCabs() {
+  const container = document.getElementById('cabs-container');
+  if (!container) return;
+
+  const cabs = getCabs();
+  let html = '';
+
+  cabs.forEach(cab => {
+    let priceText = '';
+    if (cab.id === 'cab_selfdrive') {
+      priceText = `Starting at ₹${cab.price} / KM`;
+    } else {
+      priceText = `Starting at ₹${Number(cab.price).toLocaleString('en-IN')}`;
+    }
+
+    html += `
+      <div class="package-card glass-panel" id="cab-card-${cab.id}">
+        <div class="package-img-wrapper">
+          <img src="${cab.image}" alt="${cab.name}" class="package-img" style="width:100%; height:100%; object-fit:cover;">
+          <span class="package-tag">${cab.tag}</span>
+        </div>
+        <div class="package-info">
+          <div class="package-meta">
+            <span><i class="bx bx-car"></i> ${cab.duration}</span>
+            <span><i class="bx bx-shield-quarter"></i> Free Insurance</span>
+          </div>
+
+          <div class="card-insurance-badge">
+            <i class="bx bx-shield-quarter"></i> Free ₹5L Insurance for Group Leader
+          </div>
+
+          <h3 class="package-title" style="font-size: 1.3rem; height: 55px; overflow: hidden; margin-top:5px; margin-bottom:12px;">${cab.name}</h3>
+
+          <div class="package-route" style="margin-bottom:15px; font-size:0.82rem;">
+            <i class="bx bx-map" style="color:var(--color-gold);"></i> <span><strong>Route:</strong> ${cab.route}</span>
+          </div>
+
+          <div class="package-bottom" style="margin-top:15px; padding-top:15px; border-top:1px solid var(--color-border-light);">
+            <div class="package-price">
+              <span>Pricing details</span>
+              <strong style="font-size:1.15rem; color:var(--color-gold);">${priceText}</strong>
+            </div>
+
+            <div class="package-actions-row">
+              <a href="https://wa.me/919131964831?text=Hi%20Kannu%20Yatri,%20I%20want%20to%20enquire%20about%20the%20${encodeURIComponent(cab.name)}%20package." target="_blank" class="btn-gold" style="background:#25D366; border-color:#25D366; color:#FFF!important;">
+                <i class="bx bxl-whatsapp"></i> Whatsapp
+              </a>
+              <button class="btn-outline" onclick="openCabPackageDetails('${cab.id}')">Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+
+  if (window.initTiltAnimation) {
+    window.initTiltAnimation();
+  }
+}
+
+function openCabPackageDetails(cabId) {
+  const cabs = getCabs();
+  const cab = cabs.find(c => c.id === cabId);
+  if (!cab) return;
+
+  openModal();
+  modalTitle.innerText = cab.name;
+
+  let inclusionsHTML = '';
+  if (cab.inclusions && Array.isArray(cab.inclusions)) {
+    cab.inclusions.forEach(inc => {
+      inclusionsHTML += `
+        <li style="display:flex; align-items:flex-start; gap:8px; font-size:0.82rem; color:#FFF; margin-bottom:8px;">
+          <i class="bx bx-check-double" style="color:var(--color-gold); font-size:1.1rem; margin-top:2px; flex-shrink:0;"></i>
+          <span>${inc}</span>
+        </li>
+      `;
+    });
+  }
+
+  let exclusionsHTML = '';
+  if (cab.exclusions && Array.isArray(cab.exclusions)) {
+    cab.exclusions.forEach(exc => {
+      exclusionsHTML += `
+        <li style="display:flex; align-items:flex-start; gap:8px; font-size:0.82rem; color:var(--color-text-muted); margin-bottom:8px;">
+          <i class="bx bx-x" style="color:#DC3545; font-size:1.1rem; margin-top:2px; flex-shrink:0;"></i>
+          <span>${exc}</span>
+        </li>
+      `;
+    });
+  }
+
+  let itineraryHTML = '';
+  if (cab.itinerary && Array.isArray(cab.itinerary)) {
+    cab.itinerary.forEach(step => {
+      itineraryHTML += `
+        <div style="margin-bottom: 20px; border-left: 2px solid var(--color-gold); padding-left: 15px; position:relative;">
+          <span style="position:absolute; left:-7px; top:0; width:12px; height:12px; border-radius:50%; background:var(--color-gold);"></span>
+          <strong style="color:var(--color-gold); font-size:0.92rem; text-transform:uppercase; display:block;">${step.day} - ${step.title}</strong>
+          <p style="font-size:0.82rem; margin-top:5px; color:var(--color-text-muted);">${step.desc}</p>
+        </div>
+      `;
+    });
+  }
+
+  let sightseeingHTML = '';
+  if (cab.sightseeing && Array.isArray(cab.sightseeing)) {
+    cab.sightseeing.forEach(sight => {
+      sightseeingHTML += `
+        <div style="display: flex; flex-direction: column; align-items: center; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid var(--color-border-light); overflow: hidden; padding-bottom: 8px;">
+          <img src="${sight.image}" alt="${sight.name}" style="width: 100%; height: 110px; object-fit: cover;">
+          <span style="font-size: 0.76rem; font-weight: 600; color: var(--color-gold); margin-top: 8px; text-align: center; padding: 0 5px;">${sight.name}</span>
+        </div>
+      `;
+    });
+  }
+
+  let priceText = '';
+  if (cab.id === 'cab_selfdrive') {
+    priceText = `₹${cab.price} / KM`;
+  } else {
+    priceText = `₹${Number(cab.price).toLocaleString('en-IN')}`;
+  }
+
+  modalBody.innerHTML = `
+    <div class="package-detail-modal-wrapper">
+      
+      <!-- Hero Banner -->
+      <div class="package-hero-banner" style="position: relative; height: 220px; border-radius: var(--border-radius); overflow: hidden; margin-bottom: 25px; border: 1px solid var(--color-border);">
+        <div style="background-image: url('${cab.image}'); background-size: cover; background-position: center; width: 100%; height: 100%; filter: brightness(0.4);"></div>
+        <div style="position: absolute; bottom: 20px; left: 25px; right: 25px; z-index: 5;">
+          <span style="color: var(--color-gold); font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;">${cab.tag}</span>
+          <h2 style="font-family: var(--font-heading); font-size: 1.6rem; color: #FFF; font-weight: 700; margin-top: 5px; margin-bottom: 10px;">${cab.name}</h2>
+          <p style="font-size: 0.85rem; color: var(--color-gold-light); display: flex; align-items: center; gap: 15px; margin: 0;">
+            <span><i class="bx bx-car" style="color: var(--color-gold);"></i> ${cab.duration}</span>
+            <span><i class="bx bx-map" style="color: var(--color-gold);"></i> Route: ${cab.route}</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Insurance Badge -->
+      <div class="insurance-modal-alert">
+        <i class="bx bx-shield-quarter"></i>
+        <div>
+          <strong>FREE ₹5,00,000 Travel Insurance</strong>
+          The Group Leader (Mukhya) receives FREE ₹5,00,000 Travel Insurance during the journey. All travelers are covered for safety.
+        </div>
+      </div>
+
+      <!-- Core Info Grid -->
+      <div class="package-details-grid-3">
+        <div class="glass-panel" style="padding: 12px 15px; text-align: center; border: 1px solid var(--color-border-light);">
+          <i class="bx bx-car" style="font-size: 1.6rem; color: var(--color-gold); margin-bottom: 5px; display:block;"></i>
+          <h4 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--color-gold); margin-bottom: 3px;">Vehicle Specs</h4>
+          <p style="font-size: 0.78rem; color: #FFF; margin: 0;">${cab.vehicle}</p>
+        </div>
+        <div class="glass-panel" style="padding: 12px 15px; text-align: center; border: 1px solid var(--color-border-light);">
+          <i class="bx bx-navigation" style="font-size: 1.6rem; color: var(--color-gold); margin-bottom: 5px; display:block;"></i>
+          <h4 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--color-gold); margin-bottom: 3px;">Route Style</h4>
+          <p style="font-size: 0.78rem; color: #FFF; margin: 0;">${cab.duration}</p>
+        </div>
+        <div class="glass-panel" style="padding: 12px 15px; text-align: center; border: 1px solid var(--color-border-light);">
+          <i class="bx bx-info-square" style="font-size: 1.6rem; color: var(--color-gold); margin-bottom: 5px; display:block;"></i>
+          <h4 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--color-gold); margin-bottom: 3px;">Rate Details</h4>
+          <p style="font-size: 0.78rem; color: #FFF; margin: 0;">${cab.pricingDetails}</p>
+        </div>
+      </div>
+
+      <!-- Gallery / Sightseeing -->
+      ${sightseeingHTML ? `
+      <div style="margin-bottom: 25px;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--color-gold); margin-bottom: 15px; border-left: 3px solid var(--color-gold); padding-left: 10px;">
+          <i class="bx bx-images"></i> Sights & Fleet Options
+        </h3>
+        <div class="package-details-gallery">
+          ${sightseeingHTML}
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Main Body Grid: Itinerary & Inclusions/Exclusions -->
+      <div class="package-details-grid-body">
+        <!-- Itinerary -->
+        <div>
+          <h3 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--color-gold); margin-bottom: 15px; border-left: 3px solid var(--color-gold); padding-left: 10px;">
+            <i class="bx bx-map-alt"></i> Trip Options Details
+          </h3>
+          <div style="padding-left: 10px; border-left: 1px dashed var(--color-border);">
+            ${itineraryHTML}
+          </div>
+        </div>
+
+        <!-- Inclusions & Exclusions -->
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+          <div class="glass-panel" style="padding: 15px; border: 1px solid var(--color-border-light);">
+            <h4 style="color: var(--color-gold); margin-bottom: 10px; font-size: 0.9rem;"><i class="bx bx-check-double"></i> Inclusions</h4>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+              ${inclusionsHTML}
+            </ul>
+          </div>
+          <div class="glass-panel" style="padding: 15px; border: 1px solid var(--color-border-light); background: rgba(220, 53, 69, 0.02); border-color: rgba(220, 53, 69, 0.15);">
+            <h4 style="color: #DC3545; margin-bottom: 10px; font-size: 0.9rem;"><i class="bx bx-x-circle"></i> Exclusions</h4>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+              ${exclusionsHTML}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Action Row -->
+      <div style="border-top: 1px solid var(--color-border-light); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+        <div>
+          <span style="font-size: 0.8rem; color: var(--color-text-muted);">Package Price</span>
+          <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--color-gold); font-weight: 700; margin: 0;">
+            ${priceText} <span style="font-size: 0.8rem; font-family: var(--font-body); font-weight: 400; color: var(--color-text-muted);">rate</span>
+          </h3>
+        </div>
+        <div style="display: flex; gap: 12px; flex-grow: 1; justify-content: flex-end; max-width: 450px;">
+          <a href="https://wa.me/919131964831?text=Hi%20Kannu%20Yatri,%20I%20want%20to%20book%20or%20enquire%20about%20the%20${encodeURIComponent(cab.name)}.%20Route:%20${encodeURIComponent(cab.route)}." target="_blank" class="btn-gold" style="background: #25D366; border-color: #25D366; color: #FFF !important; flex-grow: 1; height: 45px; font-size:0.85rem;">
+            <i class="bx bxl-whatsapp" style="font-size: 1.15rem;"></i> Whatsapp Enquiry
+          </a>
+          <button class="btn-gold" onclick="setActiveBookingTab('cab'); closeModal();" style="flex-grow: 1; height: 45px; font-size:0.85rem;">
+            <i class="bx bx-calendar-check"></i> Book Now
+          </button>
+        </div>
+      </div>
+
+    </div>
+  `;
+}
+
 function openPackageDetails(pkgId) {
   const packages = getPackages();
   const pkg = packages.find(p => p.id === pkgId);
@@ -1059,8 +1618,8 @@ function openPackageDetails(pkgId) {
       itineraryHTML += `
         <div style="margin-bottom: 20px; border-left: 2px solid var(--color-gold); padding-left: 15px; position:relative;">
           <span style="position:absolute; left:-7px; top:0; width:12px; height:12px; border-radius:50%; background:var(--color-gold);"></span>
-          <strong style="color:var(--color-gold); font-size:0.95rem; text-transform:uppercase; display:block;">${step.day} - ${step.title}</strong>
-          <p style="font-size:0.85rem; margin-top:5px; color:var(--color-text-muted);">${step.desc}</p>
+          <strong style="color:var(--color-gold); font-size:0.92rem; text-transform:uppercase; display:block;">${step.day} - ${step.title}</strong>
+          <p style="font-size:0.82rem; margin-top:5px; color:var(--color-text-muted);">${step.desc}</p>
         </div>
       `;
     });
@@ -1070,49 +1629,141 @@ function openPackageDetails(pkgId) {
   if (pkg.inclusions && Array.isArray(pkg.inclusions)) {
     pkg.inclusions.forEach(inc => {
       inclusionsHTML += `
-        <li style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:#FFF; margin-bottom:8px;">
-          <i class="bx bx-check-double" style="color:var(--color-gold); font-size:1.1rem;"></i> ${inc}
+        <li style="display:flex; align-items:flex-start; gap:8px; font-size:0.82rem; color:#FFF; margin-bottom:8px;">
+          <i class="bx bx-check-double" style="color:var(--color-gold); font-size:1.1rem; margin-top:2px; flex-shrink:0;"></i>
+          <span>${inc}</span>
         </li>
       `;
     });
   }
 
+  let exclusionsHTML = '';
+  const exclusionsList = pkg.exclusions || [
+    'Guide charges inside monuments',
+    'Personal shopping, laundry & telephone bills',
+    'Special VIP entrance tickets at shrines',
+    'Anything not explicitly mentioned in inclusions'
+  ];
+  exclusionsList.forEach(exc => {
+    exclusionsHTML += `
+      <li style="display:flex; align-items:flex-start; gap:8px; font-size:0.82rem; color:var(--color-text-muted); margin-bottom:8px;">
+        <i class="bx bx-x" style="color:#DC3545; font-size:1.1rem; margin-top:2px; flex-shrink:0;"></i>
+        <span>${exc}</span>
+      </li>
+    `;
+  });
+
+  let sightseeingHTML = '';
+  if (pkg.sightseeing && Array.isArray(pkg.sightseeing)) {
+    pkg.sightseeing.forEach(sight => {
+      sightseeingHTML += `
+        <div style="display: flex; flex-direction: column; align-items: center; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid var(--color-border-light); overflow: hidden; padding-bottom: 8px;">
+          <img src="${sight.image}" alt="${sight.name}" style="width: 100%; height: 110px; object-fit: cover;">
+          <span style="font-size: 0.76rem; font-weight: 600; color: var(--color-gold); margin-top: 8px; text-align: center; padding: 0 5px;">${sight.name}</span>
+        </div>
+      `;
+    });
+  }
+
   modalBody.innerHTML = `
-    <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:30px;">
+    <div class="package-detail-modal-wrapper">
       
-      <div>
-        <h4 style="color:#FFF; font-size:1.2rem; margin-bottom:20px; font-family:var(--font-heading);"><i class="bx bx-map-alt"></i> Travel Itinerary</h4>
-        <div style="max-height: 400px; overflow-y:auto; padding-right:10px;">
-          ${itineraryHTML}
+      <!-- Hero Banner -->
+      <div class="package-hero-banner" style="position: relative; height: 220px; border-radius: var(--border-radius); overflow: hidden; margin-bottom: 25px; border: 1px solid var(--color-border);">
+        <div style="background-image: url('${pkg.image}'); background-size: cover; background-position: center; width: 100%; height: 100%; filter: brightness(0.4);"></div>
+        <div style="position: absolute; bottom: 20px; left: 25px; right: 25px; z-index: 5;">
+          <span style="color: var(--color-gold); font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;">${pkg.tag}</span>
+          <h2 style="font-family: var(--font-heading); font-size: 1.6rem; color: #FFF; font-weight: 700; margin-top: 5px; margin-bottom: 10px;">${pkg.name}</h2>
+          <p style="font-size: 0.85rem; color: var(--color-gold-light); display: flex; align-items: center; gap: 15px; margin: 0;">
+            <span><i class="bx bx-time" style="color: var(--color-gold);"></i> ${pkg.duration}</span>
+            <span><i class="bx bx-map" style="color: var(--color-gold);"></i> Route: ${pkg.route}</span>
+          </p>
         </div>
       </div>
 
-      <div>
-        <img src="${pkg.image || 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=600&q=80'}" alt="${pkg.name}" style="width:100%; height:180px; object-fit:cover; border-radius:8px; border:1px solid var(--color-border-light); margin-bottom:20px;">
-        
-        <div class="insurance-modal-alert" style="margin-bottom: 20px;">
-          <i class="bx bx-shield-quarter" style="font-size: 2.2rem; color: var(--color-gold);"></i>
-          <div>
-            <strong>FREE ₹5,00,000 Travel Insurance</strong>
-            The Group Leader (Mukhya) receives FREE ₹5,00,000 Travel Insurance during the journey.
+      <!-- Insurance Badge -->
+      <div class="insurance-modal-alert">
+        <i class="bx bx-shield-quarter"></i>
+        <div>
+          <strong>FREE ₹5,00,000 Travel Insurance</strong>
+          The Group Leader (Mukhya) receives FREE ₹5,00,000 Travel Insurance during the journey. All travelers are covered for safety.
+        </div>
+      </div>
+
+      <!-- Core Info Grid (Hotel, Vehicle, Meals) -->
+      <div class="package-details-grid-3">
+        <div class="glass-panel" style="padding: 12px 15px; text-align: center; border: 1px solid var(--color-border-light);">
+          <i class="bx bx-hotel" style="font-size: 1.6rem; color: var(--color-gold); margin-bottom: 5px; display:block;"></i>
+          <h4 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--color-gold); margin-bottom: 3px;">Hotel Details</h4>
+          <p style="font-size: 0.78rem; color: #FFF; margin: 0;">${pkg.hotelDetails || 'Premium 3-Star AC Stays'}</p>
+        </div>
+        <div class="glass-panel" style="padding: 12px 15px; text-align: center; border: 1px solid var(--color-border-light);">
+          <i class="bx bx-car" style="font-size: 1.6rem; color: var(--color-gold); margin-bottom: 5px; display:block;"></i>
+          <h4 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--color-gold); margin-bottom: 3px;">Vehicle Details</h4>
+          <p style="font-size: 0.78rem; color: #FFF; margin: 0;">${pkg.vehicleDetails || 'AC Ertiga / Swift Dzire'}</p>
+        </div>
+        <div class="glass-panel" style="padding: 12px 15px; text-align: center; border: 1px solid var(--color-border-light);">
+          <i class="bx bx-restaurant" style="font-size: 1.6rem; color: var(--color-gold); margin-bottom: 5px; display:block;"></i>
+          <h4 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--color-gold); margin-bottom: 3px;">Meal Details</h4>
+          <p style="font-size: 0.78rem; color: #FFF; margin: 0;">${pkg.mealDetails || 'Breakfast & Dinner Included'}</p>
+        </div>
+      </div>
+
+      <!-- Sightseeing Gallery Section -->
+      ${sightseeingHTML ? `
+      <div style="margin-bottom: 25px;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--color-gold); margin-bottom: 15px; border-left: 3px solid var(--color-gold); padding-left: 10px;">
+          <i class="bx bx-images"></i> Sightseeing Places Gallery
+        </h3>
+        <div class="package-details-gallery">
+          ${sightseeingHTML}
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Main Body Grid: Itinerary & Inclusions/Exclusions -->
+      <div class="package-details-grid-body">
+        <!-- Itinerary -->
+        <div>
+          <h3 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--color-gold); margin-bottom: 15px; border-left: 3px solid var(--color-gold); padding-left: 10px;">
+            <i class="bx bx-map-alt"></i> Tour Itinerary
+          </h3>
+          <div style="padding-left: 10px; border-left: 1px dashed var(--color-border);">
+            ${itineraryHTML}
           </div>
         </div>
 
-        <div class="glass-panel" style="padding: 20px; margin-bottom: 20px;">
-          <h4 style="color:var(--color-gold); margin-bottom:12px; font-size:1rem;"><i class="bx bx-gift"></i> Package Inclusions</h4>
-          <ul style="list-style:none;">
-            ${inclusionsHTML}
-          </ul>
-        </div>
-
-        <div style="display:flex; flex-direction:column; gap:10px; background:rgba(212,175,55,0.05); padding:20px; border-radius:8px; border:1px solid var(--color-border);">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:0.85rem; color:var(--color-text-muted);">Duration: <strong>${pkg.duration}</strong></span>
-            <span style="font-size:1.25rem; font-weight:700; color:var(--color-gold);">₹${Number(pkg.price).toLocaleString('en-IN')} / member</span>
+        <!-- Inclusions & Exclusions -->
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+          <div class="glass-panel" style="padding: 15px; border: 1px solid var(--color-border-light);">
+            <h4 style="color: var(--color-gold); margin-bottom: 10px; font-size: 0.9rem;"><i class="bx bx-check-double"></i> Package Inclusions</h4>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+              ${inclusionsHTML}
+            </ul>
           </div>
-          
-          <button class="btn-gold" onclick="openQuickBookPackage('${pkg.id}')" style="width: 100%;">
-            <i class="bx bx-calendar-check"></i> Book This Package Now
+          <div class="glass-panel" style="padding: 15px; border: 1px solid var(--color-border-light); background: rgba(220, 53, 69, 0.02); border-color: rgba(220, 53, 69, 0.15);">
+            <h4 style="color: #DC3545; margin-bottom: 10px; font-size: 0.9rem;"><i class="bx bx-x-circle"></i> Package Exclusions</h4>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+              ${exclusionsHTML}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Pricing & CTA Row -->
+      <div style="border-top: 1px solid var(--color-border-light); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+        <div>
+          <span style="font-size: 0.8rem; color: var(--color-text-muted);">Package Price</span>
+          <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--color-gold); font-weight: 700; margin: 0;">
+            ₹${Number(pkg.price).toLocaleString('en-IN')} <span style="font-size: 0.8rem; font-family: var(--font-body); font-weight: 400; color: var(--color-text-muted);">/ person</span>
+          </h3>
+        </div>
+        <div style="display: flex; gap: 12px; flex-grow: 1; justify-content: flex-end; max-width: 450px;">
+          <a href="https://wa.me/919131964831?text=Hi%20Kannu%20Yatri,%20I%20want%20to%20enquire%20about%20the%20${encodeURIComponent(pkg.name)}%20package.%20Please%20provide%20more%20details." target="_blank" class="btn-gold" style="background: #25D366; border-color: #25D366; color: #FFF !important; flex-grow: 1; height: 45px; font-size:0.85rem;">
+            <i class="bx bxl-whatsapp" style="font-size: 1.15rem;"></i> Whatsapp Enquiry
+          </a>
+          <button class="btn-gold" onclick="openQuickBookPackage('${pkg.id}')" style="flex-grow: 1; height: 45px; font-size:0.85rem;">
+            <i class="bx bx-calendar-check"></i> Book Now
           </button>
         </div>
       </div>

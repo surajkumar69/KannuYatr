@@ -2610,3 +2610,47 @@ footer {
   }
 }
 
+/* --- DYNAMIC PACKAGE DETAILS MODAL LAYOUTS --- */
+.package-detail-modal-wrapper {
+  color: var(--color-text-light);
+  max-height: 75vh;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.package-details-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.package-details-grid-body {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+.package-details-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 15px;
+}
+
+@media (max-width: 768px) {
+  .package-details-grid-3 {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .package-details-grid-body {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .package-hero-banner {
+    height: 180px !important;
+  }
+}
+
